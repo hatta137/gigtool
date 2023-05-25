@@ -1,6 +1,6 @@
 # **Gigtool - Java 1 Projektarbeit**
 
-![Gigtool Logo](documentation/assets/GigTool_Logo.jpg)
+![Gigtool Logo](documentation_Java1/assets/GigTool_Logo.jpg)
 
   - [**Teamvorstellung**](#entwicklerteam)- [**Gigtool - Java 1 Projektarbeit**](#gigtool-java-1-projektarbeit)
   - [**Entwicklerteam**](#entwicklerteam)
@@ -173,7 +173,7 @@ Siehe Unit-Tests.
 
 
 ### **Klassendiagramm**
-  ![Klassendiagramm](documentation/assets/Class-Chart.drawio.svg)
+  ![Klassendiagramm](documentation_Java1/assets/Class-Chart.drawio.svg)
 
 
 
@@ -210,19 +210,19 @@ Link: https://git.ai.fh-erfurt.de/prgj1-22/beone/gigtool
 - IntelliJ öffnen -> "_New Project_" 
 - unter Download JDK -> "_Oracle JDK OpenJDK 19.0.2_" herunterladen
 
-![JDK_Download](documentation/assets/JDKDownload1.png)
-![JDK_Download](documentation/assets/JDKDownload2.png)
+![JDK_Download](documentation_Java1/assets/JDKDownload1.png)
+![JDK_Download](documentation_Java1/assets/JDKDownload2.png)
 
 - alle wichtigen Projekteinstellungen vornehmen (auf exakten Projektnamen und GroupID achten)
 
-![Projekterstellung](documentation/assets/Projekterstellung.png)
+![Projekterstellung](documentation_Java1/assets/Projekterstellung.png)
 
 ### **Schritt 4**: 
 
 **JUnit hinzufügen und Tests ausführen**
 - in pom.xml -> "_Generate_" -> "_add dependency_" -> JUnit Jupiter (Aggregator 5.9.2) hinzufügen
 
-![JUnit_Aggregator](documentation/assets/JUnit.png)
+![JUnit_Aggregator](documentation_Java1/assets/JUnit.png)
 
   Der XML-Code sollte nun wie folgt aussehen:
 
