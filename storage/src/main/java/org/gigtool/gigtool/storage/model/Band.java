@@ -29,8 +29,6 @@ public class Band {
     @Transient
     private EquipmentList               equipmentList = new EquipmentList();
 
-
-
     /**
      * Constructor with all attributes. Instead of a complete arraylist RoleInTheBand, only the main - Role must be specified
      * @param name Name of the band
