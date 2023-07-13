@@ -6,6 +6,8 @@ import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/addresses")
@@ -24,11 +26,14 @@ public class AddressController {
 
     @PostMapping
     public ResponseEntity<AddressResponse> addAddress(
-            @RequestBody AddressCreate newAddress
-            ) {
+            @RequestBody AddressCreate newAddress ) {
         return this.addressService.addNewAddress( newAddress );
     }
 
     //TODO ResponseEntity<ListOfAddressResponse>
+    @GetMapping("allAddresses")
+    public ResponseEntity<List<AddressResponse>> addresses() {
+        return this.addressService.getAllAddresses();
+    }
 
 }

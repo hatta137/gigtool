@@ -16,6 +16,5 @@ public class AddressCreate {
     private String zipCode;
     private String country;
     private String city;
-
 }
 

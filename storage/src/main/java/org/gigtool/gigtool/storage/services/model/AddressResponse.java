@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.gigtool.gigtool.storage.model.Address;
+import org.gigtool.gigtool.storage.model.Happening;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @Getter
@@ -20,6 +22,7 @@ public class AddressResponse {
     private String zipCode;
     private String country;
     private String city;
+    private ArrayList<Happening> happenings;
 
     public AddressResponse(Address address) {
         Id = address.getId();
@@ -28,6 +31,6 @@ public class AddressResponse {
         zipCode = address.getZipCode();
         country = address.getCountry();
         city = address.getCity();
+        happenings = new ArrayList<>();
     }
-
 }

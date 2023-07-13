@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 import org.gigtool.gigtool.storage.services.model.AddressCreate;
 import org.gigtool.gigtool.storage.services.model.AddressResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Service
 public class AddressService {
@@ -30,5 +34,17 @@ public class AddressService {
         Address savedAddress = addressRepository.saveAndFlush(address);
 
         return ResponseEntity.accepted().body( new AddressResponse( savedAddress ));
+    }
+
+    public ResponseEntity<List<AddressResponse>> getAllAddresses() {
+
+        List<Address> addressesList = addressRepository.findAll();
+
+        List<AddressResponse> responseList = addressesList
+                .stream()
+                .map(AddressResponse::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(200).body( responseList );
     }
 }
