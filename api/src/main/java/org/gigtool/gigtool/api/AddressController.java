@@ -19,14 +19,9 @@ public class AddressController {
         this.addressService = addressService;
     }
 
-    @GetMapping("/asas")
-    public String hello(@RequestParam(value = "name") String name) {
-        return "Hello " + name;
-    }
 
     @PostMapping
-    public ResponseEntity<AddressResponse> addAddress(
-            @RequestBody AddressCreate newAddress ) {
+    public ResponseEntity<AddressResponse> addAddress( @RequestBody AddressCreate newAddress ) {
         return this.addressService.addNewAddress( newAddress );
     }
 
