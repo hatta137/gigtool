@@ -11,4 +11,6 @@ public class EquipmentController {
     public String hello(@RequestParam(value = "name") String name) {
         return "Hello " + name;
     }
+
+
 }
