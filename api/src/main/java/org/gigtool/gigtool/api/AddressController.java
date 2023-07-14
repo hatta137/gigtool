@@ -25,10 +25,13 @@ public class AddressController {
         return this.addressService.addNewAddress( newAddress );
     }
 
-    //TODO ResponseEntity<ListOfAddressResponse>
-    @GetMapping("allAddresses")
+    @GetMapping
     public ResponseEntity<List<AddressResponse>> addresses() {
         return this.addressService.getAllAddresses();
     }
 
+/*    @GetMapping
+    public ResponseEntity<AddressResponse> addressById( @RequestParam String Id ) {
+        return this.addressService.getAddressById();
+    }*/
 }

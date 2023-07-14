@@ -9,6 +9,7 @@ import org.gigtool.gigtool.storage.services.model.AddressResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -47,4 +48,9 @@ public class AddressService {
 
         return ResponseEntity.status(200).body( responseList );
     }
+
+
+/*    public ResponseEntity<AddressResponse> getAddressById(String Id) {
+        UUID UUid = Id.toU
+    }*/
 }
