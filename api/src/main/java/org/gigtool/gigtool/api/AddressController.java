@@ -30,8 +30,8 @@ public class AddressController {
         return this.addressService.getAllAddresses();
     }
 
-/*    @GetMapping
+    @GetMapping("find")
     public ResponseEntity<AddressResponse> addressById( @RequestParam String Id ) {
-        return this.addressService.getAddressById();
-    }*/
+        return this.addressService.getAddressById(Id);
+    }
 }

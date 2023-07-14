@@ -2,6 +2,7 @@ package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.gigtool.gigtool.storage.services.model.AddressCreate;
@@ -9,6 +10,7 @@ import org.gigtool.gigtool.storage.services.model.AddressResponse;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -50,7 +52,16 @@ public class AddressService {
     }
 
 
-/*    public ResponseEntity<AddressResponse> getAddressById(String Id) {
-        UUID UUid = Id.toU
-    }*/
+    public ResponseEntity<AddressResponse> getAddressById(String uuidString) {
+        UUID uuid;
+
+        uuid = UUID.fromString(uuidString);
+
+        Optional<Address> foundAddress = addressRepository.findById(uuid);
+
+        if (foundAddress.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.accepted().body( new AddressResponse( foundAddress.get() ));
+    }
 }
