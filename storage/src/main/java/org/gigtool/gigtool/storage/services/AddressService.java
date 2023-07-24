@@ -2,6 +2,7 @@ package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
+import org.gigtool.gigtool.storage.services.model.AddressRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -60,5 +61,24 @@ public class AddressService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
         return ResponseEntity.accepted().body( new AddressResponse( foundAddress.get() ));
+    }
+
+    public ResponseEntity<AddressResponse> updateAddress(UUID id, AddressRequest addressRequest) {
+        Optional<Address> existingAddress = addressRepository.findById(id);
+
+        if (existingAddress.isEmpty()) {
+            // Hier können Sie auch eine spezielle Exception werfen oder andere Fehlerbehandlung durchführen
+            throw new RuntimeException("Address not found with id: " + id);
+        }
+
+        Address addressToUpdate = existingAddress.get();
+        addressToUpdate.setStreet(addressRequest.getStreet());
+        addressToUpdate.setZipCode(addressRequest.getZipCode());
+        addressToUpdate.setCity(addressRequest.getCity());
+        addressToUpdate.setCountry(addressRequest.getCountry());
+
+        Address savedAddress = addressRepository.saveAndFlush(addressToUpdate);
+
+        return ResponseEntity.ok().body( new AddressResponse(( savedAddress)));
     }
 }
