@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -30,8 +31,8 @@ public class AddressController {
         return this.addressService.getAllAddresses();
     }
 
-    @GetMapping("find")
-    public ResponseEntity<AddressResponse> addressById( @RequestParam String Id ) {
-        return this.addressService.getAddressById(Id);
+    @GetMapping("/{id}")
+    public ResponseEntity<AddressResponse> addressById( @PathVariable UUID id ) {
+        return this.addressService.getAddressById(id);
     }
 }

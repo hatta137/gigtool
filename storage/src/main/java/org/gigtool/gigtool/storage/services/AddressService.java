@@ -52,10 +52,7 @@ public class AddressService {
     }
 
 
-    public ResponseEntity<AddressResponse> getAddressById(String uuidString) {
-        UUID uuid;
-
-        uuid = UUID.fromString(uuidString);
+    public ResponseEntity<AddressResponse> getAddressById(UUID uuid) {
 
         Optional<Address> foundAddress = addressRepository.findById(uuid);
 
