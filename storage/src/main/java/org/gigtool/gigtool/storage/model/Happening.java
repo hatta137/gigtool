@@ -66,7 +66,6 @@ public abstract class Happening {
         this.listOfEquipment.getListOfEquipment().add(equipment);
 
         return this.listOfEquipment;
-
     }
 
     /**
@@ -82,9 +81,7 @@ public abstract class Happening {
             return Optional.of(this.listOfEquipment.getListOfEquipment().get(index));
 
         }
-
         return Optional.empty();
-
     }
 
     /***
@@ -98,7 +95,6 @@ public abstract class Happening {
         if (equipment == null) {
 
             throw new IllegalArgumentException("Equipment cannot be null.");
-
         }
 
         this.listOfEquipment.getListOfEquipment().remove(equipment);
