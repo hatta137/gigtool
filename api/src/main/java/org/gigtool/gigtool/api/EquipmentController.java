@@ -1,16 +1,36 @@
 package org.gigtool.gigtool.api;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.gigtool.gigtool.storage.model.TypeOfEquipment;
+import org.gigtool.gigtool.storage.services.EquipmentService;
+import org.gigtool.gigtool.storage.services.TypeOfEquipmentService;
+import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
+import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentResponse;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/equipment")
 public class EquipmentController {
 
-    @GetMapping("/greet")
-    public String hello(@RequestParam(value = "name") String name) {
-        return "Hello " + name;
+    public final EquipmentService equipmentService;
+
+    public final TypeOfEquipmentService typeOfEquipmentService;
+
+    public EquipmentController(EquipmentService equipmentService, TypeOfEquipmentService typeOfEquipmentService) {
+        this.equipmentService = equipmentService;
+        this.typeOfEquipmentService = typeOfEquipmentService;
     }
 
 
+    @PostMapping("/typeOfEquipment")
+    public ResponseEntity<TypeOfEquipmentResponse> addTypeOfEquipment (@RequestBody TypeOfEquipmentCreate newTypeOfEquipment ) {
+        return this.typeOfEquipmentService.addTypeOfEquipment( newTypeOfEquipment );
+    }
+
+    @GetMapping("/typeOfEquipment")
+    public ResponseEntity<List<TypeOfEquipmentResponse>> getAllTypeOfEquipment() {
+        return this.typeOfEquipmentService.getAllTypeOfEquipment();
+    }
 }

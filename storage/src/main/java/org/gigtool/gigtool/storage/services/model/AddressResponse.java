@@ -16,7 +16,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AddressResponse {
 
-    private UUID Id;
+    private UUID id;
     private int houseNumber;
     private String street;
     private String zipCode;
@@ -25,7 +25,7 @@ public class AddressResponse {
     private ArrayList<Happening> happenings;
 
     public AddressResponse(Address address) {
-        Id = address.getId();
+        id = address.getId();
         houseNumber = address.getHouseNumber();
         street = address.getStreet();
         zipCode = address.getZipCode();

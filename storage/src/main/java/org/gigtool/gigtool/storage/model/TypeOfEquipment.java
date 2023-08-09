@@ -1,11 +1,13 @@
 package org.gigtool.gigtool.storage.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -14,6 +16,7 @@ import java.util.UUID;
  */
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class TypeOfEquipment {
@@ -23,7 +26,7 @@ public class TypeOfEquipment {
     private String name;
     private String description;
     @OneToMany
-    private ArrayList<Equipment> equipments;
+    private List<Equipment> equipments;
 
     public TypeOfEquipment(String name, String description){
         this.name = name;
