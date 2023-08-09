@@ -44,4 +44,9 @@ public class EquipmentController {
     public ResponseEntity<TypeOfEquipmentResponse> updateTypeOfEquipment(@PathVariable UUID id, @RequestBody TypeOfEquipmentCreate typeOfEquipmentCreate) {
         return this.typeOfEquipmentService.updateTypeOfEquipment(id, typeOfEquipmentCreate);
     }
+
+    @DeleteMapping("/typeOfEquipment/{id}")
+    public ResponseEntity<TypeOfEquipmentResponse> deleteTypeOfEquipment(@PathVariable UUID id) {
+        return this.typeOfEquipmentService.deleteTypeOfEquipment(id);
+    }
 }

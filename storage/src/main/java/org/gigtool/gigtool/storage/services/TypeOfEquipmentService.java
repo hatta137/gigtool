@@ -1,5 +1,6 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.model.TypeOfEquipment;
 import org.gigtool.gigtool.storage.repositories.TypeOfEquipmentRepository;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
@@ -80,5 +81,19 @@ public class TypeOfEquipmentService {
         TypeOfEquipment savedTypeOfEquipment = typeOfEquipmentRepository.saveAndFlush( typeOfEquipmentToUpdate );
 
         return ResponseEntity.ok().body( new TypeOfEquipmentResponse( savedTypeOfEquipment ));
+    }
+
+    public ResponseEntity<TypeOfEquipmentResponse> deleteTypeOfEquipment(UUID id) {
+        Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById(id);
+
+        if (foundTypeOfEquipment.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        TypeOfEquipment typeOfEquipmentToDelete = foundTypeOfEquipment.get();
+
+        typeOfEquipmentRepository.delete(typeOfEquipmentToDelete);
+
+        return ResponseEntity.accepted().build();
     }
 }
