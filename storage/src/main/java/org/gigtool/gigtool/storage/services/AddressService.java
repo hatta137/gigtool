@@ -53,9 +53,9 @@ public class AddressService {
     }
 
 
-    public ResponseEntity<AddressResponse> getAddressById(UUID uuid) {
+    public ResponseEntity<AddressResponse> getAddressById(UUID id) {
 
-        Optional<Address> foundAddress = addressRepository.findById(uuid);
+        Optional<Address> foundAddress = addressRepository.findById(id);
 
         if (foundAddress.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -89,5 +89,19 @@ public class AddressService {
         Address savedAddress = addressRepository.saveAndFlush(addressToUpdate);
 
         return ResponseEntity.ok().body( new AddressResponse(( savedAddress)));
+    }
+
+    public ResponseEntity<AddressResponse> deleteAddress(UUID id) {
+        Optional<Address> foundAddress = addressRepository.findById(id);
+
+        if (foundAddress.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        Address addressToDelete = foundAddress.get();
+
+        addressRepository.delete(addressToDelete);
+
+        return ResponseEntity.accepted().build();
     }
 }
