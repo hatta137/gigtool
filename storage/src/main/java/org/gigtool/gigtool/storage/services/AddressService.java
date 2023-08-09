@@ -71,30 +71,30 @@ public class AddressService {
         return ResponseEntity.accepted().body( new AddressResponse( foundAddress.get() ));
     }
 
-    public ResponseEntity<AddressResponse> updateAddress(UUID id, AddressRequest addressRequest) {
+    public ResponseEntity<AddressResponse> updateAddress(UUID id, AddressCreate addressCreate) {
+
         Optional<Address> existingAddress = addressRepository.findById(id);
 
         if (existingAddress.isEmpty()) {
-            // Hier können Sie auch eine spezielle Exception werfen oder andere Fehlerbehandlung durchführen
             throw new RuntimeException("Address not found with id: " + id);
         }
 
         Address addressToUpdate = existingAddress.get();
 
-        if (addressRequest.getStreet() != null) {
-            addressToUpdate.setStreet(addressRequest.getStreet());
+        if (addressCreate.getStreet() != null) {
+            addressToUpdate.setStreet(addressCreate.getStreet());
         }
-        if (addressRequest.getZipCode() != null) {
-            addressToUpdate.setZipCode(addressRequest.getZipCode());
+        if (addressCreate.getZipCode() != null) {
+            addressToUpdate.setZipCode(addressCreate.getZipCode());
         }
-        if (addressRequest.getCity() != null) {
-            addressToUpdate.setCity(addressRequest.getCity());
+        if (addressCreate.getCity() != null) {
+            addressToUpdate.setCity(addressCreate.getCity());
         }
-        if (addressRequest.getCountry() != null) {
-            addressToUpdate.setCountry(addressRequest.getCountry());
+        if (addressCreate.getCountry() != null) {
+            addressToUpdate.setCountry(addressCreate.getCountry());
         }
 
-        Address savedAddress = addressRepository.saveAndFlush(addressToUpdate);
+        Address savedAddress = addressRepository.saveAndFlush( addressToUpdate );
 
         return ResponseEntity.ok().body( new AddressResponse(( savedAddress)));
     }

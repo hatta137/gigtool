@@ -38,8 +38,8 @@ public class AddressController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AddressResponse> updateAddress(@PathVariable UUID id, @RequestBody AddressRequest addressRequest) {
-        return this.addressService.updateAddress(id, addressRequest);
+    public ResponseEntity<AddressResponse> updateAddress(@PathVariable UUID id, @RequestBody AddressCreate addressCreate) {
+        return this.addressService.updateAddress(id, addressCreate);
     }
 
     @DeleteMapping("/{id}")

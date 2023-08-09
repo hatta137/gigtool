@@ -39,4 +39,9 @@ public class EquipmentController {
     public ResponseEntity<TypeOfEquipmentResponse> getTypeOfEquipmentById(@PathVariable UUID id) {
         return this.typeOfEquipmentService.getTypeOfEquipmentById(id);
     }
+
+    @PutMapping("/typeOfEquipment/{id}")
+    public ResponseEntity<TypeOfEquipmentResponse> updateTypeOfEquipment(@PathVariable UUID id, @RequestBody TypeOfEquipmentCreate typeOfEquipmentCreate) {
+        return this.typeOfEquipmentService.updateTypeOfEquipment(id, typeOfEquipmentCreate);
+    }
 }

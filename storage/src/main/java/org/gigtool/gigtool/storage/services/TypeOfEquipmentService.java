@@ -59,4 +59,26 @@ public class TypeOfEquipmentService {
 
         return ResponseEntity.accepted().body( new TypeOfEquipmentResponse( foundTypeOfEquipment.get() ));
     }
+
+    public ResponseEntity<TypeOfEquipmentResponse> updateTypeOfEquipment(UUID id, TypeOfEquipmentCreate typeOfEquipmentCreate) {
+
+        Optional<TypeOfEquipment> existingTypeOfEquipment = typeOfEquipmentRepository.findById(id);
+
+        if (existingTypeOfEquipment.isEmpty()) {
+            throw new RuntimeException("TypeOfEquipment not found with id: " + id);
+        }
+
+        TypeOfEquipment typeOfEquipmentToUpdate = existingTypeOfEquipment.get();
+
+        if (typeOfEquipmentCreate.getName() != null) {
+            typeOfEquipmentToUpdate.setName(typeOfEquipmentCreate.getName());
+        }
+        if (typeOfEquipmentCreate.getDescription() != null) {
+            typeOfEquipmentToUpdate.setDescription(typeOfEquipmentCreate.getDescription());
+        }
+
+        TypeOfEquipment savedTypeOfEquipment = typeOfEquipmentRepository.saveAndFlush( typeOfEquipmentToUpdate );
+
+        return ResponseEntity.ok().body( new TypeOfEquipmentResponse( savedTypeOfEquipment ));
+    }
 }
