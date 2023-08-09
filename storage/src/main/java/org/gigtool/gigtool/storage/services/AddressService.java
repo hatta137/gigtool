@@ -72,10 +72,19 @@ public class AddressService {
         }
 
         Address addressToUpdate = existingAddress.get();
-        addressToUpdate.setStreet(addressRequest.getStreet());
-        addressToUpdate.setZipCode(addressRequest.getZipCode());
-        addressToUpdate.setCity(addressRequest.getCity());
-        addressToUpdate.setCountry(addressRequest.getCountry());
+
+        if (addressRequest.getStreet() != null) {
+            addressToUpdate.setStreet(addressRequest.getStreet());
+        }
+        if (addressRequest.getZipCode() != null) {
+            addressToUpdate.setZipCode(addressRequest.getZipCode());
+        }
+        if (addressRequest.getCity() != null) {
+            addressToUpdate.setCity(addressRequest.getCity());
+        }
+        if (addressRequest.getCountry() != null) {
+            addressToUpdate.setCountry(addressRequest.getCountry());
+        }
 
         Address savedAddress = addressRepository.saveAndFlush(addressToUpdate);
 
