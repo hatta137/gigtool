@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/equipment")
@@ -32,5 +33,10 @@ public class EquipmentController {
     @GetMapping("/typeOfEquipment")
     public ResponseEntity<List<TypeOfEquipmentResponse>> getAllTypeOfEquipment() {
         return this.typeOfEquipmentService.getAllTypeOfEquipment();
+    }
+
+    @GetMapping("/typeOfEquipment/{id}")
+    public ResponseEntity<TypeOfEquipmentResponse> getTypeOfEquipmentById(@PathVariable UUID id) {
+        return this.typeOfEquipmentService.getTypeOfEquipmentById(id);
     }
 }

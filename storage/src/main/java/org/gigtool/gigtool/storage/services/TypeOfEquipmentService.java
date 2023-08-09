@@ -4,10 +4,13 @@ import org.gigtool.gigtool.storage.model.TypeOfEquipment;
 import org.gigtool.gigtool.storage.repositories.TypeOfEquipmentRepository;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +23,10 @@ public class TypeOfEquipmentService {
     }
 
     public ResponseEntity<TypeOfEquipmentResponse> addTypeOfEquipment(TypeOfEquipmentCreate typeOfEquipmentCreate) {
+
+        if (typeOfEquipmentCreate.getName() == null || typeOfEquipmentCreate.getDescription() == null) {
+            return ResponseEntity.badRequest().build();
+        }
 
         TypeOfEquipment typeOfEquipment = new TypeOfEquipment(
                 typeOfEquipmentCreate.getName(),
@@ -41,5 +48,15 @@ public class TypeOfEquipmentService {
                 .collect(Collectors.toList());
 
         return ResponseEntity.status(200).body( responseList );
+    }
+
+    public ResponseEntity<TypeOfEquipmentResponse> getTypeOfEquipmentById(UUID id) {
+
+        Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById(id);
+
+        if (foundTypeOfEquipment.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.accepted().body( new TypeOfEquipmentResponse( foundTypeOfEquipment.get() ));
     }
 }
