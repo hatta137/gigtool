@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,23 +17,13 @@ import java.util.UUID;
  */
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class TypeOfLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
     private String name;
     private String description;
-
-    /**
-     * Constructor with all attributes.
-     * @param name
-     * @param description
-     */
-    public TypeOfLocation(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
 }

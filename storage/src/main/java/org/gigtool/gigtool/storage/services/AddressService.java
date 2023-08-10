@@ -43,7 +43,7 @@ public class AddressService {
                 addressCreate.getHouseNumber()
         );
 
-        Address savedAddress = addressRepository.saveAndFlush(address);
+        Address savedAddress = addressRepository.saveAndFlush( address );
 
         return ResponseEntity.accepted().body( new AddressResponse( savedAddress ));
     }
@@ -59,7 +59,6 @@ public class AddressService {
 
         return ResponseEntity.status(200).body( responseList );
     }
-
 
     public ResponseEntity<AddressResponse> getAddressById(UUID id) {
 

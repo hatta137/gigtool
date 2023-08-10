@@ -2,11 +2,13 @@ package org.gigtool.gigtool.storage.model;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /***
@@ -15,6 +17,7 @@ import java.util.UUID;
  */
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Location {
@@ -26,17 +29,7 @@ public class Location {
     @OneToOne
     private TypeOfLocation typeOfLocation;
     @OneToMany
-    private ArrayList<Equipment> equipments;
+    private List<Equipment> equipments;
 
-
-    /***
-     * Constructor with all attributes.
-     * @param address
-     * @param typeOfLocation
-     */
-    public Location(Address address, TypeOfLocation typeOfLocation){
-        this.address = address;
-        this.typeOfLocation = typeOfLocation;
-    }
 }
 
