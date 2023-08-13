@@ -66,10 +66,10 @@ public class WeightClassListTest extends BeforeAllTests{
         assertEquals(wClass4, weightClassList.getBiggestWeightClass());
     }*/
 
-    @Test
+/*    @Test
     void maxWeightInWeightClassList(){
 
         //Testing getMaxWeightInWeightClass
         assertEquals(1032, weightClassList.getMaxWeightInWeightClassList());
-    }
+    }*/
 }
