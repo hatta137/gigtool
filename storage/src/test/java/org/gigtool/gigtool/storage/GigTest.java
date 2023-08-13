@@ -35,9 +35,9 @@ public class GigTest extends BeforeAllTests{
 
 
         //check if the equipment  is part of the Inventory
-        assertTrue(inventory.isEquipmentInInventory(equipment1.getEquipmentID()));
-        assertTrue(inventory.isEquipmentInInventory(equipment2.getEquipmentID()));
-        assertTrue(inventory.isEquipmentInInventory(equipment3.getEquipmentID()));
+        assertTrue(inventory.isEquipmentInInventory(equipment1.getId()));
+        assertTrue(inventory.isEquipmentInInventory(equipment2.getId()));
+        assertTrue(inventory.isEquipmentInInventory(equipment3.getId()));
 
         assertEquals(3, myGig.getEquipmentList().getSizeOfEquipmentList());
 
@@ -50,9 +50,9 @@ public class GigTest extends BeforeAllTests{
         assertEquals(0, myGig.getEquipmentList().getSizeOfEquipmentList());
 
         //check if the equipment  is part of the Inventory
-        assertTrue(inventory.isEquipmentInInventory(equipment1.getEquipmentID()));
-        assertTrue(inventory.isEquipmentInInventory(equipment2.getEquipmentID()));
-        assertTrue(inventory.isEquipmentInInventory(equipment3.getEquipmentID()));
+        assertTrue(inventory.isEquipmentInInventory(equipment1.getId()));
+        assertTrue(inventory.isEquipmentInInventory(equipment2.getId()));
+        assertTrue(inventory.isEquipmentInInventory(equipment3.getId()));
 
         Inventory.resetInstance();
 

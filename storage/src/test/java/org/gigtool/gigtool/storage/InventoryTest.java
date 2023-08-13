@@ -43,7 +43,7 @@ public class InventoryTest extends BeforeAllTests{
         inventory.getEquipmentList().addEquipment(equipment1).addEquipment(equipment2).addEquipment(equipment3);
 
         //check if equipment2 is in list
-        boolean isEquipmentInInventory = inventory.isEquipmentInInventory(equipment2.getEquipmentID());
+        boolean isEquipmentInInventory = inventory.isEquipmentInInventory(equipment2.getId());
         assertTrue(isEquipmentInInventory);
 
     }

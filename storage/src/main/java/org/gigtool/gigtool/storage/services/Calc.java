@@ -1,8 +1,8 @@
 package org.gigtool.gigtool.storage.services;
-import org.gigtool.gigtool.storage.model.WeightClassList;
 import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.model.WeightClass;
+import org.gigtool.gigtool.storage.model.WeightClassList;
 
 
 import java.util.ArrayList;

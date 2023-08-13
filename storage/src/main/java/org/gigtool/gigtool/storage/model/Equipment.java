@@ -21,8 +21,6 @@ public class Equipment {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    private int equipmentID;
     private String name;
     private String description;
     @ManyToOne
@@ -30,8 +28,9 @@ public class Equipment {
     private int weight;
     @ManyToOne
     private WeightClass weightClass;
-    @ManyToOne
-    private Dimension dimension;
+    private int length;
+    private int width;
+    private int height;
     private LocalDate dateOfPurchase;
     @ManyToOne
     private Location location;
@@ -44,13 +43,12 @@ public class Equipment {
      * @param description of the equipment
      * @param typeOfEquipment which type it is
      * @param weight of the equipment
-     * @param dimension the dimension
      * @param dateOfPurchase of the equipment
      * @param location of the equipment
      * @param price of the equipment
      * @param weightClassList the actual weight class list
      */
-    public Equipment(String name, String description, TypeOfEquipment typeOfEquipment, int weight, Dimension dimension, LocalDate dateOfPurchase, Location location, float price, WeightClassList weightClassList) {
+    public Equipment(String name, String description, TypeOfEquipment typeOfEquipment, int weight, int length, int width, int height, LocalDate dateOfPurchase, Location location, float price, WeightClassList weightClassList) {
         this.name = name;
         this.description = description;
         this.typeOfEquipment = typeOfEquipment;
@@ -60,7 +58,9 @@ public class Equipment {
             this.weightClass = Calc.calcActualWeightClass(weightClassList, weight).get();
         else
             this.weightClass = weightClassList.getBiggestWeightClass();
-        this.dimension = dimension;
+        this.length = length;
+        this.weight = width;
+        this.height = height;
         this.dateOfPurchase = dateOfPurchase;
         this.location = location;
         this.price = price;
@@ -70,14 +70,20 @@ public class Equipment {
      * Constructor without the optional param dateOfPurchase
      *
      */
-    public Equipment(String name, String description, TypeOfEquipment typeOfEquipment, int weight, Dimension dimension, Location location, float price, WeightClassList weightClassList) {
+    public Equipment(String name, String description, TypeOfEquipment typeOfEquipment, int weight, int length, int width, int height, Location location, float price, WeightClassList weightClassList) {
         this.name = name;
         this.description = description;
         this.typeOfEquipment = typeOfEquipment;
         this.weight = weight;
         this.weightClass = Calc.calcActualWeightClass(weightClassList, weight).get();
-        this.dimension = dimension;
+        this.length = length;
+        this.weight = width;
+        this.height = height;
         this.location = location;
         this.price = price;
+    }
+
+    public int getCuboidVolume(){
+        return this.height * this.length * this.width;
     }
 }

@@ -27,13 +27,13 @@ public class BandTest extends BeforeAllTests {
         Inventory inventory = Inventory.getInstance();
 
         //check if the equipment from BeforeAllTests is part of the Inventory
-        assertFalse(inventory.isEquipmentInInventory(equipment1.getEquipmentID()));
+        assertFalse(inventory.isEquipmentInInventory(equipment1.getId()));
 
         //add Equipment from BeforeAllTests to the Band
         band1.addEquipment(equipment1);
 
         //check if the Equipment is part now Part of the Inventory
-        assertTrue(inventory.isEquipmentInInventory(equipment1.getEquipmentID()));
+        assertTrue(inventory.isEquipmentInInventory(equipment1.getId()));
 
         Inventory.resetInstance();
 

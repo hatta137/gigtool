@@ -27,8 +27,7 @@ public class AddressService {
     public ResponseEntity<AddressResponse> addNewAddress(AddressCreate addressCreate) {
 
         if (addressCreate.getStreet() == null || addressCreate.getCity() == null ||
-                addressCreate.getZipCode() == null || addressCreate.getCountry() == null ||
-                addressCreate.getHouseNumber() == 0) {
+                addressCreate.getZipCode() == null || addressCreate.getCountry() == null) {
 
             // If any required information is missing, return a bad request response
             return ResponseEntity.badRequest().build();

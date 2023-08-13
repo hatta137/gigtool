@@ -1,6 +1,7 @@
 package org.gigtool.gigtool.storage;
 
 import org.gigtool.gigtool.storage.model.*;
+import org.gigtool.gigtool.storage.model.WeightClassList;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

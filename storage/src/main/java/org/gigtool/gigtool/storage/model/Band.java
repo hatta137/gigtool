@@ -77,7 +77,7 @@ public class Band {
             throw new IllegalArgumentException("Equipment cannot be null.");
         }
 
-        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getEquipmentID())) {
+        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
 
             Inventory.getInstance().getEquipmentList().addEquipment(equipment);
         }

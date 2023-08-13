@@ -1,6 +1,8 @@
 package org.gigtool.gigtool.storage.services;
 import org.gigtool.gigtool.storage.model.Equipment;
 
+import java.util.UUID;
+
 
 /***
  * Author: Max Schelenz & Hendrik Lendeckel
@@ -54,13 +56,13 @@ public class Inventory {
     /**
      * Author: Hendrik Lendeckel
      * This method checks whether a certain piece of equipment is already in the inventory.
-     * @param equipmentID of the equipment to be checked
+     * @param id of the equipment to be checked
      * @return boolean
      */
-    public boolean isEquipmentInInventory(int equipmentID){
+    public boolean isEquipmentInInventory(UUID id){
 
         for (Equipment e : equipmentList.getListOfEquipment()) {
-            if (equipmentID == e.getEquipmentID()){
+            if (id == e.getId()){
                 return true;
             }
         }

@@ -57,7 +57,7 @@ public abstract class Happening {
 
         }
 
-        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getEquipmentID())) {
+        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
 
             Inventory.getInstance().getEquipmentList().addEquipment(equipment);
 
