@@ -25,28 +25,5 @@ public class EquipmentController {
     }
 
 
-    @PostMapping("/typeOfEquipment")
-    public ResponseEntity<TypeOfEquipmentResponse> addTypeOfEquipment (@RequestBody TypeOfEquipmentCreate newTypeOfEquipment ) {
-        return this.typeOfEquipmentService.addTypeOfEquipment( newTypeOfEquipment );
-    }
 
-    @GetMapping("/typeOfEquipment")
-    public ResponseEntity<List<TypeOfEquipmentResponse>> getAllTypeOfEquipment() {
-        return this.typeOfEquipmentService.getAllTypeOfEquipment();
-    }
-
-    @GetMapping("/typeOfEquipment/{id}")
-    public ResponseEntity<TypeOfEquipmentResponse> getTypeOfEquipmentById(@PathVariable UUID id) {
-        return this.typeOfEquipmentService.getTypeOfEquipmentById(id);
-    }
-
-    @PutMapping("/typeOfEquipment/{id}")
-    public ResponseEntity<TypeOfEquipmentResponse> updateTypeOfEquipment(@PathVariable UUID id, @RequestBody TypeOfEquipmentCreate typeOfEquipmentCreate) {
-        return this.typeOfEquipmentService.updateTypeOfEquipment(id, typeOfEquipmentCreate);
-    }
-
-    @DeleteMapping("/typeOfEquipment/{id}")
-    public ResponseEntity<TypeOfEquipmentResponse> deleteTypeOfEquipment(@PathVariable UUID id) {
-        return this.typeOfEquipmentService.deleteTypeOfEquipment(id);
-    }
 }
