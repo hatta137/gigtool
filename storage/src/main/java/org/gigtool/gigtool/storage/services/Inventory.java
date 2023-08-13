@@ -36,11 +36,7 @@ public class Inventory {
         return instance;
     }
 
-    /**
-     * Returns the list of equipment in the inventory.
-     *
-     * @return the list of equipment in the inventory
-     */
+
     public EquipmentList getEquipmentList() {
         return equipmentList;
     }
@@ -50,7 +46,6 @@ public class Inventory {
      */
     public static void resetInstance(){
         instance = null;
-
     }
 
     /**
@@ -68,5 +63,4 @@ public class Inventory {
         }
         return false;
     }
-
 }

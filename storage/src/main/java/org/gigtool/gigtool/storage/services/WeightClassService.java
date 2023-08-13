@@ -2,10 +2,13 @@ package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.model.WeightClass;
+import org.gigtool.gigtool.storage.model.WeightClassList;
+import org.gigtool.gigtool.storage.repositories.WeightClassListRepository;
 import org.gigtool.gigtool.storage.repositories.WeightClassRepository;
 import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.gigtool.gigtool.storage.services.model.WeightClassCreate;
 import org.gigtool.gigtool.storage.services.model.WeightClassResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,11 +22,18 @@ import java.util.stream.Collectors;
 public class WeightClassService {
 
     private final WeightClassRepository weightClassRepository;
+    private final WeightClassListService weightClassListService;
 
-    public WeightClassService(WeightClassRepository weightClassRepository) {
+    private final WeightClassListRepository weightClassListRepository;
+
+    @Autowired
+    public WeightClassService(WeightClassRepository weightClassRepository, WeightClassListService weightClassListService, WeightClassListRepository weightClassListRepository) {
         this.weightClassRepository = weightClassRepository;
+        this.weightClassListService = weightClassListService;
+        this.weightClassListRepository = weightClassListRepository;
     }
 
+    //TODO @Hendrik Einbau automatisches Einfügen in WeighClassList
     public ResponseEntity<WeightClassResponse> addWeightClass( WeightClassCreate weightClassCreate ) {
 
         if (weightClassCreate.getName() == null || weightClassCreate.getDescription() == null)
@@ -37,6 +47,10 @@ public class WeightClassService {
         );
 
         WeightClass savedWeightClass = weightClassRepository.saveAndFlush( weightClass );
+
+
+        // Add the saved WeightClass to the WeightClassList
+        weightClassListService.addWeightClassToWeightClassList(savedWeightClass);
 
         return ResponseEntity.accepted().body( new WeightClassResponse( savedWeightClass ));
     }

@@ -5,8 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.gigtool.gigtool.storage.services.Calc;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 /***
@@ -48,18 +50,27 @@ public class Equipment {
      * @param price of the equipment
      * @param weightClassList the actual weight class list
      */
-    public Equipment(String name, String description, TypeOfEquipment typeOfEquipment, int weight, int length, int width, int height, LocalDate dateOfPurchase, Location location, float price, WeightClassList weightClassList) {
+
+    public Equipment(
+            String name,
+            String description,
+            TypeOfEquipment typeOfEquipment,
+            int weight, int length, int width, int height,
+            LocalDate dateOfPurchase,
+            Location location,
+            float price, Calc calc,
+            WeightClassList weightClassList) {
+
         this.name = name;
         this.description = description;
         this.typeOfEquipment = typeOfEquipment;
         this.weight = weight;
-        // is Present check
-        if (Calc.calcActualWeightClass(weightClassList, weight).isPresent())
-            this.weightClass = Calc.calcActualWeightClass(weightClassList, weight).get();
-        else
-            this.weightClass = weightClassList.getBiggestWeightClass();
+
+        Optional<WeightClass> calculatedWeightClass = calc.calcActualWeightClass(weight);
+        this.weightClass = calculatedWeightClass.orElse(null);
+
         this.length = length;
-        this.weight = width;
+        this.width = width;
         this.height = height;
         this.dateOfPurchase = dateOfPurchase;
         this.location = location;
@@ -75,7 +86,7 @@ public class Equipment {
         this.description = description;
         this.typeOfEquipment = typeOfEquipment;
         this.weight = weight;
-        this.weightClass = Calc.calcActualWeightClass(weightClassList, weight).get();
+        this.weightClass = Calc.calcActualWeightClass(weight).get();
         this.length = length;
         this.weight = width;
         this.height = height;

@@ -3,6 +3,10 @@ import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.model.WeightClass;
 import org.gigtool.gigtool.storage.model.WeightClassList;
+import org.gigtool.gigtool.storage.repositories.WeightClassListRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
@@ -12,20 +16,32 @@ import java.util.Optional;
 /**
  * In this class all calculations are carried out which are required in several other classes.
  */
+@Service
 public class Calc {
 
-    public Calc() {
+    private static WeightClassListService weightClassListService;
+
+    private static WeightClassListRepository weightClassListRepository;
+
+    public static void initialize(WeightClassListService wcls, WeightClassListRepository wclr) {
+        weightClassListService = wcls;
+        weightClassListRepository = wclr;
     }
+
+
 
     /**
      * Author: Hendrik Lendeckel
      * Calculates the weight class for a given weight, using a list of predefined weight classes.
-     * @param weightClassList the list of predefined weight classes
      * @param weight the weight to find the matching weight class for
      * @return an Optional containing the matching weight class, or an empty Optional if no matching weight class is found
      * @throws IllegalArgumentException if the weight class list is null or empty
      */
-     public static Optional<WeightClass> calcActualWeightClass(WeightClassList weightClassList, int weight){
+     public static Optional<WeightClass> calcActualWeightClass(int weight){
+
+         WeightClassListService weightClassListService = new WeightClassListService(weightClassListRepository); // Erstellen Sie hier eine Instanz des WeightClassListService
+
+         WeightClassList weightClassList = weightClassListService.getWeightClassList().getBody();
 
          if (weight > 2000)
              weight = 2000;
@@ -33,7 +49,7 @@ public class Calc {
          if (weight > weightClassList.getMaxWeightInWeightClassList())
              weight = weightClassList.getMaxWeightInWeightClassList();
 
-         if (weightClassList == null) { //TODO always false
+         if (weightClassList == null) { //TODO @Hendrik always false
              throw new IllegalArgumentException("Weight class list cannot be null.");
          }
          if (weightClassList.getSizeOfWeightClassList() < 0) {
@@ -48,21 +64,22 @@ public class Calc {
             }
         }
 
-         /*
-          * If the weight is not within the range instead of the predefined weight classes,
+
+          /** If the weight is not within the range instead of the predefined weight classes,
           * the method creates a new weight class with a start weight equal to the previous maximum weight and
           * a span equal to the difference between the specified weight and the previous maximum weight.
           * The method then adds this new weight class to the list
           */
 
-         WeightClass weightClassAutoGen = new WeightClass("auto-generated weightClass",
-                 "no weightClass for the weight available",
-                 weightClassList.getMaxWeightInWeightClassList(),
-                 weight - weightClassList.getMaxWeightInWeightClassList());
+        WeightClass weightClassAutoGen = new WeightClass("auto-generated weightClass",
+               "no weightClass for the weight available",
+                weightClassList.getMaxWeightInWeightClassList(),
+               weight - weightClassList.getMaxWeightInWeightClassList());
 
-         weightClassList.addWeightClass(weightClassAutoGen);
 
-         return Optional.of(weightClassList.getBiggestWeightClass());
+        weightClassListService.addWeightClassToWeightClassList(weightClassAutoGen);
+
+        return Optional.of(weightClassListService.getBiggestWeightClass());
     }
 
 

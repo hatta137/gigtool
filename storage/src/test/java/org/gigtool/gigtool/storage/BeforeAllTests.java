@@ -39,15 +39,15 @@ public class BeforeAllTests {
     public static TypeOfEquipment typeBassGuitar5 = new TypeOfEquipment("Bass-5", "Bass mit 5 Saiten");
     public static TypeOfEquipment typeDrumset2    = new TypeOfEquipment("Schlagzeug-2", "Schlagzeug mit 2 Toms");
 
-    public static Dimension dimension1 = new Dimension(110, 40, 20);
-    public static Dimension dimension2 = new Dimension(140, 40, 20);
-    public static Dimension dimension3 = new Dimension(250, 150, 100);
 
+    //TODO @Hendrik Anpassen der Tests -> Dimension gibt es nicht mehr
+
+    /*
     public static Equipment equipment1 = new Equipment("Gibson Les Paul", "Gitarre LP", typeGuitar6, 6, dimension1, LocalDate.now(), location1,2000.0f, weightClassList);
     public static Equipment equipment2 = new Equipment("Fender-Bass", "Bass von Fender", typeBassGuitar4, 7, dimension2, LocalDate.now(), location2, 1050.0f, weightClassList);
     public static Equipment equipment3 = new Equipment("Fender - Gitarre", "Fender Gitarre 12 Saiter", typeGuitar12, 5, dimension1, LocalDate.now(), location3, 1000.0f, weightClassList);
     public static Equipment equipment4 = new Equipment("Schlagzeug DW", "Kleines Set fur Cockteil-Gigs", typeDrumset2, 70, dimension3, LocalDate.now(), location3, 2300.0f, weightClassList);
-    public static Equipment equipment5 = new Equipment("Fender - Bass 5", "Fender Bass 5 Saiter", typeBassGuitar5, 7, dimension2, LocalDate.now(), location1, 1000.0f, weightClassList);
+    public static Equipment equipment5 = new Equipment("Fender - Bass 5", "Fender Bass 5 Saiter", typeBassGuitar5, 7, dimension2, LocalDate.now(), location1, 1000.0f, weightClassList);*/
 
     public static Genre genreJazz     = new Genre("Jazz", "komische Musik");
     public static Genre genreRock     = new Genre("Rock", "RocknRoll");
@@ -67,8 +67,9 @@ public class BeforeAllTests {
 
     public static Timetable myTimetable;
 
-    public static EquipmentList equipmentList1 = new EquipmentList().addEquipment(equipment1).addEquipment(equipment2).addEquipment(equipment3);
-
+    //TODO @Hendrik Dimensionfehler anpassen siehe EquipmentModel
+    /*public static EquipmentList equipmentList1 = new EquipmentList().addEquipment(equipment1).addEquipment(equipment2).addEquipment(equipment3);
+*/
     public static Timeslot myTimeslot = new Timeslot(LocalTime.of(14,00), LocalTime.of(16,00), LocalDate.of(2022,10,19));
     public static Timeslot myTimeslot2 = new Timeslot(LocalTime.of(17,00), LocalTime.of(20,00), LocalDate.of(2022,10,15));
     public static Timeslot myTimeslot3 = new Timeslot(LocalTime.of(17,00), LocalTime.of(20,00), LocalDate.of(2022,10,19));

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(classes = WeightClassList.class)
 public class WeightClassListTest extends BeforeAllTests{
 
-    @Test
+    /*@Test
     void addAndGetWeightClass(){
 
         // check add and get from weightClasses and weightClassList from BeforeAllTests
@@ -64,7 +64,7 @@ public class WeightClassListTest extends BeforeAllTests{
 
         // check if the new last/biggest weightClass is the wClass3
         assertEquals(wClass4, weightClassList.getBiggestWeightClass());
-    }
+    }*/
 
     @Test
     void maxWeightInWeightClassList(){

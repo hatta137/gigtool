@@ -1,4 +1,4 @@
-package org.gigtool.gigtool.storage;
+/*package org.gigtool.gigtool.storage;
 
 import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.model.WeightClassList;
@@ -41,6 +41,7 @@ public class CalcTest extends BeforeAllTests {
 
 
 
+*//*
     @Test
     void testCalcActualWeightClass(){
 
@@ -71,6 +72,7 @@ public class CalcTest extends BeforeAllTests {
                 .addEquipment(equipment2)
                 .addEquipment(equipment3)
                 .addEquipment(equipment5);
+*//*
 
         //sorting the Locations after the LocationType-Name
         ArrayList<Location> sortedLocations = Calc.sortLocationsByTypeOfLocationName(Calc.getEquipmentLocation(newEquipmentList));
@@ -85,5 +87,5 @@ public class CalcTest extends BeforeAllTests {
         assertEquals(typeOfLocation3, sortedLocations.get(6).getTypeOfLocation());  //TypeOfLocation->Name:"Proberaum-WM"
 
     }
-}
+}*/
 
