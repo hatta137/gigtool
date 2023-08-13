@@ -14,7 +14,7 @@ public class BeforeAllTests {
     public static WeightClass wClass2 = new WeightClass("mittel", "mittlere Teile", 2, 8);
     public static WeightClass wClass3 = new WeightClass("groß", "große Teile", 11, 20);
     public static WeightClass wClass4 = new WeightClass("ganz groß", "ganz große Teile", 32, 1000);
-    public static WeightClassList weightClassList = new WeightClassList().addWeightClass(wClass1).addWeightClass(wClass2).addWeightClass(wClass3).addWeightClass(wClass4);
+   // public static WeightClassList weightClassList = new WeightClassList().addWeightClass(wClass1).addWeightClass(wClass2).addWeightClass(wClass3).addWeightClass(wClass4);
 
     public static Address address1 = new Address("Hauptstrasse", "Erfurt", "99086", "Deutschland", 10);
     public static Address address2 = new Address("Andere-Straße", "Erfurt", "99086", "Deutschland", 20);
