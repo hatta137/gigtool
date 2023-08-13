@@ -9,6 +9,7 @@ import org.gigtool.gigtool.storage.repositories.TypeOfLocationRepository;
 import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.gigtool.gigtool.storage.services.model.LocationCreate;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class LocationService {
         this.typeOfLocationRepository = typeOfLocationRepository;
     }
 
-    private ResponseEntity<LocationResponse> addLocation(LocationCreate locationCreate) {
+    public ResponseEntity<LocationResponse> addLocation(LocationCreate locationCreate) {
 
         if (locationCreate.getAddressId() == null || locationCreate.getTypeOfLocationId() == null) {
             // If any required information is missing, return a bad request response
@@ -51,7 +52,7 @@ public class LocationService {
         return ResponseEntity.accepted().body( new LocationResponse( savedLocation ));
     }
 
-    private ResponseEntity<List<LocationResponse>> getAllLocation() {
+    public ResponseEntity<List<LocationResponse>> getAllLocation() {
 
         List<Location> locationList = locationRepository.findAll();
 
@@ -63,15 +64,77 @@ public class LocationService {
         return ResponseEntity.status(200).body( responseList );
     }
 
-    private ResponseEntity<LocationResponse> getLocationById(UUID id) {
-        return null;
+    public ResponseEntity<LocationResponse> getLocationById(UUID id) {
+        Optional<Location> foundLocation = locationRepository.findById(id);
+
+        if (foundLocation.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        return ResponseEntity.accepted().body( new LocationResponse( foundLocation.get() ));
     }
 
-    private ResponseEntity<LocationResponse> updateLocation(UUID id, LocationCreate locationCreate) {
-        return null;
+    public ResponseEntity<LocationResponse> updateLocation(UUID id, LocationCreate locationCreate) {
+
+        Optional<Location> existingLocation = locationRepository.findById( id );
+
+        if (existingLocation.isEmpty())
+            throw new RuntimeException( "Location not found with id: " + id );
+
+        Location locationToUpdate = existingLocation.get();
+
+        if (locationCreate.getTypeOfLocationId() != null) {
+
+            Optional<TypeOfLocation> typeOfLocation = typeOfLocationRepository.findById( locationCreate.getTypeOfLocationId() );
+            locationToUpdate.setTypeOfLocation( typeOfLocation.get() );
+        }
+
+        if (locationCreate.getAddressId() != null) {
+
+            Optional<Address> address = addressRepository.findById( locationCreate.getAddressId() );
+            locationToUpdate.setAddress( address.get() );
+        }
+
+        Location savedLocation = locationRepository.saveAndFlush( locationToUpdate );
+
+        return ResponseEntity.ok().body( new LocationResponse( savedLocation ));
     }
 
-    private ResponseEntity<LocationResponse> deleteLocation(UUID id) {
-        return null;
+    public ResponseEntity<LocationResponse> deleteLocation(UUID id) {
+        Optional<Location> foundLocation = locationRepository.findById(id);
+
+        if (foundLocation.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        Location locationToDelete = foundLocation.get();
+
+        locationRepository.delete(locationToDelete);
+
+        return ResponseEntity.accepted().build();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

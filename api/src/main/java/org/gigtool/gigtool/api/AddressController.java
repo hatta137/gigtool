@@ -17,7 +17,7 @@ public class AddressController {
 
     public final AddressService addressService;
 
-    public AddressController(AddressService addressService) {
+    public AddressController( AddressService addressService ) {
         this.addressService = addressService;
     }
 
@@ -33,16 +33,16 @@ public class AddressController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AddressResponse> addressById( @PathVariable UUID id ) {
-        return this.addressService.getAddressById(id);
+        return this.addressService.getAddressById( id );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AddressResponse> updateAddress(@PathVariable UUID id, @RequestBody AddressCreate addressCreate) {
-        return this.addressService.updateAddress(id, addressCreate);
+    public ResponseEntity<AddressResponse> updateAddress( @PathVariable UUID id, @RequestBody AddressCreate addressCreate ) {
+        return this.addressService.updateAddress( id, addressCreate );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<AddressResponse> deleteAddress(@PathVariable UUID id) {
-        return this.addressService.deleteAddress(id);
+    public ResponseEntity<AddressResponse> deleteAddress( @PathVariable UUID id ) {
+        return this.addressService.deleteAddress( id );
     }
 }

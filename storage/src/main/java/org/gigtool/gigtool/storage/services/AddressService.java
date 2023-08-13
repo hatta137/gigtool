@@ -69,34 +69,34 @@ public class AddressService {
         return ResponseEntity.accepted().body( new AddressResponse( foundAddress.get() ));
     }
 
-    public ResponseEntity<AddressResponse> updateAddress(UUID id, AddressCreate addressCreate) {
+    public ResponseEntity<AddressResponse> updateAddress( UUID id, AddressCreate addressCreate ) {
 
-        Optional<Address> existingAddress = addressRepository.findById(id);
+        Optional<Address> existingAddress = addressRepository.findById( id );
 
         if (existingAddress.isEmpty())
-            throw new RuntimeException("Address not found with id: " + id);
+            throw new RuntimeException( "Address not found with id: " + id );
 
         Address addressToUpdate = existingAddress.get();
 
-        if (addressCreate.getStreet() != null) {
+        if ( addressCreate.getStreet() != null ) {
             addressToUpdate.setStreet(addressCreate.getStreet());
         }
-        if (addressCreate.getZipCode() != null) {
+        if ( addressCreate.getZipCode() != null ) {
             addressToUpdate.setZipCode(addressCreate.getZipCode());
         }
-        if (addressCreate.getCity() != null) {
+        if ( addressCreate.getCity() != null ) {
             addressToUpdate.setCity(addressCreate.getCity());
         }
-        if (addressCreate.getCountry() != null) {
+        if ( addressCreate.getCountry() != null ) {
             addressToUpdate.setCountry(addressCreate.getCountry());
         }
 
         Address savedAddress = addressRepository.saveAndFlush( addressToUpdate );
 
-        return ResponseEntity.ok().body( new AddressResponse( savedAddress));
+        return ResponseEntity.ok().body( new AddressResponse( savedAddress ));
     }
 
-    public ResponseEntity<AddressResponse> deleteAddress(UUID id) {
+    public ResponseEntity<AddressResponse> deleteAddress( UUID id ) {
         Optional<Address> foundAddress = addressRepository.findById(id);
 
         if (foundAddress.isEmpty()) {
@@ -110,3 +110,27 @@ public class AddressService {
         return ResponseEntity.accepted().build();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
