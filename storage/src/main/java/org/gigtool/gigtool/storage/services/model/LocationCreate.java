@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.gigtool.gigtool.storage.model.Location;
 
 import java.util.UUID;
 
@@ -14,4 +15,6 @@ import java.util.UUID;
 public class LocationCreate {
     private UUID addressId;
     private UUID typeOfLocationId;
+
+
 }

@@ -2,7 +2,6 @@ package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
-import org.gigtool.gigtool.storage.services.model.AddressRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -74,9 +73,8 @@ public class AddressService {
 
         Optional<Address> existingAddress = addressRepository.findById(id);
 
-        if (existingAddress.isEmpty()) {
+        if (existingAddress.isEmpty())
             throw new RuntimeException("Address not found with id: " + id);
-        }
 
         Address addressToUpdate = existingAddress.get();
 
@@ -95,7 +93,7 @@ public class AddressService {
 
         Address savedAddress = addressRepository.saveAndFlush( addressToUpdate );
 
-        return ResponseEntity.ok().body( new AddressResponse(( savedAddress)));
+        return ResponseEntity.ok().body( new AddressResponse( savedAddress));
     }
 
     public ResponseEntity<AddressResponse> deleteAddress(UUID id) {

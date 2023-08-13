@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/***
- * Author: Hendrik Lendeckel
- * This class represents an address. Addresses are used for locations, for example.
- */
+
 @Entity
 @NoArgsConstructor
 @Getter

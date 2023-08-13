@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +29,11 @@ public class Location {
     private TypeOfLocation typeOfLocation;
     @OneToMany
     private List<Equipment> equipments;
+
+    public Location(Address address, TypeOfLocation typeOfLocation) {
+        this.address = address;
+        this.typeOfLocation = typeOfLocation;
+    }
 
 }
 

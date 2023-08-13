@@ -26,4 +26,9 @@ public class TypeOfLocation {
     private UUID id;
     private String name;
     private String description;
+
+    public TypeOfLocation(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

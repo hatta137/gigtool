@@ -2,7 +2,6 @@ package org.gigtool.gigtool.api;
 
 import org.gigtool.gigtool.storage.services.AddressService;
 import org.gigtool.gigtool.storage.services.model.AddressCreate;
-import org.gigtool.gigtool.storage.services.model.AddressRequest;
 import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

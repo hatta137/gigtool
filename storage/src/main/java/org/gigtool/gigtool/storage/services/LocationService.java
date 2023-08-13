@@ -6,6 +6,7 @@ import org.gigtool.gigtool.storage.model.TypeOfLocation;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
 import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.repositories.TypeOfLocationRepository;
+import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.gigtool.gigtool.storage.services.model.LocationCreate;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class LocationService {
@@ -38,6 +40,7 @@ public class LocationService {
         Optional<Address> address = addressRepository.findById(locationCreate.getAddressId());
         Optional<TypeOfLocation> typeOfLocation = typeOfLocationRepository.findById(locationCreate.getTypeOfLocationId());
 
+        //TODO @Hendrik isPresent Check
         Location location = new Location(
                 address.get(),
                 typeOfLocation.get()
@@ -49,7 +52,15 @@ public class LocationService {
     }
 
     private ResponseEntity<List<LocationResponse>> getAllLocation() {
-        return null;
+
+        List<Location> locationList = locationRepository.findAll();
+
+        List<LocationResponse> responseList = locationList
+                .stream()
+                .map(LocationResponse::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(200).body( responseList );
     }
 
     private ResponseEntity<LocationResponse> getLocationById(UUID id) {
