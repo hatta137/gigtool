@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.ErrorResponse;
 
+import java.io.Console;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -115,6 +116,9 @@ public class EquipmentService {
             throw new RuntimeException( "Address not found with id: " + id );
 
         Equipment equipmentToUpdate = existingEquipment.get();
+
+        System.out.println( equipmentCreate);
+        System.out.println( equipmentCreate.getName());
 
         if ( equipmentCreate.getName() != null ) {
             equipmentToUpdate.setName(equipmentCreate.getName());

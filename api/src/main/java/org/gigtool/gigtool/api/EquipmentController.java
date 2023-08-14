@@ -43,7 +43,7 @@ public class EquipmentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EquipmentResponse> updateEquipment( @PathVariable UUID id, EquipmentCreate equipmentCreate ) {
+    public ResponseEntity<EquipmentResponse> updateEquipment( @PathVariable UUID id, @RequestBody EquipmentCreate equipmentCreate ) {
         return this.equipmentService.updateEquipment( id, equipmentCreate );
     }
 
