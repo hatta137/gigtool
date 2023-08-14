@@ -1,86 +1,13 @@
 package org.gigtool.gigtool.storage.services;
 import org.gigtool.gigtool.storage.model.Equipment;
-import org.gigtool.gigtool.storage.model.Location;
-/*import org.gigtool.gigtool.storage.model.WeightClass;
-import org.gigtool.gigtool.storage.model.WeightClassList;
-import org.gigtool.gigtool.storage.repositories.WeightClassListRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;*/
 import org.springframework.stereotype.Service;
 
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 
-/**
- * In this class all calculations are carried out which are required in several other classes.
- */
 @Service
 public class Calc {
-
-   /* private static WeightClassListService weightClassListService;
-
-    private static WeightClassListRepository weightClassListRepository;
-
-    public static void initialize(WeightClassListService wcls, WeightClassListRepository wclr) {
-        weightClassListService = wcls;
-        weightClassListRepository = wclr;
-    }*/
-
-
-
-    /**
-     * Author: Hendrik Lendeckel
-     * Calculates the weight class for a given weight, using a list of predefined weight classes.
-     * @param weight the weight to find the matching weight class for
-     * @return an Optional containing the matching weight class, or an empty Optional if no matching weight class is found
-     * @throws IllegalArgumentException if the weight class list is null or empty
-     */
-/*     public static Optional<WeightClass> calcActualWeightClass(int weight){
-
-         WeightClassListService weightClassListService = new WeightClassListService(weightClassListRepository); // Erstellen Sie hier eine Instanz des WeightClassListService
-
-         WeightClassList weightClassList = weightClassListService.getWeightClassList().getBody();
-
-         if (weight > 2000)
-             weight = 2000;
-
-         if (weight > weightClassList.getMaxWeightInWeightClassList())
-             weight = weightClassList.getMaxWeightInWeightClassList();
-
-         if (weightClassList == null) { //TODO @Hendrik always false
-             throw new IllegalArgumentException("Weight class list cannot be null.");
-         }
-         if (weightClassList.getSizeOfWeightClassList() < 0) {
-             throw new IllegalArgumentException("Weight class list must contain at least one weight class.");
-         }
-
-        if (weight <= weightClassList.getMaxWeightInWeightClassList()){
-            for (WeightClass item : weightClassList.getListOfWeightClass()) {
-                if (weight >= item.getWeightStart() && weight <= item.getWeightStart() + item.getDuration())
-
-                    return Optional.of(item);
-            }
-        }
-
-
-          *//** If the weight is not within the range instead of the predefined weight classes,
-          * the method creates a new weight class with a start weight equal to the previous maximum weight and
-          * a span equal to the difference between the specified weight and the previous maximum weight.
-          * The method then adds this new weight class to the list
-          *//*
-
-        WeightClass weightClassAutoGen = new WeightClass("auto-generated weightClass",
-               "no weightClass for the weight available",
-                weightClassList.getMaxWeightInWeightClassList(),
-               weight - weightClassList.getMaxWeightInWeightClassList());
-
-
-        weightClassListService.addWeightClassToWeightClassList(weightClassAutoGen);
-
-        return Optional.of(weightClassListService.getBiggestWeightClass());
-    }*/
 
 
     /**
@@ -142,31 +69,5 @@ public class Calc {
         return result;
     }
 
-    /***
-     * Author: Hendrik Lendeckel
-     * This method collects all Locations from the equipment-list
-     * @return Array List with the locations
-     */
-    // TODO zu Equipment
-    public static ArrayList<Location> getEquipmentLocation(EquipmentList equipmentList){
-
-        ArrayList<Location> locations = new ArrayList<>();
-
-        for (int i = 0; i < equipmentList.getSizeOfEquipmentList(); i++){
-
-            if (equipmentList.getEquipment(i).isPresent())
-                locations.add(equipmentList.getEquipment(i).get().getLocation());
-
-        }
-
-        return locations;
-    }
-    // TODO zu Locations
-    public static ArrayList<Location> sortLocationsByTypeOfLocationName(ArrayList<Location> locations){
-
-        locations.sort(((o1, o2) -> o1.getTypeOfLocation().getName().compareToIgnoreCase(o2.getTypeOfLocation().getName())));
-
-        return locations;
-
-    }
+    // TODO Happening setAllEquipmentLocationToHappeningLocation( UUID happeningId )
 }

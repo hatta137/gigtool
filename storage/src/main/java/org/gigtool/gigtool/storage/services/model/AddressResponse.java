@@ -22,7 +22,6 @@ public class AddressResponse {
     private String zipCode;
     private String country;
     private String city;
-    private ArrayList<Happening> happenings;
 
     public AddressResponse(Address address) {
         id = address.getId();
@@ -31,6 +30,5 @@ public class AddressResponse {
         zipCode = address.getZipCode();
         country = address.getCountry();
         city = address.getCity();
-        happenings = new ArrayList<>();
     }
 }
