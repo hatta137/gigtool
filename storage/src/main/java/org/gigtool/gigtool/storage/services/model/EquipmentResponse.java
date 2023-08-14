@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.model.TypeOfEquipment;
-import org.gigtool.gigtool.storage.model.WeightClass;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -23,7 +22,6 @@ public class EquipmentResponse {
     private String description;
     private TypeOfEquipmentResponse typeOfEquipmentResponse;
     private int weight;
-    private WeightClass weightClass;
     private int length;
     private int width;
     private int height;
@@ -31,14 +29,17 @@ public class EquipmentResponse {
     private LocationResponse locationResponse;
     private float price;
 
-    //TODO @Hendrik fertigstellen. unterbrochen wegen weightclass und weightclass List
     public EquipmentResponse( Equipment equipment ) {
         id = equipment.getId();
         name = equipment.getName();
         description = equipment.getDescription();
         typeOfEquipmentResponse = new TypeOfEquipmentResponse( equipment.getTypeOfEquipment() );
         weight = equipment.getWeight();
-
-
+        length = equipment.getLength();
+        width = equipment.getWidth();
+        height = equipment.getHeight();
+        dateOfPurchase = equipment.getDateOfPurchase();
+        locationResponse = new LocationResponse( equipment.getLocation() );
+        price = equipment.getPrice();
     }
 }

@@ -3,6 +3,8 @@ package org.gigtool.gigtool.api;
 import org.gigtool.gigtool.storage.model.TypeOfEquipment;
 import org.gigtool.gigtool.storage.services.EquipmentService;
 import org.gigtool.gigtool.storage.services.TypeOfEquipmentService;
+import org.gigtool.gigtool.storage.services.model.EquipmentCreate;
+import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentResponse;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,18 @@ public class EquipmentController {
         this.typeOfEquipmentService = typeOfEquipmentService;
     }
 
+    @PostMapping
+    public ResponseEntity<EquipmentResponse> addEquipment( @RequestBody EquipmentCreate equipmentCreate ) {
+        return this.equipmentService.addEquipment( equipmentCreate );
+    }
 
+    @GetMapping
+    public ResponseEntity<List<EquipmentResponse>> getAllEquipment() {
+        return this.equipmentService.getAllEquipment();
+    }
 
+    @GetMapping("/byType/{typeOfEquipmentId}")
+    public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByTypeOfEquipment(@PathVariable UUID typeOfEquipmentId) {
+        return this.equipmentService.getAllEquipmentByTypeOfEquipment(typeOfEquipmentId);
+    }
 }

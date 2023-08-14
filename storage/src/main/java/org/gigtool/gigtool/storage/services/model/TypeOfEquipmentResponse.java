@@ -19,12 +19,10 @@ public class TypeOfEquipmentResponse {
     private UUID id;
     private String name;
     private String description;
-    private ArrayList<Equipment> equipments;
 
     public TypeOfEquipmentResponse(TypeOfEquipment typeOfEquipment) {
         id = typeOfEquipment.getId();
         name = typeOfEquipment.getName();
         description =  typeOfEquipment.getDescription();
-        equipments = new ArrayList<>();
     }
 }

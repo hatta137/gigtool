@@ -10,6 +10,7 @@ import org.gigtool.gigtool.storage.model.Location;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -19,12 +20,10 @@ public class LocationResponse {
     private UUID id;
     private AddressResponse addressResponse;
     private TypeOfLocationResponse typeOfLocationResponse;
-    private List<Equipment> equipments;
 
     public LocationResponse(Location location) {
         id = location.getId();
         addressResponse = new AddressResponse( location.getAddress() );
         typeOfLocationResponse = new TypeOfLocationResponse( location.getTypeOfLocation() );
-        equipments = location.getEquipments();
     }
 }

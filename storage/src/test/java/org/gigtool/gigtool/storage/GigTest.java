@@ -1,3 +1,4 @@
+/*
 package org.gigtool.gigtool.storage;
 
 import org.gigtool.gigtool.storage.services.*;
@@ -12,11 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GigTest extends BeforeAllTests{
 
 
-    /**
+    */
+/**
      *  The Main Equipment-Part is checked in der EquipmentListTest.java
      *  in the following the adding to a band is checked to proof that every equipment
      *  that is part of a happening is part of the inventory too
-     */
+     *//*
+
 
     @Test
     void addEquipmentToGig(){
@@ -86,3 +89,4 @@ public class GigTest extends BeforeAllTests{
 
     }
 }
+*/

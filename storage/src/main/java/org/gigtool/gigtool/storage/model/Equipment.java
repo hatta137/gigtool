@@ -28,8 +28,6 @@ public class Equipment {
     @ManyToOne
     private TypeOfEquipment typeOfEquipment;
     private int weight;
-    @ManyToOne
-    private WeightClass weightClass;
     private int length;
     private int width;
     private int height;
@@ -48,7 +46,6 @@ public class Equipment {
      * @param dateOfPurchase of the equipment
      * @param location of the equipment
      * @param price of the equipment
-     * @param weightClassList the actual weight class list
      */
 
     public Equipment(
@@ -58,17 +55,12 @@ public class Equipment {
             int weight, int length, int width, int height,
             LocalDate dateOfPurchase,
             Location location,
-            float price, Calc calc,
-            WeightClassList weightClassList) {
+            float price) {
 
         this.name = name;
         this.description = description;
         this.typeOfEquipment = typeOfEquipment;
         this.weight = weight;
-
-        Optional<WeightClass> calculatedWeightClass = calc.calcActualWeightClass(weight);
-        this.weightClass = calculatedWeightClass.orElse(null);
-
         this.length = length;
         this.width = width;
         this.height = height;
@@ -81,18 +73,25 @@ public class Equipment {
      * Constructor without the optional param dateOfPurchase
      *
      */
-    public Equipment(String name, String description, TypeOfEquipment typeOfEquipment, int weight, int length, int width, int height, Location location, float price, WeightClassList weightClassList) {
+    public Equipment(
+            String name,
+            String description,
+            TypeOfEquipment typeOfEquipment,
+            int weight, int length, int width, int height,
+            Location location,
+            float price) {
+
         this.name = name;
         this.description = description;
         this.typeOfEquipment = typeOfEquipment;
         this.weight = weight;
-        this.weightClass = Calc.calcActualWeightClass(weight).get();
         this.length = length;
-        this.weight = width;
+        this.width = width;
         this.height = height;
         this.location = location;
         this.price = price;
     }
+
 
     public int getCuboidVolume(){
         return this.height * this.length * this.width;

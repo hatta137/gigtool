@@ -25,8 +25,7 @@ public class TypeOfEquipment {
     private UUID id;
     private String name;
     private String description;
-    @OneToMany
-    private List<Equipment> equipments;
+
 
     public TypeOfEquipment(String name, String description){
         this.name = name;
