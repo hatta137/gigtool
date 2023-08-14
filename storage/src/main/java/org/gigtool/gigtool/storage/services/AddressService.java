@@ -21,12 +21,12 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
 
-    public AddressService(AddressRepository addressRepository) {
+    public AddressService( AddressRepository addressRepository ) {
         this.addressRepository = addressRepository;
     }
 
     @Transactional
-    public ResponseEntity<AddressResponse> addNewAddress(AddressCreate addressCreate) {
+    public ResponseEntity<AddressResponse> addNewAddress( AddressCreate addressCreate ) {
 
         if (addressCreate.getStreet() == null || addressCreate.getCity() == null ||
                 addressCreate.getZipCode() == null || addressCreate.getCountry() == null) {
@@ -60,9 +60,9 @@ public class AddressService {
         return ResponseEntity.status(200).body( responseList );
     }
 
-    public ResponseEntity<AddressResponse> getAddressById(UUID id) {
+    public ResponseEntity<AddressResponse> getAddressById( UUID id ) {
 
-        Optional<Address> foundAddress = addressRepository.findById(id);
+        Optional<Address> foundAddress = addressRepository.findById( id );
 
         if (foundAddress.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -99,7 +99,7 @@ public class AddressService {
 
     public ResponseEntity<AddressResponse> deleteAddress( UUID id ) {
 
-        Optional<Address> foundAddress = addressRepository.findById(id);
+        Optional<Address> foundAddress = addressRepository.findById( id );
 
         if (foundAddress.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

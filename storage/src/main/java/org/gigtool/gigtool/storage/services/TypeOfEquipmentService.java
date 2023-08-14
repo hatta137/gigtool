@@ -19,11 +19,11 @@ public class TypeOfEquipmentService {
 
     public final TypeOfEquipmentRepository typeOfEquipmentRepository;
 
-    public TypeOfEquipmentService(TypeOfEquipmentRepository typeOfEquipmentRepository) {
+    public TypeOfEquipmentService( TypeOfEquipmentRepository typeOfEquipmentRepository ) {
         this.typeOfEquipmentRepository = typeOfEquipmentRepository;
     }
 
-    public ResponseEntity<TypeOfEquipmentResponse> addTypeOfEquipment(TypeOfEquipmentCreate typeOfEquipmentCreate) {
+    public ResponseEntity<TypeOfEquipmentResponse> addTypeOfEquipment( TypeOfEquipmentCreate typeOfEquipmentCreate ) {
 
         if (typeOfEquipmentCreate.getName() == null || typeOfEquipmentCreate.getDescription() == null) {
             return ResponseEntity.badRequest().build();
@@ -34,7 +34,7 @@ public class TypeOfEquipmentService {
                 typeOfEquipmentCreate.getDescription()
         );
 
-        TypeOfEquipment savedTypeOfEquipment = typeOfEquipmentRepository.saveAndFlush(typeOfEquipment);
+        TypeOfEquipment savedTypeOfEquipment = typeOfEquipmentRepository.saveAndFlush( typeOfEquipment );
 
         return ResponseEntity.accepted().body( new TypeOfEquipmentResponse( savedTypeOfEquipment ));
     };
@@ -51,9 +51,9 @@ public class TypeOfEquipmentService {
         return ResponseEntity.status(200).body( responseList );
     }
 
-    public ResponseEntity<TypeOfEquipmentResponse> getTypeOfEquipmentById(UUID id) {
+    public ResponseEntity<TypeOfEquipmentResponse> getTypeOfEquipmentById( UUID id ) {
 
-        Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById(id);
+        Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
         if (foundTypeOfEquipment.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -61,9 +61,9 @@ public class TypeOfEquipmentService {
         return ResponseEntity.accepted().body( new TypeOfEquipmentResponse( foundTypeOfEquipment.get() ));
     }
 
-    public ResponseEntity<TypeOfEquipmentResponse> updateTypeOfEquipment(UUID id, TypeOfEquipmentCreate typeOfEquipmentCreate) {
+    public ResponseEntity<TypeOfEquipmentResponse> updateTypeOfEquipment( UUID id, TypeOfEquipmentCreate typeOfEquipmentCreate ) {
 
-        Optional<TypeOfEquipment> existingTypeOfEquipment = typeOfEquipmentRepository.findById(id);
+        Optional<TypeOfEquipment> existingTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
         if (existingTypeOfEquipment.isEmpty()) {
             throw new RuntimeException("TypeOfEquipment not found with id: " + id);
@@ -83,8 +83,9 @@ public class TypeOfEquipmentService {
         return ResponseEntity.ok().body( new TypeOfEquipmentResponse( savedTypeOfEquipment ));
     }
 
-    public ResponseEntity<TypeOfEquipmentResponse> deleteTypeOfEquipment(UUID id) {
-        Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById(id);
+    public ResponseEntity<TypeOfEquipmentResponse> deleteTypeOfEquipment( UUID id ) {
+
+        Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
         if (foundTypeOfEquipment.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

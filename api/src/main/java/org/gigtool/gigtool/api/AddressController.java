@@ -27,12 +27,12 @@ public class AddressController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AddressResponse>> addresses() {
+    public ResponseEntity<List<AddressResponse>> getAllAddress() {
         return this.addressService.getAllAddresses();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AddressResponse> addressById( @PathVariable UUID id ) {
+    public ResponseEntity<AddressResponse> getAddressById( @PathVariable UUID id ) {
         return this.addressService.getAddressById( id );
     }
 

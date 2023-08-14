@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.gigtool.gigtool.storage.model.Equipment;
-import org.gigtool.gigtool.storage.model.Location;
-import org.gigtool.gigtool.storage.model.TypeOfEquipment;
 
 import java.time.LocalDate;
 import java.util.UUID;

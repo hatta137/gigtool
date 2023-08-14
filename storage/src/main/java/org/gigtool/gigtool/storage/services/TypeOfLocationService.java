@@ -8,6 +8,7 @@ import org.gigtool.gigtool.storage.services.model.TypeOfLocationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,8 @@ public class TypeOfLocationService {
         this.typeOfLocationRepository = typeOfLocationRepository;
     }
 
-    public ResponseEntity<TypeOfLocationResponse> addTypeOfLocation(TypeOfLocationCreate typeOfLocationCreate) {
+    @Transactional
+    public ResponseEntity<TypeOfLocationResponse> addTypeOfLocation( TypeOfLocationCreate typeOfLocationCreate ) {
 
         if (typeOfLocationCreate.getName() == null || typeOfLocationCreate.getDescription() == null) {
             return ResponseEntity.badRequest().build();
@@ -53,20 +55,20 @@ public class TypeOfLocationService {
         return ResponseEntity.status(200).body( responseList );
     }
 
-    public ResponseEntity<TypeOfLocationResponse> getTypeOfLocationById(UUID id) {
+    public ResponseEntity<TypeOfLocationResponse> getTypeOfLocationById( UUID id ) {
 
-        Optional<TypeOfLocation> foundTypeOfLocation = typeOfLocationRepository.findById(id);
+        Optional<TypeOfLocation> foundTypeOfLocation = typeOfLocationRepository.findById( id );
 
         if (foundTypeOfLocation.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        return ResponseEntity.accepted().body( new TypeOfLocationResponse( foundTypeOfLocation.get()));
+        return ResponseEntity.accepted().body( new TypeOfLocationResponse( foundTypeOfLocation.get() ));
 
     }
 
-    public ResponseEntity<TypeOfLocationResponse> updateTypeOfLocation(UUID id, TypeOfLocationCreate typeOfLocationCreate) {
+    public ResponseEntity<TypeOfLocationResponse> updateTypeOfLocation( UUID id, TypeOfLocationCreate typeOfLocationCreate ) {
 
-        Optional<TypeOfLocation> existingTypeOfLocation = typeOfLocationRepository.findById(id);
+        Optional<TypeOfLocation> existingTypeOfLocation = typeOfLocationRepository.findById( id );
 
         if (existingTypeOfLocation.isEmpty())
             throw new RuntimeException("TypeOfLocation not found with id" + id);
@@ -86,9 +88,9 @@ public class TypeOfLocationService {
         return ResponseEntity.ok().body( new TypeOfLocationResponse( savedTypeOfLocation ));
     }
 
-    public ResponseEntity<TypeOfLocationResponse> deleteTypeOfLocation(UUID id) {
+    public ResponseEntity<TypeOfLocationResponse> deleteTypeOfLocation( UUID id ) {
 
-        Optional<TypeOfLocation> foundTypeOfLocation = typeOfLocationRepository.findById(id);
+        Optional<TypeOfLocation> foundTypeOfLocation = typeOfLocationRepository.findById( id );
 
         if (foundTypeOfLocation.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -100,7 +102,4 @@ public class TypeOfLocationService {
 
         return ResponseEntity.accepted().build();
     }
-
-
-
 }

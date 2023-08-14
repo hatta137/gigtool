@@ -12,7 +12,6 @@ import lombok.Setter;
 import java.util.UUID;
 
 /***
- * Author: Max Schelenz
  * The class TypeOfLocation represents a type of location, such as "concert hall" or "outdoor festival site".
  */
 @Entity

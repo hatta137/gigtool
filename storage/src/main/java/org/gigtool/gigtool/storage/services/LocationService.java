@@ -6,7 +6,6 @@ import org.gigtool.gigtool.storage.model.TypeOfLocation;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
 import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.repositories.TypeOfLocationRepository;
-import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.gigtool.gigtool.storage.services.model.LocationCreate;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.springframework.http.HttpStatus;
@@ -31,15 +30,16 @@ public class LocationService {
         this.typeOfLocationRepository = typeOfLocationRepository;
     }
 
-    public ResponseEntity<LocationResponse> addLocation(LocationCreate locationCreate) {
+    public ResponseEntity<LocationResponse> addLocation( LocationCreate locationCreate ) {
 
         if (locationCreate.getAddressId() == null || locationCreate.getTypeOfLocationId() == null) {
             // If any required information is missing, return a bad request response
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<Address> address = addressRepository.findById(locationCreate.getAddressId());
-        Optional<TypeOfLocation> typeOfLocation = typeOfLocationRepository.findById(locationCreate.getTypeOfLocationId());
+        Optional<Address> address = addressRepository.findById( locationCreate.getAddressId() );
+
+        Optional<TypeOfLocation> typeOfLocation = typeOfLocationRepository.findById( locationCreate.getTypeOfLocationId() );
 
         //TODO @Hendrik isPresent Check
         Location location = new Location(
@@ -64,8 +64,8 @@ public class LocationService {
         return ResponseEntity.status(200).body( responseList );
     }
 
-    public ResponseEntity<LocationResponse> getLocationById(UUID id) {
-        Optional<Location> foundLocation = locationRepository.findById(id);
+    public ResponseEntity<LocationResponse> getLocationById( UUID id ) {
+        Optional<Location> foundLocation = locationRepository.findById( id );
 
         if (foundLocation.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -73,7 +73,7 @@ public class LocationService {
         return ResponseEntity.accepted().body( new LocationResponse( foundLocation.get() ));
     }
 
-    public ResponseEntity<LocationResponse> updateLocation(UUID id, LocationCreate locationCreate) {
+    public ResponseEntity<LocationResponse> updateLocation( UUID id, LocationCreate locationCreate ) {
 
         Optional<Location> existingLocation = locationRepository.findById( id );
 
@@ -99,8 +99,9 @@ public class LocationService {
         return ResponseEntity.ok().body( new LocationResponse( savedLocation ));
     }
 
-    public ResponseEntity<LocationResponse> deleteLocation(UUID id) {
-        Optional<Location> foundLocation = locationRepository.findById(id);
+    public ResponseEntity<LocationResponse> deleteLocation( UUID id ) {
+
+        Optional<Location> foundLocation = locationRepository.findById( id );
 
         if (foundLocation.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

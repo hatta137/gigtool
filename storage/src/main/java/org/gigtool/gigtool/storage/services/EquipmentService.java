@@ -44,7 +44,7 @@ public class EquipmentService {
     @Transactional
     public ResponseEntity<EquipmentResponse> addEquipment( EquipmentCreate equipmentCreate ) {
 
-        TypeOfEquipment typeOfEquipment = typeOfEquipmentRepository.findById(equipmentCreate.getTypeOfEquipmentId())
+        TypeOfEquipment typeOfEquipment = typeOfEquipmentRepository.findById( equipmentCreate.getTypeOfEquipmentId() )
                 .orElseThrow(() -> new IllegalArgumentException("Type of equipment not found"));
 
         Location location = locationRepository.findById(equipmentCreate.getLocationId())
@@ -54,7 +54,6 @@ public class EquipmentService {
                 equipmentCreate.getTypeOfEquipmentId() == null || equipmentCreate.getLocationId() == null) {
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
         }
 
         if (equipmentCreate.getWeight() <= 0 || equipmentCreate.getLength() <= 0 ||
@@ -76,9 +75,7 @@ public class EquipmentService {
                 equipmentCreate.getPrice()
         );
 
-        Equipment savedEquipment = equipmentRepository.save(equipment);
-
-        //TODO TypeOfEquipment Aktualisieren
+        Equipment savedEquipment = equipmentRepository.save( equipment );
 
         return ResponseEntity.accepted().body( new EquipmentResponse( savedEquipment ) );
     }
@@ -97,9 +94,9 @@ public class EquipmentService {
     }
 
 
-    public ResponseEntity<EquipmentResponse> getEquipmentById(UUID id) {
+    public ResponseEntity<EquipmentResponse> getEquipmentById( UUID id ) {
 
-        Optional<Equipment> foundEquipment = equipmentRepository.findById(id);
+        Optional<Equipment> foundEquipment = equipmentRepository.findById( id );
 
         if (foundEquipment.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -110,15 +107,12 @@ public class EquipmentService {
 
     public ResponseEntity<EquipmentResponse> updateEquipment( UUID id, EquipmentCreate equipmentCreate ) {
 
-        Optional<Equipment> existingEquipment = equipmentRepository.findById(id);
+        Optional<Equipment> existingEquipment = equipmentRepository.findById( id );
 
         if (existingEquipment.isEmpty())
             throw new RuntimeException( "Address not found with id: " + id );
 
         Equipment equipmentToUpdate = existingEquipment.get();
-
-        System.out.println( equipmentCreate);
-        System.out.println( equipmentCreate.getName());
 
         if ( equipmentCreate.getName() != null ) {
             equipmentToUpdate.setName(equipmentCreate.getName());
@@ -157,9 +151,9 @@ public class EquipmentService {
     }
 
     // TODO @Hendrik Test ob Beziehungen aufgelöst werden nach löschen (TypeOfEquipment und Location)
-    public ResponseEntity<EquipmentResponse> deleteEquipment(UUID id) {
+    public ResponseEntity<EquipmentResponse> deleteEquipment( UUID id ) {
 
-        Optional<Equipment> foundEquiupment = equipmentRepository.findById(id);
+        Optional<Equipment> foundEquiupment = equipmentRepository.findById( id );
 
         if (foundEquiupment.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

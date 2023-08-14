@@ -7,12 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.UUID;
 
 /***
- * Author: Robin Harris
  * The Location class represents a physical location and contains information about its address and type.
  */
 @Entity
@@ -28,8 +26,7 @@ public class Location {
     private Address address;
     @OneToOne
     private TypeOfLocation typeOfLocation;
-/*    @OneToMany
-    private List<Equipment> equipments;*/ //undirektional //TODO Test und dann entfernen
+
 
     public Location(Address address, TypeOfLocation typeOfLocation) {
         this.address = address;

@@ -6,12 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
- * Author: Robin Harris
  * This class describes the type of equipment. For example drum hardware.
  */
 @Entity
@@ -25,7 +22,6 @@ public class TypeOfEquipment {
     private UUID id;
     private String name;
     private String description;
-
 
     public TypeOfEquipment(String name, String description){
         this.name = name;

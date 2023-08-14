@@ -12,9 +12,9 @@ import java.util.UUID;
 @Repository
 public interface EquipmentRepository extends JpaRepository<Equipment, UUID> {
 
-    List<Equipment> findByTypeOfEquipmentId(UUID typeOfEquipmentId);
+    List<Equipment> findByTypeOfEquipmentId( UUID typeOfEquipmentId );
 
-    List<Equipment> findByLocationId(UUID typeOfEquipmentId);
+    List<Equipment> findByLocationId( UUID typeOfEquipmentId );
 
 }
 

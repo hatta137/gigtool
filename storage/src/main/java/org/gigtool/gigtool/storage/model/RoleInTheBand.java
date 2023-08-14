@@ -11,7 +11,6 @@ import lombok.Setter;
 import java.util.UUID;
 
 /***
- * Author: Max Schelenz
  * This class describes the role a musician can have in a band.
  */
 @Entity

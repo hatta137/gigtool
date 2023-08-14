@@ -1,12 +1,9 @@
 package org.gigtool.gigtool.api;
 
-import org.gigtool.gigtool.storage.model.TypeOfEquipment;
 import org.gigtool.gigtool.storage.services.EquipmentService;
 import org.gigtool.gigtool.storage.services.TypeOfEquipmentService;
 import org.gigtool.gigtool.storage.services.model.EquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
-import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
-import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +36,7 @@ public class EquipmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EquipmentResponse> getEquipmentById( @PathVariable UUID id ) {
-        return this.equipmentService.getEquipmentById(id);
+        return this.equipmentService.getEquipmentById( id );
     }
 
     @PutMapping("/{id}")
@@ -63,5 +60,4 @@ public class EquipmentController {
     public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByLocation(@PathVariable UUID locationId) {
         return this.equipmentService.getAllEquipmentByLocation( locationId );
     }
-
 }

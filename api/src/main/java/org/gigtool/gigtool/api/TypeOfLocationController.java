@@ -15,7 +15,7 @@ public class TypeOfLocationController {
 
     public final TypeOfLocationService typeOfLocationService;
 
-    public TypeOfLocationController(TypeOfLocationService typeOfLocationService) {
+    public TypeOfLocationController( TypeOfLocationService typeOfLocationService ) {
         this.typeOfLocationService = typeOfLocationService;
     }
 
@@ -31,17 +31,17 @@ public class TypeOfLocationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TypeOfLocationResponse> getTypeOfLocationById( @PathVariable UUID id ) {
-        return this.typeOfLocationService.getTypeOfLocationById(id);
+        return this.typeOfLocationService.getTypeOfLocationById( id );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TypeOfLocationResponse> updateTypeOfLocation(@PathVariable UUID id, @RequestBody TypeOfLocationCreate typeOfLocationCreate) {
-        return this.typeOfLocationService.updateTypeOfLocation(id, typeOfLocationCreate);
+    public ResponseEntity<TypeOfLocationResponse> updateTypeOfLocation( @PathVariable UUID id, @RequestBody TypeOfLocationCreate typeOfLocationCreate ) {
+        return this.typeOfLocationService.updateTypeOfLocation( id, typeOfLocationCreate );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TypeOfLocationResponse> deleteTypeOfLocation(@PathVariable UUID id) {
-        return this.typeOfLocationService.deleteTypeOfLocation(id);
+    public ResponseEntity<TypeOfLocationResponse> deleteTypeOfLocation( @PathVariable UUID id ) {
+        return this.typeOfLocationService.deleteTypeOfLocation( id );
     }
 
 

@@ -68,7 +68,6 @@ public class Equipment {
 
     /***
      * Constructor without the optional param dateOfPurchase
-     *
      */
     public Equipment(
             String name,
@@ -89,7 +88,7 @@ public class Equipment {
         this.price = price;
     }
 
-    // TODO @Hendrik To Equipment Service
+    // TODO @Hendrik To Happening Service getTotalVolume
     public int getCuboidVolume(){
         return this.height * this.length * this.width;
     }

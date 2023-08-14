@@ -11,7 +11,6 @@ import lombok.Setter;
 import java.util.UUID;
 
 /***
- * Author: Max Schelenz
  * The TypeOfGig class represents a type of gig, with a name and a description.
  */
 @Entity
@@ -26,11 +25,6 @@ public class TypeOfGig {
     private String name;
     private String description;
 
-    /**
-     * Constructor with all attributes.
-     * @param name Name of the Gigtype
-     * @param description Description of the TYpe of Gig
-     */
     public TypeOfGig(String name, String description) {
         this.name=name;
         this.description=description;

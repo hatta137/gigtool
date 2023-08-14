@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Location;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
