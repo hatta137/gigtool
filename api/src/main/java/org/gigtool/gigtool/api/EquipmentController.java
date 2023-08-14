@@ -36,8 +36,29 @@ public class EquipmentController {
         return this.equipmentService.getAllEquipment();
     }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EquipmentResponse> getEquipmentById( @PathVariable UUID id ) {
+        return this.equipmentService.getEquipmentById(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EquipmentResponse> updateEquipment( @PathVariable UUID id, EquipmentCreate equipmentCreate ) {
+        return this.equipmentService.updateEquipment( id, equipmentCreate );
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<EquipmentResponse> deleteEquipment( @PathVariable UUID id ) {
+        return this.equipmentService.deleteEquipment( id );
+    }
+
+
     @GetMapping("/byType/{typeOfEquipmentId}")
     public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByTypeOfEquipment(@PathVariable UUID typeOfEquipmentId) {
         return this.equipmentService.getAllEquipmentByTypeOfEquipment(typeOfEquipmentId);
     }
+
+    // /byLocation/{locationId}
+
+
 }

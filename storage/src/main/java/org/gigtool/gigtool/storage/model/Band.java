@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.gigtool.gigtool.storage.services.EquipmentList;
-import org.gigtool.gigtool.storage.services.Inventory;
 
 import java.util.*;
 
@@ -77,10 +76,11 @@ public class Band {
             throw new IllegalArgumentException("Equipment cannot be null.");
         }
 
-        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
+        //TODO @Dario Inventory gibts nicht mehr, da Datenbank
+/*        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
 
             Inventory.getInstance().getEquipmentList().addEquipment(equipment);
-        }
+        }*/
 
         this.equipmentList.getListOfEquipment().add(equipment);
 

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.gigtool.gigtool.storage.services.EquipmentList;
-import org.gigtool.gigtool.storage.services.Inventory;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -13,6 +12,7 @@ import java.util.UUID;
  * Author: Hendrik Lendeckel
  * This class is the parent class of Gig and Rental and contains details about the name, description, equipment list, address and timeslot.
  */
+//TODO abstract muss weg, da jetzt Datenbank
 @Entity
 @NoArgsConstructor
 @Getter
@@ -27,6 +27,8 @@ public abstract class Happening {
     private Address address;
     @OneToOne
     private Timeslot timeslot;
+
+    //TODO Ersetzen durch OneToMany List<Equipment>
     @Transient
     private final EquipmentList listOfEquipment = new EquipmentList();
 
@@ -56,12 +58,12 @@ public abstract class Happening {
             return this.listOfEquipment;
 
         }
-
-        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
+        //TODO @Dario Inventory gibts nicht mehr, da Datenbank
+/*        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
 
             Inventory.getInstance().getEquipmentList().addEquipment(equipment);
 
-        }
+        }*/
 
         this.listOfEquipment.getListOfEquipment().add(equipment);
 

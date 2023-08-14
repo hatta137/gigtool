@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.gigtool.gigtool.storage.services.model.AddressCreate;
 import org.gigtool.gigtool.storage.services.model.AddressResponse;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
+    @Transactional
     public ResponseEntity<AddressResponse> addNewAddress(AddressCreate addressCreate) {
 
         if (addressCreate.getStreet() == null || addressCreate.getCity() == null ||
@@ -96,6 +98,7 @@ public class AddressService {
     }
 
     public ResponseEntity<AddressResponse> deleteAddress( UUID id ) {
+
         Optional<Address> foundAddress = addressRepository.findById(id);
 
         if (foundAddress.isEmpty()) {

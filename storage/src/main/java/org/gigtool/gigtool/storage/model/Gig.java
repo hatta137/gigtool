@@ -12,6 +12,7 @@ import java.util.UUID;
  * Author: Robin Harris
  * This class inherits from the Happening class and represents a performance by the musician.
  */
+// TODO extends muss raus, da Datenbank
 @Entity
 @NoArgsConstructor
 @Getter
@@ -24,6 +25,7 @@ public class Gig extends Happening {
     private TypeOfGig typeOfGig;
     @ManyToOne
     private Band band;
+    //TODO OneToOne Happening
 
 
     public Gig(String name, String description, Address address, Timeslot timeslot, TypeOfGig typeOfGig, Band band){

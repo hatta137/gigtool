@@ -25,14 +25,14 @@ public class Equipment {
     private UUID id;
     private String name;
     private String description;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private TypeOfEquipment typeOfEquipment;
     private int weight;
     private int length;
     private int width;
     private int height;
     private LocalDate dateOfPurchase;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Location location;
     private float price;
 
@@ -92,7 +92,7 @@ public class Equipment {
         this.price = price;
     }
 
-
+    // TODO @Hendrik To Equipment Service
     public int getCuboidVolume(){
         return this.height * this.length * this.width;
     }
