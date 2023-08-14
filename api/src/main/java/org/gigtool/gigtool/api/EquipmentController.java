@@ -55,10 +55,13 @@ public class EquipmentController {
 
     @GetMapping("/byType/{typeOfEquipmentId}")
     public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByTypeOfEquipment(@PathVariable UUID typeOfEquipmentId) {
-        return this.equipmentService.getAllEquipmentByTypeOfEquipment(typeOfEquipmentId);
+        return this.equipmentService.getAllEquipmentByTypeOfEquipment( typeOfEquipmentId );
     }
 
-    // /byLocation/{locationId}
 
+    @GetMapping("/byLocation/{locationId}")
+    public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByLocation(@PathVariable UUID locationId) {
+        return this.equipmentService.getAllEquipmentByLocation( locationId );
+    }
 
 }

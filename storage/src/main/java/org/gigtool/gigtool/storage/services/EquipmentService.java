@@ -156,7 +156,7 @@ public class EquipmentService {
         return ResponseEntity.ok().body( new EquipmentResponse( savedEquipment ));
     }
 
-
+    // TODO @Hendrik Test ob Beziehungen aufgelöst werden nach löschen (TypeOfEquipment und Location)
     public ResponseEntity<EquipmentResponse> deleteEquipment(UUID id) {
 
         Optional<Equipment> foundEquiupment = equipmentRepository.findById(id);
@@ -174,7 +174,18 @@ public class EquipmentService {
 
     public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByTypeOfEquipment( UUID typeOfEquipmentId ) {
 
-        List<Equipment> equipmentList = equipmentRepository.findByTypeOfEquipmentId(typeOfEquipmentId);
+        List<Equipment> equipmentList = equipmentRepository.findByTypeOfEquipmentId( typeOfEquipmentId );
+
+        List<EquipmentResponse> responseList = equipmentList
+                .stream().map(EquipmentResponse::new).toList();
+
+        return ResponseEntity.status(200).body( responseList );
+    }
+
+
+    public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByLocation( UUID locationId ) {
+
+        List<Equipment> equipmentList = equipmentRepository.findByLocationId( locationId );
 
         List<EquipmentResponse> responseList = equipmentList
                 .stream().map(EquipmentResponse::new).toList();

@@ -28,8 +28,8 @@ public class Location {
     private Address address;
     @OneToOne
     private TypeOfLocation typeOfLocation;
-    @OneToMany
-    private List<Equipment> equipments;
+/*    @OneToMany
+    private List<Equipment> equipments;*/ //undirektional //TODO Test und dann entfernen
 
     public Location(Address address, TypeOfLocation typeOfLocation) {
         this.address = address;
