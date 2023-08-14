@@ -91,6 +91,7 @@ public class Calc {
      * @return the total weight of the equipment
      * @throws IllegalArgumentException if the equipment list is null or empty
      */
+    // TODO zu Happening
     public static int calcWeight(EquipmentList equipmentList){
 
         if (equipmentList == null) {
@@ -121,6 +122,7 @@ public class Calc {
      * Uses getEquipment to get the all Instruments from the EquipmentList and sum up their prices to return the totalCosts.
      * @return the total costs (float)
      */
+    // TODO zu Happening
     public static float calcTotalCosts(EquipmentList equipmentList){
 
         int result = 0;
@@ -145,6 +147,7 @@ public class Calc {
      * This method collects all Locations from the equipment-list
      * @return Array List with the locations
      */
+    // TODO zu Equipment
     public static ArrayList<Location> getEquipmentLocation(EquipmentList equipmentList){
 
         ArrayList<Location> locations = new ArrayList<>();
@@ -158,7 +161,7 @@ public class Calc {
 
         return locations;
     }
-
+    // TODO zu Locations
     public static ArrayList<Location> sortLocationsByTypeOfLocationName(ArrayList<Location> locations){
 
         locations.sort(((o1, o2) -> o1.getTypeOfLocation().getName().compareToIgnoreCase(o2.getTypeOfLocation().getName())));

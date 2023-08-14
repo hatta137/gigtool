@@ -28,7 +28,7 @@ public abstract class Happening {
     @OneToOne
     private Timeslot timeslot;
 
-    //TODO Ersetzen durch OneToMany List<Equipment>
+    //TODO Ersetzen durch OneToMany List<Equipment> listOfEquipment
     @Transient
     private final EquipmentList listOfEquipment = new EquipmentList();
 

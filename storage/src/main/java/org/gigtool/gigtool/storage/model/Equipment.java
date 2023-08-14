@@ -4,11 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.gigtool.gigtool.storage.services.Calc;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.Optional;
 import java.util.UUID;
 
 /***
