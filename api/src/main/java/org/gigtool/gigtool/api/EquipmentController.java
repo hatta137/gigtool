@@ -24,7 +24,7 @@ public class EquipmentController {
     }
 
     @PostMapping
-    public ResponseEntity<EquipmentResponse> addEquipment( @RequestBody EquipmentCreate equipmentCreate ) {
+    public ResponseEntity<?> addEquipment( @RequestBody EquipmentCreate equipmentCreate ) {
         return this.equipmentService.addEquipment( equipmentCreate );
     }
 

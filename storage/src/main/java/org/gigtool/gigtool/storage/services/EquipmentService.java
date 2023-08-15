@@ -1,14 +1,11 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.model.TypeOfEquipment;
 import org.gigtool.gigtool.storage.repositories.EquipmentRepository;
 import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.repositories.TypeOfEquipmentRepository;
-import org.gigtool.gigtool.storage.services.model.AddressCreate;
-import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.gigtool.gigtool.storage.services.model.EquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.ErrorResponse;
 
-import java.io.Console;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
+//TODO Kommentare der Funktionen + Allg. Klasse
 @Service
 public class EquipmentService {
 
@@ -42,7 +34,7 @@ public class EquipmentService {
 
     //TODO @Hendrik Fehlermeldung Check
     @Transactional
-    public ResponseEntity<EquipmentResponse> addEquipment( EquipmentCreate equipmentCreate ) {
+    public ResponseEntity<?> addEquipment( EquipmentCreate equipmentCreate ) {
 
         TypeOfEquipment typeOfEquipment = typeOfEquipmentRepository.findById( equipmentCreate.getTypeOfEquipmentId() )
                 .orElseThrow(() -> new IllegalArgumentException("Type of equipment not found"));
@@ -51,15 +43,11 @@ public class EquipmentService {
                 .orElseThrow(() -> new IllegalArgumentException("Location not found"));
 
         if (equipmentCreate.getName() == null || equipmentCreate.getDescription() == null ||
-                equipmentCreate.getTypeOfEquipmentId() == null || equipmentCreate.getLocationId() == null) {
-
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        if (equipmentCreate.getWeight() <= 0 || equipmentCreate.getLength() <= 0 ||
+                equipmentCreate.getWeight() <= 0 || equipmentCreate.getLength() <= 0 ||
                 equipmentCreate.getWidth() <= 0 || equipmentCreate.getHeight() <= 0 ||
                 equipmentCreate.getPrice() <= 0) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+            return ResponseEntity.badRequest().body("Invalid equipment information provided.");
         }
 
         Equipment equipment = new Equipment(

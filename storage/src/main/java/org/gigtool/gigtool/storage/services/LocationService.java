@@ -33,26 +33,23 @@ public class LocationService {
     }
 
     @Transactional
-    public ResponseEntity<LocationResponse> addLocation( LocationCreate locationCreate ) {
+    public ResponseEntity<LocationResponse> addLocation(LocationCreate locationCreate) {
 
         if (locationCreate.getAddressId() == null || locationCreate.getTypeOfLocationId() == null) {
-            // If any required information is missing, return a bad request response
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<Address> address = addressRepository.findById( locationCreate.getAddressId() );
+        Address address = addressRepository.findById(locationCreate.getAddressId())
+                .orElseThrow(() -> new IllegalArgumentException("Address not found with id: " + locationCreate.getAddressId()));
 
-        Optional<TypeOfLocation> typeOfLocation = typeOfLocationRepository.findById( locationCreate.getTypeOfLocationId() );
+        TypeOfLocation typeOfLocation = typeOfLocationRepository.findById(locationCreate.getTypeOfLocationId())
+                .orElseThrow(() -> new IllegalArgumentException("Type of location not found with id: " + locationCreate.getTypeOfLocationId()));
 
-        //TODO @Hendrik isPresent Check
-        Location location = new Location(
-                address.get(),
-                typeOfLocation.get()
-        );
+        Location location = new Location(address, typeOfLocation);
 
-        Location savedLocation = locationRepository.saveAndFlush( location );
+        Location savedLocation = locationRepository.saveAndFlush(location);
 
-        return ResponseEntity.accepted().body( new LocationResponse( savedLocation ));
+        return ResponseEntity.accepted().body(new LocationResponse(savedLocation));
     }
 
     public ResponseEntity<List<LocationResponse>> getAllLocation() {

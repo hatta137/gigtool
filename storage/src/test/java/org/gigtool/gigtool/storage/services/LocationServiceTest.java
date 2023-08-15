@@ -34,7 +34,14 @@ public class LocationServiceTest {
     @Transactional
     public void setup() {
 
-        typeOfLocationToSave = TestUtils.getRandomTypeOfLocationCreate();
+        TestUtils testUtils = new TestUtils(addressService, typeOfLocationService);
+
+        locationToSave = new LocationCreate(
+                testUtils.getRandomTypeOfLocationResponse().getBody().getId(),
+                testUtils.getRandomAddressResponse().getBody().getId()
+        );
+
+/*        typeOfLocationToSave = TestUtils.getRandomTypeOfLocationCreate();
         addressToSave = TestUtils.getRandomAddressCreate();
 
         savedTypeOfLocation =  typeOfLocationService.addTypeOfLocation( typeOfLocationToSave );
@@ -43,7 +50,7 @@ public class LocationServiceTest {
         locationToSave = new LocationCreate(
                 savedTypeOfLocation.getBody().getId(),
                 savedAddress.getBody().getId()
-        );
+        );*/
 
     }
 
