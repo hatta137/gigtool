@@ -39,4 +39,9 @@ public class RoleInTheBandController {
     public ResponseEntity<RoleInTheBandResponse> updateRoleInTheBand(@PathVariable UUID id, @RequestBody RoleInTheBandRequest roleRequest) {
         return this.roleInTheBandService.updateRoleInTheBand(id, roleRequest);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRoleInTheBand(@PathVariable UUID id) {
+        return this.roleInTheBandService.deleteRoleInTheBand(id);
+    }
 }

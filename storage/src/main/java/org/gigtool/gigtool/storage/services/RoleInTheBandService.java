@@ -83,5 +83,22 @@ public class RoleInTheBandService {
         return ResponseEntity.ok(new RoleInTheBandResponse(savedRole));
     }
 
+    public ResponseEntity<String> deleteRoleInTheBand(UUID id) {
+
+        if (id == null) {
+            return ResponseEntity.badRequest().body("No ID");
+        }
+
+        Optional<RoleInTheBand> existingRole = roleInTheBandRepository.findById(id);
+
+        if (existingRole.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        roleInTheBandRepository.delete(existingRole.get());
+
+        return ResponseEntity.ok("RoleInTheBand is deleted");
+    }
+
 
 }
