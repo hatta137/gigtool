@@ -22,6 +22,7 @@ public abstract class Happening {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
     @ManyToOne
     private Address address;
