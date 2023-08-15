@@ -19,18 +19,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class AddressServiceTest {
 
-
-
     @Autowired
     private AddressService addressService;
-
-
     private AddressCreate addressToSave;
     private ResponseEntity<AddressResponse> savedAddress;
     private UUID savedAddressId;
     @BeforeEach
     public void setup() {
-        addressToSave = getRandomAddressCreate();
+        addressToSave = TestUtils.getRandomAddressCreate();
         savedAddress = addressService.addNewAddress( addressToSave );
         savedAddressId = Objects.requireNonNull(savedAddress.getBody()).getId();
     }
@@ -63,27 +59,29 @@ public class AddressServiceTest {
     @Test
     public void testGetAllAddresses() {
 
-        AddressCreate addressToSave1 = getRandomAddressCreate();
-        AddressCreate addressToSave2 = getRandomAddressCreate();
-        AddressCreate addressToSave3 = getRandomAddressCreate();
-        AddressCreate addressToSave4 = getRandomAddressCreate();
+        AddressCreate addressToSave1 = TestUtils.getRandomAddressCreate();
+        AddressCreate addressToSave2 = TestUtils.getRandomAddressCreate();
+
 
         ResponseEntity<AddressResponse> savedAddress1 = addressService.addNewAddress( addressToSave1 );
         ResponseEntity<AddressResponse> savedAddress2 = addressService.addNewAddress( addressToSave2 );
-        ResponseEntity<AddressResponse> savedAddress3 = addressService.addNewAddress( addressToSave3 );
-        ResponseEntity<AddressResponse> savedAddress4 = addressService.addNewAddress( addressToSave4 );
 
         ResponseEntity<List<AddressResponse>> savedAddressList = addressService.getAllAddress();
 
         assertNotNull(savedAddressList);
         assertFalse(Objects.requireNonNull(savedAddressList.getBody()).isEmpty());
 
-        assertEquals(5, savedAddressList.getBody().size());
+        assertEquals(3, savedAddressList.getBody().size());
 
-        assertEquals(addressToSave1.getStreet(), savedAddressList.getBody().get(1).getStreet());
-        assertEquals(addressToSave1.getCity(), savedAddressList.getBody().get(1).getCity());
-        assertEquals(addressToSave1.getZipCode(), savedAddressList.getBody().get(1).getZipCode());
-        assertEquals(addressToSave1.getCountry(), savedAddressList.getBody().get(1).getCountry());
+        assertEquals(addressToSave1.getStreet(),    savedAddressList.getBody().get(1).getStreet());
+        assertEquals(addressToSave1.getCity(),      savedAddressList.getBody().get(1).getCity());
+        assertEquals(addressToSave1.getZipCode(),   savedAddressList.getBody().get(1).getZipCode());
+        assertEquals(addressToSave1.getCountry(),   savedAddressList.getBody().get(1).getCountry());
+
+        assertEquals(addressToSave2.getStreet(),    savedAddressList.getBody().get(2).getStreet());
+        assertEquals(addressToSave2.getCity(),      savedAddressList.getBody().get(2).getCity());
+        assertEquals(addressToSave2.getZipCode(),   savedAddressList.getBody().get(2).getZipCode());
+        assertEquals(addressToSave2.getCountry(),   savedAddressList.getBody().get(2).getCountry());
     }
 
     @Test
@@ -101,7 +99,7 @@ public class AddressServiceTest {
         //negativ Test
         UUID randomUUID = UUID.randomUUID();
 
-        while( randomUUID == savedAddressId) {
+        while( randomUUID == savedAddressId ) {
             randomUUID = UUID.randomUUID();
         }
 
@@ -110,19 +108,36 @@ public class AddressServiceTest {
         assertNull(falseAddressInDatabaseById.getBody());
     }
 
-    @Test //TODO @ Hendrik
-    public void testDeleteAddress() {
+    @Test
+    public void testUpdateAddress() {
+
+        AddressCreate updateForAddress = new AddressCreate(
+                12,
+                "newStreet",
+                null,
+                null,
+                null
+        );
+
+        ResponseEntity<AddressResponse> updatedAddress = addressService.updateAddress(savedAddressId, updateForAddress);
+
+        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getId(), Objects.requireNonNull(updatedAddress.getBody()).getId());
+        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getHouseNumber(), Objects.requireNonNull(updatedAddress.getBody()).getHouseNumber());
+        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getStreet(), Objects.requireNonNull(updatedAddress.getBody()).getStreet());
+        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getZipCode(), Objects.requireNonNull(updatedAddress.getBody()).getZipCode());
+        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getCountry(), Objects.requireNonNull(updatedAddress.getBody()).getCountry());
+        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getCity(), Objects.requireNonNull(updatedAddress.getBody()).getCity());
+
+
 
     }
 
-    public static AddressCreate getRandomAddressCreate() {
-        Random random = new Random();
-        return new AddressCreate(
-                random.nextInt(100),
-                UUID.randomUUID() + "street",
-                UUID.randomUUID() + "zipcode",
-                UUID.randomUUID() + "country",
-                UUID.randomUUID() + "city"
-        );
+    @Test
+    public void testDeleteAddress() {
+
+        ResponseEntity<AddressResponse> deletedAddress = addressService.deleteAddress( savedAddressId );
+
+        assertNull(deletedAddress.getBody());
+
     }
 }

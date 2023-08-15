@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
+//TODO Kommentare der Funktionen + Allg. Klasse
 @Service
 public class AddressService {
 

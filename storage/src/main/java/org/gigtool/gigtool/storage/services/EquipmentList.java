@@ -8,7 +8,7 @@ import java.util.Optional;
 
 
 /***
- * Author: Hendrik Lendeckel
+ * @author Hendrik Lendeckel
  * This class represents a listing of equipment. The total weight is also calculated on this list
  */
 

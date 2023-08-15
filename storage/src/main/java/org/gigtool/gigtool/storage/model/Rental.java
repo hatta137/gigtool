@@ -17,7 +17,7 @@ import java.util.UUID;
  * Author: Hendrik Lendeckel
  * This class represents a loan of equipment.
  */
-// TODO extends muss raus, da Datenbank
+
 @Entity
 @NoArgsConstructor
 @Getter
@@ -28,7 +28,6 @@ public class Rental extends Happening {
     private UUID id;
     private String responsiblePerson;
     private LocalDate returnDate;
-    //TODO OneToOne Happening
 
     public Rental(String name, String description, Address address, Timeslot timeslot, String responsiblePerson, LocalDate returnDate) {
         super(name, description, address, timeslot);

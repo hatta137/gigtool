@@ -11,6 +11,7 @@ import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class LocationService {
 
     private final LocationRepository locationRepository;
@@ -30,6 +32,7 @@ public class LocationService {
         this.typeOfLocationRepository = typeOfLocationRepository;
     }
 
+    @Transactional
     public ResponseEntity<LocationResponse> addLocation( LocationCreate locationCreate ) {
 
         if (locationCreate.getAddressId() == null || locationCreate.getTypeOfLocationId() == null) {
