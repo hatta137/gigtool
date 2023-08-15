@@ -121,13 +121,18 @@ public class AddressServiceTest {
 
         ResponseEntity<AddressResponse> updatedAddress = addressService.updateAddress(savedAddressId, updateForAddress);
 
-        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getId(), Objects.requireNonNull(updatedAddress.getBody()).getId());
-        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getHouseNumber(), Objects.requireNonNull(updatedAddress.getBody()).getHouseNumber());
-        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getStreet(), Objects.requireNonNull(updatedAddress.getBody()).getStreet());
-        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getZipCode(), Objects.requireNonNull(updatedAddress.getBody()).getZipCode());
-        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getCountry(), Objects.requireNonNull(updatedAddress.getBody()).getCountry());
-        assertEquals(Objects.requireNonNull(updatedAddress.getBody()).getCity(), Objects.requireNonNull(updatedAddress.getBody()).getCity());
+        assertEquals(updatedAddress.getBody().getId(),          updatedAddress.getBody().getId());
+        assertEquals(updatedAddress.getBody().getHouseNumber(), updatedAddress.getBody().getHouseNumber());
+        assertEquals(updatedAddress.getBody().getStreet(),      updatedAddress.getBody().getStreet());
+        assertEquals(updatedAddress.getBody().getZipCode(),     updatedAddress.getBody().getZipCode());
+        assertEquals(updatedAddress.getBody().getCountry(),     updatedAddress.getBody().getCountry());
+        assertEquals(updatedAddress.getBody().getCity(),        updatedAddress.getBody().getCity());
 
+        assertEquals(updatedAddress.getBody().getHouseNumber(), 12);
+        assertEquals(updatedAddress.getBody().getStreet(), "newStreet");
+        assertEquals(updatedAddress.getBody().getZipCode(),     savedAddress.getBody().getZipCode());
+        assertEquals(updatedAddress.getBody().getCountry(),     savedAddress.getBody().getCountry());
+        assertEquals(updatedAddress.getBody().getCity(),        savedAddress.getBody().getCity());
 
 
     }
