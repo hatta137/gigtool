@@ -8,9 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-import java.util.Random;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,8 +22,28 @@ public class LocationServiceTest {
     @Autowired
     private AddressService addressService;
 
+    private TypeOfLocationCreate typeOfLocationToSave;
+    private AddressCreate addressToSave;
+
+    ResponseEntity<TypeOfLocationResponse> savedTypeOfLocation;
+    ResponseEntity<AddressResponse> savedAddress;
+
+    private LocationCreate locationToSave;
+
     @BeforeEach
+    @Transactional
     public void setup() {
+
+        typeOfLocationToSave = TestUtils.getRandomTypeOfLocationCreate();
+        addressToSave = TestUtils.getRandomAddressCreate();
+
+        savedTypeOfLocation =  typeOfLocationService.addTypeOfLocation( typeOfLocationToSave );
+        savedAddress = addressService.addNewAddress( addressToSave );
+
+        locationToSave = new LocationCreate(
+                savedTypeOfLocation.getBody().getId(),
+                savedAddress.getBody().getId()
+        );
 
     }
 
@@ -35,18 +52,9 @@ public class LocationServiceTest {
     public void testAddLocation() {
 
 
-        ResponseEntity<TypeOfLocationResponse>  typeOfLocation =    typeOfLocationService.addTypeOfLocation( TestUtils.getRandomTypeOfLocationCreate() );
-        ResponseEntity<AddressResponse> address =           addressService.addNewAddress( TestUtils.getRandomAddressCreate() );
-
-        LocationCreate locationToSave = new LocationCreate(
-                typeOfLocation.getBody().getId(),
-                address.getBody().getId()
-        );
-
         assertNotNull(locationToSave);
 
         ResponseEntity<LocationResponse> savedLocation = locationService.addLocation( locationToSave );
-
 
         assertEquals(savedLocation.getBody().getAddressResponse().getId(), locationToSave.getAddressId());
         System.out.println(savedLocation.getBody());

@@ -89,9 +89,9 @@ public class TypeOfLocationServiceTest {
             randomUUID = UUID.randomUUID();
         }
 
-        ResponseEntity<TypeOfLocationResponse> falseAddressInDatabaseById = typeOfLocationService.getTypeOfLocationById(randomUUID);
+        ResponseEntity<TypeOfLocationResponse> falseTypeOfLocationInDatabaseById = typeOfLocationService.getTypeOfLocationById(randomUUID);
 
-        assertNull(falseAddressInDatabaseById.getBody());
+        assertNull(falseTypeOfLocationInDatabaseById.getBody());
     }
 
     @Test

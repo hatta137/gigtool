@@ -1,6 +1,7 @@
 package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.services.model.AddressCreate;
+import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfLocationCreate;
 
 import java.util.Random;
@@ -21,6 +22,13 @@ public class TestUtils {
 
     public static TypeOfLocationCreate getRandomTypeOfLocationCreate() {
         return new TypeOfLocationCreate(
+                UUID.randomUUID() + "name",
+                UUID.randomUUID() + "description"
+        );
+    }
+
+    public static TypeOfEquipmentCreate getRandomTypeOfEquipmentCreate() {
+        return new TypeOfEquipmentCreate(
                 UUID.randomUUID() + "name",
                 UUID.randomUUID() + "description"
         );
