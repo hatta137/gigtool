@@ -8,7 +8,6 @@ import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.repositories.TypeOfLocationRepository;
 import org.gigtool.gigtool.storage.services.model.LocationCreate;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,13 +83,13 @@ public class LocationService {
         Location locationToUpdate = existingLocation.get();
 
         if (locationCreate.getTypeOfLocationId() != null) {
-
+// TODO isPresent check
             Optional<TypeOfLocation> typeOfLocation = typeOfLocationRepository.findById( locationCreate.getTypeOfLocationId() );
             locationToUpdate.setTypeOfLocation( typeOfLocation.get() );
         }
 
         if (locationCreate.getAddressId() != null) {
-
+// TODO isPresent check
             Optional<Address> address = addressRepository.findById( locationCreate.getAddressId() );
             locationToUpdate.setAddress( address.get() );
         }

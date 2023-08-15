@@ -1,11 +1,9 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.model.TypeOfLocation;
 import org.gigtool.gigtool.storage.repositories.TypeOfLocationRepository;
 import org.gigtool.gigtool.storage.services.model.TypeOfLocationCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfLocationResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class TypeOfLocationService {

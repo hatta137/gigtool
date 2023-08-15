@@ -125,7 +125,7 @@ public class EquipmentService {
         }
         if ( equipmentCreate.getDateOfPurchase() != null ) {
             equipmentToUpdate.setDateOfPurchase(equipmentCreate.getDateOfPurchase());
-        } // TODO isPresent cheeck
+        } // TODO isPresent check
         if ( equipmentCreate.getLocationId() != null ) {
             equipmentToUpdate.setLocation( locationRepository.findById(equipmentCreate.getLocationId()).get());
         }

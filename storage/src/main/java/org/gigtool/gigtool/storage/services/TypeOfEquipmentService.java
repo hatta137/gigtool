@@ -1,11 +1,9 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.model.TypeOfEquipment;
 import org.gigtool.gigtool.storage.repositories.TypeOfEquipmentRepository;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +35,7 @@ public class TypeOfEquipmentService {
         TypeOfEquipment savedTypeOfEquipment = typeOfEquipmentRepository.saveAndFlush( typeOfEquipment );
 
         return ResponseEntity.accepted().body( new TypeOfEquipmentResponse( savedTypeOfEquipment ));
-    };
+    }
 
     public ResponseEntity<List<TypeOfEquipmentResponse>> getAllTypeOfEquipment() {
 

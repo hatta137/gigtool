@@ -66,27 +66,6 @@ public class Equipment {
         this.price = price;
     }
 
-    /***
-     * Constructor without the optional param dateOfPurchase
-     */
-    public Equipment(
-            String name,
-            String description,
-            TypeOfEquipment typeOfEquipment,
-            int weight, int length, int width, int height,
-            Location location,
-            float price) {
-
-        this.name = name;
-        this.description = description;
-        this.typeOfEquipment = typeOfEquipment;
-        this.weight = weight;
-        this.length = length;
-        this.width = width;
-        this.height = height;
-        this.location = location;
-        this.price = price;
-    }
 
     // TODO @Hendrik To Happening Service getTotalVolume
     public int getCuboidVolume(){

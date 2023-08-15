@@ -2,7 +2,6 @@ package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.gigtool.gigtool.storage.services.model.AddressCreate;
