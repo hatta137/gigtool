@@ -26,6 +26,7 @@ public class LocationService {
     private final AddressRepository addressRepository;
     private final TypeOfLocationRepository typeOfLocationRepository;
 
+
     public LocationService(LocationRepository locationRepository, AddressRepository addressRepository, TypeOfLocationRepository typeOfLocationRepository) {
         this.locationRepository = locationRepository;
         this.addressRepository = addressRepository;
@@ -68,7 +69,7 @@ public class LocationService {
         Optional<Location> foundLocation = locationRepository.findById( id );
 
         if (foundLocation.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
 
         return ResponseEntity.accepted().body( new LocationResponse( foundLocation.get() ));
     }
@@ -78,7 +79,7 @@ public class LocationService {
         Optional<Location> existingLocation = locationRepository.findById( id );
 
         if (existingLocation.isEmpty())
-            throw new RuntimeException( "Location not found with id: " + id );
+            return ResponseEntity.notFound().build();
 
         Location locationToUpdate = existingLocation.get();
 
@@ -103,9 +104,9 @@ public class LocationService {
 
         Optional<Location> foundLocation = locationRepository.findById( id );
 
-        if (foundLocation.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        if (foundLocation.isEmpty())
+            return ResponseEntity.notFound().build();
+
 
         Location locationToDelete = foundLocation.get();
 

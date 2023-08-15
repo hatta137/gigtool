@@ -41,7 +41,6 @@ public class TypeOfLocationService {
         return ResponseEntity.accepted().body( new TypeOfLocationResponse( savedTypeOfLocation ));
     }
 
-    //TODO @Hendrik finalise CRUD
 
     public ResponseEntity<List<TypeOfLocationResponse>> getAllTypeOfLocation() {
 
@@ -60,7 +59,7 @@ public class TypeOfLocationService {
         Optional<TypeOfLocation> foundTypeOfLocation = typeOfLocationRepository.findById( id );
 
         if (foundTypeOfLocation.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
 
         return ResponseEntity.accepted().body( new TypeOfLocationResponse( foundTypeOfLocation.get() ));
 
@@ -71,7 +70,7 @@ public class TypeOfLocationService {
         Optional<TypeOfLocation> existingTypeOfLocation = typeOfLocationRepository.findById( id );
 
         if (existingTypeOfLocation.isEmpty())
-            throw new RuntimeException("TypeOfLocation not found with id" + id);
+            return ResponseEntity.notFound().build();
 
         TypeOfLocation typeOfLocationToUpdate = existingTypeOfLocation.get();
 
@@ -92,9 +91,9 @@ public class TypeOfLocationService {
 
         Optional<TypeOfLocation> foundTypeOfLocation = typeOfLocationRepository.findById( id );
 
-        if (foundTypeOfLocation.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        if (foundTypeOfLocation.isEmpty())
+            return ResponseEntity.notFound().build();
+
 
         TypeOfLocation typeOfLocationToDelete = foundTypeOfLocation.get();
 

@@ -1,5 +1,6 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,70 +26,110 @@ public class LocationServiceTest {
     private TypeOfLocationService typeOfLocationService;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private TypeOfEquipmentService typeOfEquipmentService;
 
-    private TypeOfLocationCreate typeOfLocationToSave;
-    private AddressCreate addressToSave;
-
-    ResponseEntity<TypeOfLocationResponse> savedTypeOfLocation;
-    ResponseEntity<AddressResponse> savedAddress;
 
     private LocationCreate locationToSave;
+    private ResponseEntity<LocationResponse> savedLocation;
+    private UUID savedLocationId;
+
+    LocationCreate updateForLocation;
+
+
 
     @BeforeEach
     @Transactional
     public void setup() {
-
-        TestUtils testUtils = new TestUtils(addressService, typeOfLocationService);
-
-        locationToSave = new LocationCreate(
-                testUtils.getRandomTypeOfLocationResponse().getBody().getId(),
-                testUtils.getRandomAddressResponse().getBody().getId()
-        );
-
-/*        typeOfLocationToSave = TestUtils.getRandomTypeOfLocationCreate();
-        addressToSave = TestUtils.getRandomAddressCreate();
-
-        savedTypeOfLocation =  typeOfLocationService.addTypeOfLocation( typeOfLocationToSave );
-        savedAddress = addressService.addNewAddress( addressToSave );
-
-        locationToSave = new LocationCreate(
-                savedTypeOfLocation.getBody().getId(),
-                savedAddress.getBody().getId()
-        );*/
-
+        TestUtils testUtils = new TestUtils(addressService, typeOfLocationService, typeOfEquipmentService);
+        locationToSave = testUtils.getRandomLocationCreate();
+        savedLocation = locationService.addLocation( locationToSave );
+        savedLocationId = savedLocation.getBody().getId();
+        updateForLocation = testUtils.getRandomLocationCreate();
     }
 
     @Test
     @Transactional
     public void testAddLocation() {
 
+        assertEquals(locationToSave.getAddressId(), savedLocation.getBody().getAddressResponse().getId());
+        assertEquals(locationToSave.getTypeOfLocationId(), savedLocation.getBody().getTypeOfLocationResponse().getId());
 
-        assertNotNull(locationToSave);
+        LocationCreate incompleteLocation = new LocationCreate(
+                null,
+                null
+        );
 
-        ResponseEntity<LocationResponse> savedLocation = locationService.addLocation( locationToSave );
+        ResponseEntity<LocationResponse> negativeResult = locationService.addLocation( incompleteLocation );
 
-        assertEquals(savedLocation.getBody().getAddressResponse().getId(), locationToSave.getAddressId());
-        System.out.println(savedLocation.getBody());
-
+        assertFalse(negativeResult.getStatusCode().is2xxSuccessful());
     }
 
     @Test
     public void getAllLocation() {
+
+        LocationCreate locationToSave1 = TestUtils.getRandomLocationCreate();
+        LocationCreate locationToSave2 = TestUtils.getRandomLocationCreate();
+
+        ResponseEntity<LocationResponse> savedLocation1 = locationService.addLocation(locationToSave1);
+        ResponseEntity<LocationResponse> savedLocation2 = locationService.addLocation(locationToSave2);
+
+        ResponseEntity<List<LocationResponse>> savedLocationList = locationService.getAllLocation();
+
+        assertNotNull(savedLocationList);
+        assertFalse(Objects.requireNonNull(savedLocationList.getBody()).isEmpty());
+
+        assertEquals(3, savedLocationList.getBody().size());
+
+        assertEquals(locationToSave1.getTypeOfLocationId(), savedLocationList.getBody().get(1).getTypeOfLocationResponse().getId());
+        assertEquals(locationToSave1.getAddressId(), savedLocationList.getBody().get(1).getAddressResponse().getId());
+
+        assertEquals(locationToSave2.getTypeOfLocationId(), savedLocationList.getBody().get(2).getTypeOfLocationResponse().getId());
+        assertEquals(locationToSave2.getAddressId(), savedLocationList.getBody().get(2).getAddressResponse().getId());
 
     }
 
     @Test
     public void getLocationById() {
 
+        // positiver Test
+        ResponseEntity<LocationResponse> locationInDatabaseById = locationService.getLocationById(savedLocationId);
+
+        assertEquals(Objects.requireNonNull(locationInDatabaseById.getBody()).getId(), Objects.requireNonNull(savedLocation.getBody()).getId());
+        assertEquals(locationInDatabaseById.getBody().getTypeOfLocationResponse().getId(), savedLocation.getBody().getTypeOfLocationResponse().getId());
+        assertEquals(locationInDatabaseById.getBody().getAddressResponse().getId(), savedLocation.getBody().getAddressResponse().getId());
+
+// negativer Test
+        UUID randomUUID = UUID.randomUUID();
+
+        while (randomUUID.equals(savedLocationId)) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<LocationResponse> falseLocationInDatabaseById = locationService.getLocationById(randomUUID);
+
+        assertNull(falseLocationInDatabaseById.getBody());
     }
 
     @Test
     public void updateLocation() {
+
+        ResponseEntity<LocationResponse> updatedLocation = locationService.updateLocation(savedLocationId, updateForLocation);
+
+        assertEquals(updatedLocation.getBody().getTypeOfLocationResponse().getId(), updateForLocation.getTypeOfLocationId());
+        assertEquals(updatedLocation.getBody().getAddressResponse().getId(),        updateForLocation.getAddressId());
+
+
+        assertEquals(updatedLocation.getBody().getTypeOfLocationResponse().getId(), updateForLocation.getTypeOfLocationId());
+        assertEquals(updatedLocation.getBody().getAddressResponse().getId(),        updateForLocation.getAddressId());
 
     }
 
     @Test
     public void deleteLocation() {
 
+        ResponseEntity<LocationResponse> deletedLocation = locationService.deleteLocation( savedLocationId );
+
+        assertNull(deletedLocation.getBody());
     }
 }

@@ -34,13 +34,13 @@ public class AddressServiceTest {
     @Test
     public void testAddAddress() {
 
-        assertEquals(addressToSave.getStreet(), Objects.requireNonNull(addressService.getAddressById( savedAddressId ).getBody()).getStreet());
+        assertEquals(addressToSave.getStreet(), addressService.getAddressById( savedAddressId ).getBody().getStreet());
 
-        assertEquals(Objects.requireNonNull(savedAddress.getBody()).getCity(), addressToSave.getCity());
-        assertEquals(savedAddress.getBody().getCountry(), addressToSave.getCountry());
-        assertEquals(savedAddress.getBody().getZipCode(), addressToSave.getZipCode());
-        assertEquals(savedAddress.getBody().getHouseNumber(), addressToSave.getHouseNumber());
-        assertEquals(savedAddress.getBody().getStreet(), addressToSave.getStreet());
+        assertEquals(savedAddress.getBody().getCity(),          addressToSave.getCity());
+        assertEquals(savedAddress.getBody().getCountry(),       addressToSave.getCountry());
+        assertEquals(savedAddress.getBody().getZipCode(),       addressToSave.getZipCode());
+        assertEquals(savedAddress.getBody().getHouseNumber(),   addressToSave.getHouseNumber());
+        assertEquals(savedAddress.getBody().getStreet(),        addressToSave.getStreet());
 
         // Negative Test: Try adding an address with missing information
         AddressCreate incompleteAddress = new AddressCreate(
@@ -133,8 +133,6 @@ public class AddressServiceTest {
         assertEquals(updatedAddress.getBody().getZipCode(),     savedAddress.getBody().getZipCode());
         assertEquals(updatedAddress.getBody().getCountry(),     savedAddress.getBody().getCountry());
         assertEquals(updatedAddress.getBody().getCity(),        savedAddress.getBody().getCity());
-
-
     }
 
     @Test

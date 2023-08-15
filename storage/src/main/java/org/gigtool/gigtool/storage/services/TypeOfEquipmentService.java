@@ -56,7 +56,7 @@ public class TypeOfEquipmentService {
         Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
         if (foundTypeOfEquipment.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
 
         return ResponseEntity.accepted().body( new TypeOfEquipmentResponse( foundTypeOfEquipment.get() ));
     }
@@ -65,9 +65,9 @@ public class TypeOfEquipmentService {
 
         Optional<TypeOfEquipment> existingTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
-        if (existingTypeOfEquipment.isEmpty()) {
-            throw new RuntimeException("TypeOfEquipment not found with id: " + id);
-        }
+        if (existingTypeOfEquipment.isEmpty())
+            return ResponseEntity.notFound().build();
+
 
         TypeOfEquipment typeOfEquipmentToUpdate = existingTypeOfEquipment.get();
 
@@ -87,9 +87,9 @@ public class TypeOfEquipmentService {
 
         Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
-        if (foundTypeOfEquipment.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        if (foundTypeOfEquipment.isEmpty())
+            return ResponseEntity.notFound().build();
+
 
         TypeOfEquipment typeOfEquipmentToDelete = foundTypeOfEquipment.get();
 

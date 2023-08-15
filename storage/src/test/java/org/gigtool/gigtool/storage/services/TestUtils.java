@@ -1,10 +1,10 @@
 package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.services.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Random;
 import java.util.UUID;
 
@@ -13,11 +13,14 @@ public class TestUtils {
 
     private static AddressService addressService;
     private static TypeOfLocationService typeOfLocationService;
+    private static TypeOfEquipmentService typeOfEquipmentService;
 
-    public TestUtils(AddressService addressService, TypeOfLocationService typeOfLocationService) {
+    public TestUtils(AddressService addressService, TypeOfLocationService typeOfLocationService, TypeOfEquipmentService typeOfEquipmentService) {
         TestUtils.addressService = addressService;
         TestUtils.typeOfLocationService = typeOfLocationService;
+        TestUtils.typeOfEquipmentService = typeOfEquipmentService;
     }
+
     public static ResponseEntity<AddressResponse> getRandomAddressResponse() {
 
         AddressCreate addressToSave = getRandomAddressCreate();
@@ -32,6 +35,17 @@ public class TestUtils {
         return typeOfLocationService.addTypeOfLocation( typeOfLocationToSave );
     }
 
+    public static ResponseEntity<TypeOfEquipmentResponse> getRandomTypeOfEquipmentResponse() {
+
+        return typeOfEquipmentService.addTypeOfEquipment( getRandomTypeOfEquipmentCreate() );
+    }
+
+    public static LocationCreate getRandomLocationCreate() {
+        return new LocationCreate(
+                getRandomAddressResponse().getBody().getId(),
+                getRandomTypeOfLocationResponse().getBody().getId()
+        );
+    }
 
     public static AddressCreate getRandomAddressCreate() {
         Random random = new Random();
@@ -55,6 +69,22 @@ public class TestUtils {
         return new TypeOfEquipmentCreate(
                 UUID.randomUUID() + "name",
                 UUID.randomUUID() + "description"
+        );
+    }
+
+    public static EquipmentCreate getRandomEquipmentCreate() {
+        Random random = new Random();
+        return new EquipmentCreate(
+                UUID.randomUUID() + "name",
+                UUID.randomUUID() + "description",
+                getRandomTypeOfEquipmentResponse().getBody().getId(),
+                random.nextInt(100),
+                random.nextInt(100),
+                random.nextInt(100),
+                random.nextInt(100),
+                LocalDate.of(2020, 2, 2),
+                getRandomTypeOfLocationResponse().getBody().getId(),
+                random.nextFloat(100)
         );
     }
 }

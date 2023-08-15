@@ -32,7 +32,7 @@ public class EquipmentService {
         this.locationRepository = locationRepository;
     }
 
-    //TODO @Hendrik Fehlermeldung Check
+    //TODO @Hendrik Fehlermeldung einbauen
     @Transactional
     public ResponseEntity<?> addEquipment( EquipmentCreate equipmentCreate ) {
 
