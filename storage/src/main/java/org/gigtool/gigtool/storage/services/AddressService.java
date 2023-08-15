@@ -9,7 +9,6 @@ import org.gigtool.gigtool.storage.services.model.AddressCreate;
 import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,7 +47,7 @@ public class AddressService {
         return ResponseEntity.accepted().body( new AddressResponse( savedAddress ));
     }
 
-    public ResponseEntity<List<AddressResponse>> getAllAddresses() {
+    public ResponseEntity<List<AddressResponse>> getAllAddress() {
 
         List<Address> addressesList = addressRepository.findAll();
 
@@ -70,6 +69,7 @@ public class AddressService {
         return ResponseEntity.accepted().body( new AddressResponse( foundAddress.get() ));
     }
 
+    @Transactional
     public ResponseEntity<AddressResponse> updateAddress( UUID id, AddressCreate addressCreate ) {
 
         Optional<Address> existingAddress = addressRepository.findById( id );

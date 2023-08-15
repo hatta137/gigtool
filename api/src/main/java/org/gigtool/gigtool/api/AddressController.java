@@ -28,7 +28,7 @@ public class AddressController {
 
     @GetMapping
     public ResponseEntity<List<AddressResponse>> getAllAddress() {
-        return this.addressService.getAllAddresses();
+        return this.addressService.getAllAddress();
     }
 
     @GetMapping("/{id}")
