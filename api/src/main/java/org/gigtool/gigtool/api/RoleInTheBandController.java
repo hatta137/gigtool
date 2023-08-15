@@ -2,7 +2,6 @@ package org.gigtool.gigtool.api;
 
 import org.gigtool.gigtool.storage.services.RoleInTheBandService;
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandCreate;
-import org.gigtool.gigtool.storage.services.model.RoleInTheBandRequest;
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class RoleInTheBandController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoleInTheBandResponse> updateRoleInTheBand(@PathVariable UUID id, @RequestBody RoleInTheBandRequest roleRequest) {
+    public ResponseEntity<RoleInTheBandResponse> updateRoleInTheBand(@PathVariable UUID id, @RequestBody RoleInTheBandCreate roleRequest) {
         return this.roleInTheBandService.updateRoleInTheBand(id, roleRequest);
     }
 

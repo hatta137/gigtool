@@ -3,7 +3,6 @@ package org.gigtool.gigtool.storage.services;
 import org.gigtool.gigtool.storage.model.RoleInTheBand;
 import org.gigtool.gigtool.storage.repositories.RoleInTheBandRepository;
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandCreate;
-import org.gigtool.gigtool.storage.services.model.RoleInTheBandRequest;
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -56,7 +55,7 @@ public class RoleInTheBandService {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<RoleInTheBandResponse> updateRoleInTheBand(UUID roleId, RoleInTheBandRequest roleRequest) {
+    public ResponseEntity<RoleInTheBandResponse> updateRoleInTheBand(UUID roleId, RoleInTheBandCreate roleRequest) {
 
         if (roleId == null) {
             return ResponseEntity.badRequest().build();
