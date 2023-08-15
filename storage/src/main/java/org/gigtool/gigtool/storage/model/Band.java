@@ -25,8 +25,8 @@ public class Band {
     private Genre genre;
     @OneToMany
     private final ArrayList<RoleInTheBand>    listOfRole = new ArrayList<>();
-    @Transient
-    private EquipmentList               equipmentList = new EquipmentList();
+    @OneToMany
+    private ArrayList<Equipment> equipmentList;
 
     /**
      * Constructor with all attributes. Instead of a complete arraylist RoleInTheBand, only the main - Role must be specified
@@ -42,7 +42,7 @@ public class Band {
 
         this.listOfRole.add(mainRoleInTheBand);
 
-        this.equipmentList = new EquipmentList();
+        this.equipmentList = new ArrayList<>();
     }
 
     /**
@@ -58,7 +58,7 @@ public class Band {
 
         this.genre = new Genre("keine Angabe", "-");
 
-        this.equipmentList = new EquipmentList();
+        this.equipmentList = new ArrayList<>();
     }
 
     /**
@@ -69,7 +69,7 @@ public class Band {
      * @return the updated equipment list after the equipment object has been added.
      * @throws IllegalArgumentException if the equipment object is null.
      */
-    public EquipmentList addEquipment(Equipment equipment){
+    public ArrayList<Equipment> addEquipment(Equipment equipment){
 
         if (equipment == null) {
 
@@ -77,12 +77,13 @@ public class Band {
         }
 
         //TODO @Dario Inventory gibts nicht mehr, da Datenbank
+        //checken ob es das equipmentb allgemein schon gibt in der equipment tabbelle
 /*        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
 
             Inventory.getInstance().getEquipmentList().addEquipment(equipment);
         }*/
 
-        this.equipmentList.getListOfEquipment().add(equipment);
+        this.equipmentList.add(equipment);
 
         return this.equipmentList;
     }
@@ -93,14 +94,14 @@ public class Band {
      * @return the updatet EquipmentList
      */
 
-    public EquipmentList deleteEquipment(Equipment equipment){
+    public ArrayList<Equipment> deleteEquipment(Equipment equipment){
 
         if (equipment == null) {
 
             throw new IllegalArgumentException("Equipment cannot be null.");
         }
 
-        this.equipmentList.getListOfEquipment().remove(equipment);
+        this.equipmentList.remove(equipment);
 
         return this.equipmentList;
     }
