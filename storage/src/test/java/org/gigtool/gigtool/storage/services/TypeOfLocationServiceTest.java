@@ -109,8 +109,8 @@ public class TypeOfLocationServiceTest {
 
         ResponseEntity<TypeOfLocationResponse> updatedTypeOfLocation = typeOfLocationService.updateTypeOfLocation(savedTypeOfLocationId, updateForTypeOfLocation);
 
-        assertEquals(Objects.requireNonNull(savedTypeOfLocation.getBody()).getId(),           Objects.requireNonNull(updatedTypeOfLocation.getBody()).getId());
-        assertEquals(savedTypeOfLocation.getBody().getDescription(),  Objects.requireNonNull(updatedTypeOfLocation.getBody()).getDescription());
+        assertEquals(Objects.requireNonNull(typeOfLocationBeforeUpdate.getBody()).getId(), Objects.requireNonNull(updatedTypeOfLocation.getBody()).getId());
+        assertEquals(typeOfLocationBeforeUpdate.getBody().getDescription(),         Objects.requireNonNull(updatedTypeOfLocation.getBody()).getDescription());
 
         assertEquals(updatedTypeOfLocation.getBody().getName(), "name");
     }
