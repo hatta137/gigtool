@@ -20,6 +20,7 @@ public class Gig extends Happening {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    //eig doch many to one?
     @OneToOne
     private TypeOfGig typeOfGig;
     @ManyToOne
