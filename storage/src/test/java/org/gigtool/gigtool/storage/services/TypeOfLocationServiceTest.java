@@ -37,7 +37,7 @@ public class TypeOfLocationServiceTest {
     @Transactional
     public void testAddTypeOfLocation() {
 
-        assertEquals(savedTypeOfLocation.getBody().getName(),       typeOfLocationToSave.getName());
+        assertEquals(Objects.requireNonNull(savedTypeOfLocation.getBody()).getName(),       typeOfLocationToSave.getName());
         assertEquals(savedTypeOfLocation.getBody().getDescription(),typeOfLocationToSave.getDescription());
 
         // Negative Test: Try adding an address with missing information
@@ -109,7 +109,7 @@ public class TypeOfLocationServiceTest {
 
         ResponseEntity<TypeOfLocationResponse> updatedTypeOfLocation = typeOfLocationService.updateTypeOfLocation(savedTypeOfLocationId, updateForTypeOfLocation);
 
-        assertEquals(savedTypeOfLocation.getBody().getId(),           Objects.requireNonNull(updatedTypeOfLocation.getBody()).getId());
+        assertEquals(Objects.requireNonNull(savedTypeOfLocation.getBody()).getId(),           Objects.requireNonNull(updatedTypeOfLocation.getBody()).getId());
         assertEquals(savedTypeOfLocation.getBody().getDescription(),  Objects.requireNonNull(updatedTypeOfLocation.getBody()).getDescription());
 
         assertEquals(updatedTypeOfLocation.getBody().getName(), "name");
