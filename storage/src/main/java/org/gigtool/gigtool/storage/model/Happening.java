@@ -12,7 +12,7 @@ import java.util.UUID;
  * Author: Hendrik Lendeckel
  * This class is the parent class of Gig and Rental and contains details about the name, description, equipment list, address and timeslot.
  */
-//TODO abstract muss weg, da jetzt Datenbank
+// TODO @Dario Vererbung lass --> Hendrik
 @Entity
 @NoArgsConstructor
 @Getter

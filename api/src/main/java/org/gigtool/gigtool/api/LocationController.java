@@ -1,8 +1,6 @@
 package org.gigtool.gigtool.api;
 
 import org.gigtool.gigtool.storage.services.LocationService;
-import org.gigtool.gigtool.storage.services.model.AddressCreate;
-import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.gigtool.gigtool.storage.services.model.LocationCreate;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.springframework.http.ResponseEntity;

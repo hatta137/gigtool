@@ -1,11 +1,9 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.model.TypeOfEquipment;
 import org.gigtool.gigtool.storage.repositories.TypeOfEquipmentRepository;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +35,7 @@ public class TypeOfEquipmentService {
         TypeOfEquipment savedTypeOfEquipment = typeOfEquipmentRepository.saveAndFlush( typeOfEquipment );
 
         return ResponseEntity.accepted().body( new TypeOfEquipmentResponse( savedTypeOfEquipment ));
-    };
+    }
 
     public ResponseEntity<List<TypeOfEquipmentResponse>> getAllTypeOfEquipment() {
 
@@ -56,7 +54,7 @@ public class TypeOfEquipmentService {
         Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
         if (foundTypeOfEquipment.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
 
         return ResponseEntity.accepted().body( new TypeOfEquipmentResponse( foundTypeOfEquipment.get() ));
     }
@@ -65,9 +63,9 @@ public class TypeOfEquipmentService {
 
         Optional<TypeOfEquipment> existingTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
-        if (existingTypeOfEquipment.isEmpty()) {
-            throw new RuntimeException("TypeOfEquipment not found with id: " + id);
-        }
+        if (existingTypeOfEquipment.isEmpty())
+            return ResponseEntity.notFound().build();
+
 
         TypeOfEquipment typeOfEquipmentToUpdate = existingTypeOfEquipment.get();
 
@@ -87,9 +85,9 @@ public class TypeOfEquipmentService {
 
         Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
-        if (foundTypeOfEquipment.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        if (foundTypeOfEquipment.isEmpty())
+            return ResponseEntity.notFound().build();
+
 
         TypeOfEquipment typeOfEquipmentToDelete = foundTypeOfEquipment.get();
 

@@ -8,9 +8,9 @@ import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.repositories.TypeOfLocationRepository;
 import org.gigtool.gigtool.storage.services.model.LocationCreate;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,11 +18,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class LocationService {
 
     private final LocationRepository locationRepository;
     private final AddressRepository addressRepository;
     private final TypeOfLocationRepository typeOfLocationRepository;
+
 
     public LocationService(LocationRepository locationRepository, AddressRepository addressRepository, TypeOfLocationRepository typeOfLocationRepository) {
         this.locationRepository = locationRepository;
@@ -30,26 +32,24 @@ public class LocationService {
         this.typeOfLocationRepository = typeOfLocationRepository;
     }
 
-    public ResponseEntity<LocationResponse> addLocation( LocationCreate locationCreate ) {
+    @Transactional
+    public ResponseEntity<LocationResponse> addLocation(LocationCreate locationCreate) {
 
         if (locationCreate.getAddressId() == null || locationCreate.getTypeOfLocationId() == null) {
-            // If any required information is missing, return a bad request response
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<Address> address = addressRepository.findById( locationCreate.getAddressId() );
+        Address address = addressRepository.findById(locationCreate.getAddressId())
+                .orElseThrow(() -> new IllegalArgumentException("Address not found with id: " + locationCreate.getAddressId()));
 
-        Optional<TypeOfLocation> typeOfLocation = typeOfLocationRepository.findById( locationCreate.getTypeOfLocationId() );
+        TypeOfLocation typeOfLocation = typeOfLocationRepository.findById(locationCreate.getTypeOfLocationId())
+                .orElseThrow(() -> new IllegalArgumentException("Type of location not found with id: " + locationCreate.getTypeOfLocationId()));
 
-        //TODO @Hendrik isPresent Check
-        Location location = new Location(
-                address.get(),
-                typeOfLocation.get()
-        );
+        Location location = new Location(address, typeOfLocation);
 
-        Location savedLocation = locationRepository.saveAndFlush( location );
+        Location savedLocation = locationRepository.saveAndFlush(location);
 
-        return ResponseEntity.accepted().body( new LocationResponse( savedLocation ));
+        return ResponseEntity.accepted().body(new LocationResponse(savedLocation));
     }
 
     public ResponseEntity<List<LocationResponse>> getAllLocation() {
@@ -68,7 +68,7 @@ public class LocationService {
         Optional<Location> foundLocation = locationRepository.findById( id );
 
         if (foundLocation.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
 
         return ResponseEntity.accepted().body( new LocationResponse( foundLocation.get() ));
     }
@@ -78,18 +78,18 @@ public class LocationService {
         Optional<Location> existingLocation = locationRepository.findById( id );
 
         if (existingLocation.isEmpty())
-            throw new RuntimeException( "Location not found with id: " + id );
+            return ResponseEntity.notFound().build();
 
         Location locationToUpdate = existingLocation.get();
 
         if (locationCreate.getTypeOfLocationId() != null) {
-
+// TODO isPresent check
             Optional<TypeOfLocation> typeOfLocation = typeOfLocationRepository.findById( locationCreate.getTypeOfLocationId() );
             locationToUpdate.setTypeOfLocation( typeOfLocation.get() );
         }
 
         if (locationCreate.getAddressId() != null) {
-
+// TODO isPresent check
             Optional<Address> address = addressRepository.findById( locationCreate.getAddressId() );
             locationToUpdate.setAddress( address.get() );
         }
@@ -103,9 +103,9 @@ public class LocationService {
 
         Optional<Location> foundLocation = locationRepository.findById( id );
 
-        if (foundLocation.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        if (foundLocation.isEmpty())
+            return ResponseEntity.notFound().build();
+
 
         Location locationToDelete = foundLocation.get();
 

@@ -18,7 +18,7 @@ public class Calc {
      * @return the total weight of the equipment
      * @throws IllegalArgumentException if the equipment list is null or empty
      */
-    // TODO zu Happening
+    //TODO zu Happening
     public static int calcWeight(EquipmentList equipmentList){
 
         if (equipmentList == null) {

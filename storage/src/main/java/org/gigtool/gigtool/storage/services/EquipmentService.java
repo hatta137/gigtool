@@ -1,14 +1,11 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.model.TypeOfEquipment;
 import org.gigtool.gigtool.storage.repositories.EquipmentRepository;
 import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.repositories.TypeOfEquipmentRepository;
-import org.gigtool.gigtool.storage.services.model.AddressCreate;
-import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.gigtool.gigtool.storage.services.model.EquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.ErrorResponse;
 
-import java.io.Console;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
+//TODO Kommentare der Funktionen + Allg. Klasse
 @Service
 public class EquipmentService {
 
@@ -40,9 +32,18 @@ public class EquipmentService {
         this.locationRepository = locationRepository;
     }
 
-    //TODO @Hendrik Fehlermeldung Check
+    //TODO @Hendrik Fehlermeldung einbauen
     @Transactional
     public ResponseEntity<EquipmentResponse> addEquipment( EquipmentCreate equipmentCreate ) {
+
+        if (equipmentCreate.getName() == null || equipmentCreate.getDescription() == null ||
+                equipmentCreate.getTypeOfEquipmentId() == null || equipmentCreate.getLocationId() == null ||
+                equipmentCreate.getWeight() <= 0 || equipmentCreate.getLength() <= 0 ||
+                equipmentCreate.getWidth() <= 0 || equipmentCreate.getHeight() <= 0 ||
+                equipmentCreate.getPrice() <= 0) {
+
+            return ResponseEntity.badRequest().build();
+        }
 
         TypeOfEquipment typeOfEquipment = typeOfEquipmentRepository.findById( equipmentCreate.getTypeOfEquipmentId() )
                 .orElseThrow(() -> new IllegalArgumentException("Type of equipment not found"));
@@ -50,17 +51,7 @@ public class EquipmentService {
         Location location = locationRepository.findById(equipmentCreate.getLocationId())
                 .orElseThrow(() -> new IllegalArgumentException("Location not found"));
 
-        if (equipmentCreate.getName() == null || equipmentCreate.getDescription() == null ||
-                equipmentCreate.getTypeOfEquipmentId() == null || equipmentCreate.getLocationId() == null) {
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        if (equipmentCreate.getWeight() <= 0 || equipmentCreate.getLength() <= 0 ||
-                equipmentCreate.getWidth() <= 0 || equipmentCreate.getHeight() <= 0 ||
-                equipmentCreate.getPrice() <= 0) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
 
         Equipment equipment = new Equipment(
                 equipmentCreate.getName(),
@@ -114,14 +105,21 @@ public class EquipmentService {
 
         Equipment equipmentToUpdate = existingEquipment.get();
 
+        UUID typeOfEquipmentId = equipmentCreate.getTypeOfEquipmentId();
+        UUID locationId = equipmentCreate.getLocationId();
+
+
         if ( equipmentCreate.getName() != null ) {
             equipmentToUpdate.setName(equipmentCreate.getName());
         }
         if ( equipmentCreate.getDescription() != null ) {
             equipmentToUpdate.setDescription(equipmentCreate.getDescription());
-        } //TODO isPresent Check
-        if ( equipmentCreate.getTypeOfEquipmentId() != null ) {
-            equipmentToUpdate.setTypeOfEquipment( typeOfEquipmentRepository.findById(equipmentCreate.getTypeOfEquipmentId()).get());
+        }
+        if (typeOfEquipmentId != null) {
+            Optional<TypeOfEquipment> typeOfEquipment = typeOfEquipmentRepository.findById(typeOfEquipmentId);
+            if (typeOfEquipment.isPresent()) {
+                equipmentToUpdate.setTypeOfEquipment(typeOfEquipment.get());
+            }
         }
         if ( equipmentCreate.getWeight() > 0 ) {
             equipmentToUpdate.setWeight(equipmentCreate.getWeight());
@@ -137,11 +135,14 @@ public class EquipmentService {
         }
         if ( equipmentCreate.getDateOfPurchase() != null ) {
             equipmentToUpdate.setDateOfPurchase(equipmentCreate.getDateOfPurchase());
-        } // TODO isPresent cheeck
-        if ( equipmentCreate.getLocationId() != null ) {
-            equipmentToUpdate.setLocation( locationRepository.findById(equipmentCreate.getLocationId()).get());
         }
-        if ( equipmentCreate.getPrice() > 0 ) {
+        if (locationId != null) {
+            Optional<Location> location = locationRepository.findById(locationId);
+            if (location.isPresent()) {
+                equipmentToUpdate.setLocation(location.get());
+            }
+        }
+        if ( equipmentCreate.getPrice() > 0.0f ) {
             equipmentToUpdate.setPrice(equipmentCreate.getPrice());
         }
 
@@ -156,7 +157,7 @@ public class EquipmentService {
         Optional<Equipment> foundEquiupment = equipmentRepository.findById( id );
 
         if (foundEquiupment.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
         }
 
         Equipment equipmentToDelete = foundEquiupment.get();
