@@ -20,12 +20,15 @@ public class TypeOfLocationServiceTest {
 
     @Autowired
     private TypeOfLocationService typeOfLocationService;
+    @Autowired
+    private TestUtils testUtils;
+
     private TypeOfLocationCreate typeOfLocationToSave;
     private ResponseEntity<TypeOfLocationResponse> savedTypeOfLocation;
     private UUID savedTypeOfLocationId;
     @BeforeEach
     public void setup() {
-        typeOfLocationToSave = TestUtils.getRandomTypeOfLocationCreate();
+        typeOfLocationToSave = testUtils.getRandomTypeOfLocationCreate();
         savedTypeOfLocation = typeOfLocationService.addTypeOfLocation( typeOfLocationToSave );
         savedTypeOfLocationId = Objects.requireNonNull(savedTypeOfLocation.getBody()).getId();
     }
@@ -51,8 +54,8 @@ public class TypeOfLocationServiceTest {
     @Test
     public void testGetAllTypeOfLocation() {
 
-        TypeOfLocationCreate typeOfLocationToSave1 = TestUtils.getRandomTypeOfLocationCreate();
-        TypeOfLocationCreate typeOfLocationToSave2 = TestUtils.getRandomTypeOfLocationCreate();
+        TypeOfLocationCreate typeOfLocationToSave1 = testUtils.getRandomTypeOfLocationCreate();
+        TypeOfLocationCreate typeOfLocationToSave2 = testUtils.getRandomTypeOfLocationCreate();
 
 
         ResponseEntity<TypeOfLocationResponse> savedTypeOfLocationToSave1 = typeOfLocationService.addTypeOfLocation( typeOfLocationToSave1 );

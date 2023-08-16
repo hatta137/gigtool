@@ -28,6 +28,9 @@ public class LocationServiceTest {
     private AddressService addressService;
     @Autowired
     private TypeOfEquipmentService typeOfEquipmentService;
+    @Autowired
+    private TestUtils testUtils;
+
 
 
     private LocationCreate locationToSave;
@@ -41,7 +44,6 @@ public class LocationServiceTest {
     @BeforeEach
     @Transactional
     public void setup() {
-        TestUtils testUtils = new TestUtils(addressService, typeOfLocationService, typeOfEquipmentService);
         locationToSave = testUtils.getRandomLocationCreate();
         savedLocation = locationService.addLocation( locationToSave );
         savedLocationId = savedLocation.getBody().getId();
@@ -68,8 +70,8 @@ public class LocationServiceTest {
     @Test
     public void getAllLocation() {
 
-        LocationCreate locationToSave1 = TestUtils.getRandomLocationCreate();
-        LocationCreate locationToSave2 = TestUtils.getRandomLocationCreate();
+        LocationCreate locationToSave1 = testUtils.getRandomLocationCreate();
+        LocationCreate locationToSave2 = testUtils.getRandomLocationCreate();
 
         ResponseEntity<LocationResponse> savedLocation1 = locationService.addLocation(locationToSave1);
         ResponseEntity<LocationResponse> savedLocation2 = locationService.addLocation(locationToSave2);

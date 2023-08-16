@@ -1,6 +1,7 @@
 package org.gigtool.gigtool.storage.services;
 
 
+import org.checkerframework.checker.units.qual.A;
 import org.gigtool.gigtool.storage.services.model.AddressCreate;
 import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,12 +22,16 @@ public class AddressServiceTest {
 
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private TestUtils testUtils;
+
     private AddressCreate addressToSave;
     private ResponseEntity<AddressResponse> savedAddress;
     private UUID savedAddressId;
+
     @BeforeEach
     public void setup() {
-        addressToSave = TestUtils.getRandomAddressCreate();
+        addressToSave = testUtils.getRandomAddressCreate();
         savedAddress = addressService.addNewAddress( addressToSave );
         savedAddressId = Objects.requireNonNull(savedAddress.getBody()).getId();
     }
@@ -59,8 +64,8 @@ public class AddressServiceTest {
     @Test
     public void testGetAllAddresses() {
 
-        AddressCreate addressToSave1 = TestUtils.getRandomAddressCreate();
-        AddressCreate addressToSave2 = TestUtils.getRandomAddressCreate();
+        AddressCreate addressToSave1 = testUtils.getRandomAddressCreate();
+        AddressCreate addressToSave2 = testUtils.getRandomAddressCreate();
 
 
         ResponseEntity<AddressResponse> savedAddress1 = addressService.addNewAddress( addressToSave1 );

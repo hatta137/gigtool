@@ -34,7 +34,16 @@ public class EquipmentService {
 
     //TODO @Hendrik Fehlermeldung einbauen
     @Transactional
-    public ResponseEntity<?> addEquipment( EquipmentCreate equipmentCreate ) {
+    public ResponseEntity<EquipmentResponse> addEquipment( EquipmentCreate equipmentCreate ) {
+
+        if (equipmentCreate.getName() == null || equipmentCreate.getDescription() == null ||
+                equipmentCreate.getTypeOfEquipmentId() == null || equipmentCreate.getLocationId() == null ||
+                equipmentCreate.getWeight() <= 0 || equipmentCreate.getLength() <= 0 ||
+                equipmentCreate.getWidth() <= 0 || equipmentCreate.getHeight() <= 0 ||
+                equipmentCreate.getPrice() <= 0) {
+
+            return ResponseEntity.badRequest().build();
+        }
 
         TypeOfEquipment typeOfEquipment = typeOfEquipmentRepository.findById( equipmentCreate.getTypeOfEquipmentId() )
                 .orElseThrow(() -> new IllegalArgumentException("Type of equipment not found"));
@@ -42,13 +51,7 @@ public class EquipmentService {
         Location location = locationRepository.findById(equipmentCreate.getLocationId())
                 .orElseThrow(() -> new IllegalArgumentException("Location not found"));
 
-        if (equipmentCreate.getName() == null || equipmentCreate.getDescription() == null ||
-                equipmentCreate.getWeight() <= 0 || equipmentCreate.getLength() <= 0 ||
-                equipmentCreate.getWidth() <= 0 || equipmentCreate.getHeight() <= 0 ||
-                equipmentCreate.getPrice() <= 0) {
 
-            return ResponseEntity.badRequest().body("Invalid equipment information provided.");
-        }
 
         Equipment equipment = new Equipment(
                 equipmentCreate.getName(),
@@ -102,14 +105,21 @@ public class EquipmentService {
 
         Equipment equipmentToUpdate = existingEquipment.get();
 
+        UUID typeOfEquipmentId = equipmentCreate.getTypeOfEquipmentId();
+        UUID locationId = equipmentCreate.getLocationId();
+
+
         if ( equipmentCreate.getName() != null ) {
             equipmentToUpdate.setName(equipmentCreate.getName());
         }
         if ( equipmentCreate.getDescription() != null ) {
             equipmentToUpdate.setDescription(equipmentCreate.getDescription());
-        } //TODO isPresent Check
-        if ( equipmentCreate.getTypeOfEquipmentId() != null ) {
-            equipmentToUpdate.setTypeOfEquipment( typeOfEquipmentRepository.findById(equipmentCreate.getTypeOfEquipmentId()).get());
+        }
+        if (typeOfEquipmentId != null) {
+            Optional<TypeOfEquipment> typeOfEquipment = typeOfEquipmentRepository.findById(typeOfEquipmentId);
+            if (typeOfEquipment.isPresent()) {
+                equipmentToUpdate.setTypeOfEquipment(typeOfEquipment.get());
+            }
         }
         if ( equipmentCreate.getWeight() > 0 ) {
             equipmentToUpdate.setWeight(equipmentCreate.getWeight());
@@ -125,11 +135,14 @@ public class EquipmentService {
         }
         if ( equipmentCreate.getDateOfPurchase() != null ) {
             equipmentToUpdate.setDateOfPurchase(equipmentCreate.getDateOfPurchase());
-        } // TODO isPresent check
-        if ( equipmentCreate.getLocationId() != null ) {
-            equipmentToUpdate.setLocation( locationRepository.findById(equipmentCreate.getLocationId()).get());
         }
-        if ( equipmentCreate.getPrice() > 0 ) {
+        if (locationId != null) {
+            Optional<Location> location = locationRepository.findById(locationId);
+            if (location.isPresent()) {
+                equipmentToUpdate.setLocation(location.get());
+            }
+        }
+        if ( equipmentCreate.getPrice() > 0.0f ) {
             equipmentToUpdate.setPrice(equipmentCreate.getPrice());
         }
 
@@ -144,7 +157,7 @@ public class EquipmentService {
         Optional<Equipment> foundEquiupment = equipmentRepository.findById( id );
 
         if (foundEquiupment.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
         }
 
         Equipment equipmentToDelete = foundEquiupment.get();

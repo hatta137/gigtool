@@ -146,7 +146,6 @@ public class AddressService {
         if (foundAddress.isEmpty())
             return ResponseEntity.notFound().build();
 
-
         Address addressToDelete = foundAddress.get();
 
         addressRepository.delete(addressToDelete);

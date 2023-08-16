@@ -1,53 +1,75 @@
 package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.services.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Random;
 import java.util.UUID;
 
+@Component
 @Transactional
 public class TestUtils {
 
-    private static AddressService addressService;
-    private static TypeOfLocationService typeOfLocationService;
-    private static TypeOfEquipmentService typeOfEquipmentService;
+    @Autowired
+    private AddressService addressService;
+    @Autowired
+    private TypeOfLocationService typeOfLocationService;
+    @Autowired
+    private TypeOfEquipmentService typeOfEquipmentService;
+    @Autowired
+    private LocationService locationService;
 
-    public TestUtils(AddressService addressService, TypeOfLocationService typeOfLocationService, TypeOfEquipmentService typeOfEquipmentService) {
+    /*public TestUtils(AddressService addressService,
+                     TypeOfLocationService typeOfLocationService,
+                     TypeOfEquipmentService typeOfEquipmentService,
+                     LocationService locationService) {
         TestUtils.addressService = addressService;
         TestUtils.typeOfLocationService = typeOfLocationService;
         TestUtils.typeOfEquipmentService = typeOfEquipmentService;
-    }
+    }*/
 
-    public static ResponseEntity<AddressResponse> getRandomAddressResponse() {
+    public ResponseEntity<AddressResponse> getRandomAddressResponse() {
 
         AddressCreate addressToSave = getRandomAddressCreate();
 
         return addressService.addNewAddress(addressToSave);
     }
 
-    public static ResponseEntity<TypeOfLocationResponse> getRandomTypeOfLocationResponse() {
+    public ResponseEntity<TypeOfLocationResponse> getRandomTypeOfLocationResponse() {
 
         TypeOfLocationCreate typeOfLocationToSave = getRandomTypeOfLocationCreate();
 
         return typeOfLocationService.addTypeOfLocation( typeOfLocationToSave );
     }
 
-    public static ResponseEntity<TypeOfEquipmentResponse> getRandomTypeOfEquipmentResponse() {
+    public TypeOfEquipmentCreate getRandomTypeOfEquipmentCreate() {
+        return new TypeOfEquipmentCreate(
+                UUID.randomUUID() + "name",
+                UUID.randomUUID() + "description"
+        );
+    }
+
+    public ResponseEntity<TypeOfEquipmentResponse> getRandomTypeOfEquipmentResponse() {
 
         return typeOfEquipmentService.addTypeOfEquipment( getRandomTypeOfEquipmentCreate() );
     }
 
-    public static LocationCreate getRandomLocationCreate() {
+    public LocationCreate getRandomLocationCreate() {
         return new LocationCreate(
                 getRandomAddressResponse().getBody().getId(),
                 getRandomTypeOfLocationResponse().getBody().getId()
         );
     }
 
-    public static AddressCreate getRandomAddressCreate() {
+    public ResponseEntity<LocationResponse> getRandomLocationResponse() {
+        return locationService.addLocation( getRandomLocationCreate() );
+    }
+
+    public AddressCreate getRandomAddressCreate() {
         Random random = new Random();
         return new AddressCreate(
                 random.nextInt(100),
@@ -58,22 +80,18 @@ public class TestUtils {
         );
     }
 
-    public static TypeOfLocationCreate getRandomTypeOfLocationCreate() {
+    public TypeOfLocationCreate getRandomTypeOfLocationCreate() {
         return new TypeOfLocationCreate(
                 UUID.randomUUID() + "name",
                 UUID.randomUUID() + "description"
         );
     }
 
-    public static TypeOfEquipmentCreate getRandomTypeOfEquipmentCreate() {
-        return new TypeOfEquipmentCreate(
-                UUID.randomUUID() + "name",
-                UUID.randomUUID() + "description"
-        );
-    }
 
-    public static EquipmentCreate getRandomEquipmentCreate() {
+
+    public EquipmentCreate getRandomEquipmentCreate() {
         Random random = new Random();
+
         return new EquipmentCreate(
                 UUID.randomUUID() + "name",
                 UUID.randomUUID() + "description",
@@ -82,8 +100,8 @@ public class TestUtils {
                 random.nextInt(100),
                 random.nextInt(100),
                 random.nextInt(100),
-                LocalDate.of(2020, 2, 2),
-                getRandomTypeOfLocationResponse().getBody().getId(),
+                LocalDate.now(),
+                getRandomLocationResponse().getBody().getId(),
                 random.nextFloat(100)
         );
     }

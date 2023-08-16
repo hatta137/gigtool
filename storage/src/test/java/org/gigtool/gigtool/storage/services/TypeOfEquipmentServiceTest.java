@@ -21,12 +21,15 @@ public class TypeOfEquipmentServiceTest {
 
     @Autowired
     private TypeOfEquipmentService typeOfEquipmentService;
+    @Autowired
+    private TestUtils testUtils;
+
     private TypeOfEquipmentCreate typeOfEquipmentToSave;
     private ResponseEntity<TypeOfEquipmentResponse> savedTypeOfEquipment;
     private UUID savedTypeOfEquipmentId;
     @BeforeEach
     public void setup() {
-        typeOfEquipmentToSave = TestUtils.getRandomTypeOfEquipmentCreate();
+        typeOfEquipmentToSave = testUtils.getRandomTypeOfEquipmentCreate();
         savedTypeOfEquipment = typeOfEquipmentService.addTypeOfEquipment( typeOfEquipmentToSave );
         savedTypeOfEquipmentId = Objects.requireNonNull(savedTypeOfEquipment.getBody()).getId();
     }
@@ -52,8 +55,8 @@ public class TypeOfEquipmentServiceTest {
     @Test
     public void testGetAllTypeOfLocation() {
 
-        TypeOfEquipmentCreate typeOfEquipmentToSave1 = TestUtils.getRandomTypeOfEquipmentCreate();
-        TypeOfEquipmentCreate typeOfEquipmentToSave2 = TestUtils.getRandomTypeOfEquipmentCreate();
+        TypeOfEquipmentCreate typeOfEquipmentToSave1 = testUtils.getRandomTypeOfEquipmentCreate();
+        TypeOfEquipmentCreate typeOfEquipmentToSave2 = testUtils.getRandomTypeOfEquipmentCreate();
 
 
         ResponseEntity<TypeOfEquipmentResponse> savedTypeOfEquipmentToSave1 = typeOfEquipmentService.addTypeOfEquipment( typeOfEquipmentToSave1 );
