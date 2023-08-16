@@ -16,3 +16,9 @@ Diese Hilfsklasse wurde entfernt und durch das direkte Verknüpfen von Equipment
 Diese klasse ist nun nicht mehr Abstract, da eine Datenbank nun genutzt wird.
 ### Rental und Gig
 Diese Klassen erben nun nicht mehr von Happening. Sie verweisen jedoch auf ihr Happening.
+### Dimension
+Diese Klasse wurde entfernt, weil der Sinn und Zweck erhalten bleibt, wenn wir Länge, Breite, Höhe direkt in der Entität 
+Equipment gespeichert wird.
+
+----------
+
