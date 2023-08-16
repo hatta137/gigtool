@@ -83,15 +83,21 @@ public class LocationService {
         Location locationToUpdate = existingLocation.get();
 
         if (locationCreate.getTypeOfLocationId() != null) {
-// TODO isPresent check
-            Optional<TypeOfLocation> typeOfLocation = typeOfLocationRepository.findById( locationCreate.getTypeOfLocationId() );
-            locationToUpdate.setTypeOfLocation( typeOfLocation.get() );
+
+            Optional<TypeOfLocation> typeOfLocationOptional = typeOfLocationRepository.findById(locationCreate.getTypeOfLocationId());
+
+            if (typeOfLocationOptional.isPresent()) {
+                locationToUpdate.setTypeOfLocation(typeOfLocationOptional.get());
         }
 
         if (locationCreate.getAddressId() != null) {
-// TODO isPresent check
-            Optional<Address> address = addressRepository.findById( locationCreate.getAddressId() );
-            locationToUpdate.setAddress( address.get() );
+
+        }
+            Optional<Address> addressOptional = addressRepository.findById(locationCreate.getAddressId());
+
+            if (addressOptional.isPresent()) {
+                locationToUpdate.setAddress(addressOptional.get());
+            }
         }
 
         Location savedLocation = locationRepository.saveAndFlush( locationToUpdate );

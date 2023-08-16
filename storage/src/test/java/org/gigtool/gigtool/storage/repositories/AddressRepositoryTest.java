@@ -1,8 +1,6 @@
 package org.gigtool.gigtool.storage.repositories;
 
 import org.gigtool.gigtool.storage.model.Address;
-import org.gigtool.gigtool.storage.model.Gig;
-import org.gigtool.gigtool.storage.model.Happening;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

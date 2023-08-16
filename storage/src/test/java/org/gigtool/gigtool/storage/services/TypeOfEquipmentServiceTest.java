@@ -36,7 +36,7 @@ public class TypeOfEquipmentServiceTest {
 
     @Test
     @Transactional
-    public void testAddTypeOfLocation() {
+    public void testAddTypeOfEquipment() {
 
         assertEquals(savedTypeOfEquipment.getBody().getName(),       typeOfEquipmentToSave.getName());
         assertEquals(savedTypeOfEquipment.getBody().getDescription(),typeOfEquipmentToSave.getDescription());
@@ -53,7 +53,7 @@ public class TypeOfEquipmentServiceTest {
     }
 
     @Test
-    public void testGetAllTypeOfLocation() {
+    public void testGetAllTypeOfEquipment() {
 
         TypeOfEquipmentCreate typeOfEquipmentToSave1 = testUtils.getRandomTypeOfEquipmentCreate();
         TypeOfEquipmentCreate typeOfEquipmentToSave2 = testUtils.getRandomTypeOfEquipmentCreate();
@@ -77,16 +77,16 @@ public class TypeOfEquipmentServiceTest {
     }
 
     @Test
-    public void testGetAddressById() {
+    public void testGetTypeOfEquipmentById() {
 
-        // positiv Test
+        // positive Test
         ResponseEntity<TypeOfEquipmentResponse> typeOfEquipmentInDatabaseById = typeOfEquipmentService.getTypeOfEquipmentById(savedTypeOfEquipmentId);
 
         assertEquals(Objects.requireNonNull(typeOfEquipmentInDatabaseById.getBody()).getId(), Objects.requireNonNull(savedTypeOfEquipment.getBody()).getId());
         assertEquals(typeOfEquipmentInDatabaseById.getBody().getName(),          savedTypeOfEquipment.getBody().getName());
         assertEquals(typeOfEquipmentInDatabaseById.getBody().getDescription(),   savedTypeOfEquipment.getBody().getDescription());
 
-        //negativ Test
+        //negative Test
         UUID randomUUID = UUID.randomUUID();
 
         while( randomUUID == savedTypeOfEquipmentId ) {
@@ -99,7 +99,9 @@ public class TypeOfEquipmentServiceTest {
     }
 
     @Test
-    public void testUpdateAddress() {
+    public void testUpdateTypeOfEquipment() {
+
+        ResponseEntity<TypeOfEquipmentResponse> typeOfEquipmentBeforeUpdate = savedTypeOfEquipment;
 
         TypeOfEquipmentCreate updateForTypeOfEquipment = new TypeOfEquipmentCreate(
                 "name",
@@ -108,20 +110,17 @@ public class TypeOfEquipmentServiceTest {
 
         ResponseEntity<TypeOfEquipmentResponse> updatedTypeOfEquipment = typeOfEquipmentService.updateTypeOfEquipment(savedTypeOfEquipmentId, updateForTypeOfEquipment);
 
-        assertEquals(updatedTypeOfEquipment.getBody().getId(), Objects.requireNonNull(updatedTypeOfEquipment.getBody()).getId());
-        assertEquals(updatedTypeOfEquipment.getBody().getName(), Objects.requireNonNull(updatedTypeOfEquipment.getBody()).getName());
-        assertEquals(updatedTypeOfEquipment.getBody().getDescription(), Objects.requireNonNull(updatedTypeOfEquipment.getBody()).getDescription());
+        assertEquals(typeOfEquipmentBeforeUpdate.getBody().getId(),          Objects.requireNonNull(updatedTypeOfEquipment.getBody()).getId());
+        assertEquals(typeOfEquipmentBeforeUpdate.getBody().getDescription(), Objects.requireNonNull(updatedTypeOfEquipment.getBody()).getDescription());
 
         assertEquals(updatedTypeOfEquipment.getBody().getName(), "name");
-        assertEquals(updatedTypeOfEquipment.getBody().getDescription(), savedTypeOfEquipment.getBody().getDescription());
     }
 
     @Test
-    public void testDeleteAddress() {
+    public void testDeleteTypeOfEquipment() {
 
         ResponseEntity<TypeOfEquipmentResponse> deletedTypeOfEquipment = typeOfEquipmentService.deleteTypeOfEquipment( savedTypeOfEquipmentId );
 
         assertNull(deletedTypeOfEquipment.getBody());
-
     }
 }

@@ -1,6 +1,5 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -101,7 +100,7 @@ public class LocationServiceTest {
         assertEquals(locationInDatabaseById.getBody().getTypeOfLocationResponse().getId(), savedLocation.getBody().getTypeOfLocationResponse().getId());
         assertEquals(locationInDatabaseById.getBody().getAddressResponse().getId(), savedLocation.getBody().getAddressResponse().getId());
 
-// negativer Test
+        // negative Test
         UUID randomUUID = UUID.randomUUID();
 
         while (randomUUID.equals(savedLocationId)) {

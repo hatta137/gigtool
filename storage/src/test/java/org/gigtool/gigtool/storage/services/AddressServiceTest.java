@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -92,7 +91,7 @@ public class AddressServiceTest {
     @Test
     public void testGetAddressById() {
 
-        // positiv Test
+        // positive Test
         ResponseEntity<AddressResponse> addressInDatabaseById = addressService.getAddressById(savedAddressId);
 
         assertEquals(Objects.requireNonNull(addressInDatabaseById.getBody()).getId(), Objects.requireNonNull(savedAddress.getBody()).getId());
@@ -101,7 +100,7 @@ public class AddressServiceTest {
         assertEquals(addressInDatabaseById.getBody().getCountry(), savedAddress.getBody().getCountry());
         assertEquals(addressInDatabaseById.getBody().getZipCode(), savedAddress.getBody().getZipCode());
 
-        //negativ Test
+        //negative Test
         UUID randomUUID = UUID.randomUUID();
 
         while( randomUUID == savedAddressId ) {
@@ -116,6 +115,8 @@ public class AddressServiceTest {
     @Test
     public void testUpdateAddress() {
 
+        ResponseEntity<AddressResponse> addressBeforeUpdate = savedAddress;
+
         AddressCreate updateForAddress = new AddressCreate(
                 12,
                 "newStreet",
@@ -126,18 +127,13 @@ public class AddressServiceTest {
 
         ResponseEntity<AddressResponse> updatedAddress = addressService.updateAddress(savedAddressId, updateForAddress);
 
-        assertEquals(updatedAddress.getBody().getId(),          updatedAddress.getBody().getId());
-        assertEquals(updatedAddress.getBody().getHouseNumber(), updatedAddress.getBody().getHouseNumber());
-        assertEquals(updatedAddress.getBody().getStreet(),      updatedAddress.getBody().getStreet());
-        assertEquals(updatedAddress.getBody().getZipCode(),     updatedAddress.getBody().getZipCode());
-        assertEquals(updatedAddress.getBody().getCountry(),     updatedAddress.getBody().getCountry());
-        assertEquals(updatedAddress.getBody().getCity(),        updatedAddress.getBody().getCity());
+        assertEquals(addressBeforeUpdate.getBody().getId(),          updatedAddress.getBody().getId());
+        assertEquals(addressBeforeUpdate.getBody().getZipCode(),     updatedAddress.getBody().getZipCode());
+        assertEquals(addressBeforeUpdate.getBody().getCountry(),     updatedAddress.getBody().getCountry());
+        assertEquals(addressBeforeUpdate.getBody().getCity(),        updatedAddress.getBody().getCity());
 
         assertEquals(updatedAddress.getBody().getHouseNumber(), 12);
         assertEquals(updatedAddress.getBody().getStreet(), "newStreet");
-        assertEquals(updatedAddress.getBody().getZipCode(),     savedAddress.getBody().getZipCode());
-        assertEquals(updatedAddress.getBody().getCountry(),     savedAddress.getBody().getCountry());
-        assertEquals(updatedAddress.getBody().getCity(),        savedAddress.getBody().getCity());
     }
 
     @Test

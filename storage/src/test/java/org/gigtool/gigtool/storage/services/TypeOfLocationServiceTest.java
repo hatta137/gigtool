@@ -78,14 +78,14 @@ public class TypeOfLocationServiceTest {
     @Test
     public void testGetAddressById() {
 
-        // positiv Test
+        // positive Test
         ResponseEntity<TypeOfLocationResponse> typeOfLocationInDatabaseById = typeOfLocationService.getTypeOfLocationById(savedTypeOfLocationId);
 
         assertEquals(Objects.requireNonNull(typeOfLocationInDatabaseById.getBody()).getId(), Objects.requireNonNull(savedTypeOfLocation.getBody()).getId());
         assertEquals(typeOfLocationInDatabaseById.getBody().getName(),          savedTypeOfLocation.getBody().getName());
         assertEquals(typeOfLocationInDatabaseById.getBody().getDescription(),   savedTypeOfLocation.getBody().getDescription());
 
-        //negativ Test
+        //negative Test
         UUID randomUUID = UUID.randomUUID();
 
         while( randomUUID == savedTypeOfLocationId ) {
@@ -98,7 +98,9 @@ public class TypeOfLocationServiceTest {
     }
 
     @Test
-    public void testUpdateAddress() {
+    public void testUpdateTypeOfLocation() {
+
+        ResponseEntity<TypeOfLocationResponse> typeOfLocationBeforeUpdate = savedTypeOfLocation;
 
         TypeOfLocationCreate updateForTypeOfLocation = new TypeOfLocationCreate(
                 "name",
@@ -107,20 +109,17 @@ public class TypeOfLocationServiceTest {
 
         ResponseEntity<TypeOfLocationResponse> updatedTypeOfLocation = typeOfLocationService.updateTypeOfLocation(savedTypeOfLocationId, updateForTypeOfLocation);
 
-        assertEquals(updatedTypeOfLocation.getBody().getId(), Objects.requireNonNull(updatedTypeOfLocation.getBody()).getId());
-        assertEquals(updatedTypeOfLocation.getBody().getName(), Objects.requireNonNull(updatedTypeOfLocation.getBody()).getName());
-        assertEquals(updatedTypeOfLocation.getBody().getDescription(), Objects.requireNonNull(updatedTypeOfLocation.getBody()).getDescription());
+        assertEquals(savedTypeOfLocation.getBody().getId(),           Objects.requireNonNull(updatedTypeOfLocation.getBody()).getId());
+        assertEquals(savedTypeOfLocation.getBody().getDescription(),  Objects.requireNonNull(updatedTypeOfLocation.getBody()).getDescription());
 
         assertEquals(updatedTypeOfLocation.getBody().getName(), "name");
-        assertEquals(updatedTypeOfLocation.getBody().getDescription(), savedTypeOfLocation.getBody().getDescription());
     }
 
     @Test
-    public void testDeleteAddress() {
+    public void testDeleteTypeOfLocation() {
 
         ResponseEntity<TypeOfLocationResponse> deletedTypeOfLocation = typeOfLocationService.deleteTypeOfLocation( savedTypeOfLocationId );
 
         assertNull(deletedTypeOfLocation.getBody());
-
     }
 }

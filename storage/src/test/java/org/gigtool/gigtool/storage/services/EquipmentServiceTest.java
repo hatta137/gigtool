@@ -59,7 +59,7 @@ public class EquipmentServiceTest {
         assertEquals(savedEquipment.getBody().getLocationResponse().getId(), equipmentToSave.getLocationId());
         assertEquals(savedEquipment.getBody().getDescription(), equipmentToSave.getDescription());
 
-        // Negative Test: Try adding an equipment with missing information
+        // Negative Test: Try adding equipment with missing information
         EquipmentCreate incompleteEquipment = new EquipmentCreate(
                 "name",
                 "null",

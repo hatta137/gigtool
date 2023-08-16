@@ -1,16 +1,9 @@
 package org.gigtool.gigtool.storage.repositories;
 
-import org.gigtool.gigtool.storage.model.Band;
-import org.gigtool.gigtool.storage.model.Genre;
-import org.gigtool.gigtool.storage.model.RoleInTheBand;
-import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 public class BandRepositoryTest {

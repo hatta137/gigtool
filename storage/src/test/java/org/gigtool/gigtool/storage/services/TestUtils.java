@@ -23,14 +23,6 @@ public class TestUtils {
     @Autowired
     private LocationService locationService;
 
-    /*public TestUtils(AddressService addressService,
-                     TypeOfLocationService typeOfLocationService,
-                     TypeOfEquipmentService typeOfEquipmentService,
-                     LocationService locationService) {
-        TestUtils.addressService = addressService;
-        TestUtils.typeOfLocationService = typeOfLocationService;
-        TestUtils.typeOfEquipmentService = typeOfEquipmentService;
-    }*/
 
     public ResponseEntity<AddressResponse> getRandomAddressResponse() {
 
