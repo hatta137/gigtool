@@ -14,6 +14,7 @@ import java.util.UUID;
  */
 //TODO abstract muss weg, da jetzt Datenbank
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor
 @Getter
 @Setter
