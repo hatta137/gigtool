@@ -34,7 +34,7 @@ public class BandService {
 
         Optional<Genre> genre = genreRepository.findById(bandCreate.getGenre());
 
-        if(genre.isEmpty()){
+        if(genre.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -42,7 +42,7 @@ public class BandService {
 
         Optional<RoleInTheBand> role = roleInTheBandRepository.findById(bandCreate.getMainRoleInTheBand());
 
-        if(role.isEmpty()){
+        if(role.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
