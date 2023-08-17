@@ -18,7 +18,6 @@ import java.util.UUID;
 public class AddressController {
 
     public final AddressService addressService;
-
     public AddressController( AddressService addressService ) {
         this.addressService = addressService;
     }

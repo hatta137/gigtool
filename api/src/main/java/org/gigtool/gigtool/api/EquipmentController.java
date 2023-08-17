@@ -18,7 +18,6 @@ import java.util.UUID;
 public class EquipmentController {
 
     public final EquipmentService equipmentService;
-
     public final TypeOfEquipmentService typeOfEquipmentService;
 
     public EquipmentController(EquipmentService equipmentService, TypeOfEquipmentService typeOfEquipmentService) {
