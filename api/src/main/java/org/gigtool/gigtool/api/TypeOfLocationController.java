@@ -76,6 +76,4 @@ public class TypeOfLocationController {
     public ResponseEntity<TypeOfLocationResponse> deleteTypeOfLocation( @PathVariable UUID id ) {
         return this.typeOfLocationService.deleteTypeOfLocation( id );
     }
-
-
 }
