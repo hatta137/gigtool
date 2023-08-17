@@ -23,9 +23,9 @@ public class Band {
     private String name;
     @ManyToOne
     private Genre genre;
-    @OneToMany
+    @ManyToMany
     private List<RoleInTheBand> listOfRole;
-    @OneToMany
+    @ManyToMany
     private List<Equipment> equipmentList;
 
 
