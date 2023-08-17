@@ -1,9 +1,6 @@
 package org.gigtool.gigtool.storage.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,6 +19,7 @@ public class RoleInTheBand {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     public RoleInTheBand(String name, String description){

@@ -14,6 +14,7 @@ import java.util.UUID;
  */
 // TODO @Dario Vererbung lass --> Hendrik
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @NoArgsConstructor
 @Getter
 @Setter
@@ -22,6 +23,7 @@ public abstract class Happening {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
+    @Column(columnDefinition = "TEXT")
     private String description;
     @ManyToOne
     private Address address;
