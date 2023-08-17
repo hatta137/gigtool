@@ -21,7 +21,7 @@ public class TypeOfGigService {
     }
 
     public ResponseEntity<TypeOfGigResponse> addTypeOfGig(TypeOfGigCreate typeOfGigCreate) {
-        if (typeOfGigCreate.getName() == null && typeOfGigCreate.getDescription() == null) {
+        if (typeOfGigCreate.getName() == null || typeOfGigCreate.getDescription() == null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -52,7 +52,8 @@ public class TypeOfGigService {
     }
 
     public ResponseEntity<TypeOfGigResponse> updateTypeOfGig(UUID typeId, TypeOfGigCreate typeRequest) {
-        if (typeId == null) {
+
+        if ((typeId == null) || (typeRequest.getName() == null) || (typeRequest.getDescription() == null) ) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -64,13 +65,8 @@ public class TypeOfGigService {
 
         TypeOfGig updatedType = existingType.get();
 
-        if (typeRequest.getName() != null) {
-            updatedType.setName(typeRequest.getName());
-        }
-
-        if (typeRequest.getDescription() != null) {
-            updatedType.setDescription(typeRequest.getDescription());
-        }
+        updatedType.setName(typeRequest.getName());
+        updatedType.setDescription(typeRequest.getDescription());
 
         TypeOfGig savedType = typeOfGigRepository.saveAndFlush(updatedType);
 
