@@ -22,7 +22,7 @@ public class GenreService {
 
     public ResponseEntity<GenreResponse> addGenre(GenreCreate genreCreate) {
 
-        if (genreCreate.getName() == null && genreCreate.getDescription() == null) {
+        if (genreCreate.getName() == null || genreCreate.getDescription() == null) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -55,7 +55,8 @@ public class GenreService {
     }
 
     public ResponseEntity<GenreResponse> updateGenre(UUID genreId, GenreCreate genreRequest) {
-        if (genreId == null) {
+
+        if ((genreId == null) || (genreRequest.getName() == null) || (genreRequest.getDescription() == null) ) {
             return ResponseEntity.badRequest().build();
         }
 
@@ -67,13 +68,8 @@ public class GenreService {
 
         Genre updatedGenre = existingGenre.get();
 
-        if (genreRequest.getName() != null) {
-            updatedGenre.setName(genreRequest.getName());
-        }
-
-        if (genreRequest.getDescription() != null) {
-            updatedGenre.setDescription(genreRequest.getDescription());
-        }
+        updatedGenre.setName(genreRequest.getName());
+        updatedGenre.setDescription(genreRequest.getDescription());
 
         Genre savedGenre = genreRepository.saveAndFlush(updatedGenre);
 
