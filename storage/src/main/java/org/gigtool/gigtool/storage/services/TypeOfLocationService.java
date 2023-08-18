@@ -1,9 +1,15 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.model.Equipment;
+import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.model.TypeOfLocation;
+import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.repositories.TypeOfLocationRepository;
+import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
+import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.gigtool.gigtool.storage.services.model.TypeOfLocationCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfLocationResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +23,16 @@ public class TypeOfLocationService {
 
     private final TypeOfLocationRepository typeOfLocationRepository;
 
-    public TypeOfLocationService(TypeOfLocationRepository typeOfLocationRepository) {
+    private final LocationRepository locationRepository;
+
+
+
+    public TypeOfLocationService(TypeOfLocationRepository typeOfLocationRepository, LocationRepository locationRepository) {
         this.typeOfLocationRepository = typeOfLocationRepository;
+        this.locationRepository = locationRepository;
     }
+
+
 
     @Transactional
     public ResponseEntity<TypeOfLocationResponse> addTypeOfLocation( TypeOfLocationCreate typeOfLocationCreate ) {
@@ -64,6 +77,10 @@ public class TypeOfLocationService {
 
     public ResponseEntity<TypeOfLocationResponse> updateTypeOfLocation( UUID id, TypeOfLocationCreate typeOfLocationCreate ) {
 
+        if (typeOfLocationCreate.getName() == null || typeOfLocationCreate.getDescription() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Optional<TypeOfLocation> existingTypeOfLocation = typeOfLocationRepository.findById( id );
 
         if (existingTypeOfLocation.isEmpty())
@@ -71,13 +88,9 @@ public class TypeOfLocationService {
 
         TypeOfLocation typeOfLocationToUpdate = existingTypeOfLocation.get();
 
-        if (typeOfLocationCreate.getName() != null) {
-            typeOfLocationToUpdate.setName(typeOfLocationCreate.getName());
-        }
+        typeOfLocationToUpdate.setName(typeOfLocationCreate.getName());
 
-        if (typeOfLocationCreate.getDescription() != null) {
-            typeOfLocationToUpdate.setDescription(typeOfLocationCreate.getDescription());
-        }
+        typeOfLocationToUpdate.setDescription(typeOfLocationCreate.getDescription());
 
         TypeOfLocation savedTypeOfLocation = typeOfLocationRepository.saveAndFlush( typeOfLocationToUpdate );
 
@@ -91,6 +104,10 @@ public class TypeOfLocationService {
         if (foundTypeOfLocation.isEmpty())
             return ResponseEntity.notFound().build();
 
+        List<Location> foundLocationByTypeOfLocation = locationRepository.findByTypeOfLocationId( id );
+
+        if (foundLocationByTypeOfLocation.size() != 0)
+            return ResponseEntity.badRequest().build();
 
         TypeOfLocation typeOfLocationToDelete = foundTypeOfLocation.get();
 

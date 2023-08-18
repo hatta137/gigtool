@@ -61,6 +61,10 @@ public class TypeOfEquipmentService {
 
     public ResponseEntity<TypeOfEquipmentResponse> updateTypeOfEquipment( UUID id, TypeOfEquipmentCreate typeOfEquipmentCreate ) {
 
+        if (typeOfEquipmentCreate.getName() == null || typeOfEquipmentCreate.getDescription() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
         Optional<TypeOfEquipment> existingTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
         if (existingTypeOfEquipment.isEmpty())
@@ -69,12 +73,11 @@ public class TypeOfEquipmentService {
 
         TypeOfEquipment typeOfEquipmentToUpdate = existingTypeOfEquipment.get();
 
-        if (typeOfEquipmentCreate.getName() != null) {
-            typeOfEquipmentToUpdate.setName(typeOfEquipmentCreate.getName());
-        }
-        if (typeOfEquipmentCreate.getDescription() != null) {
-            typeOfEquipmentToUpdate.setDescription(typeOfEquipmentCreate.getDescription());
-        }
+
+        typeOfEquipmentToUpdate.setName(typeOfEquipmentCreate.getName());
+
+        typeOfEquipmentToUpdate.setDescription(typeOfEquipmentCreate.getDescription());
+
 
         TypeOfEquipment savedTypeOfEquipment = typeOfEquipmentRepository.saveAndFlush( typeOfEquipmentToUpdate );
 

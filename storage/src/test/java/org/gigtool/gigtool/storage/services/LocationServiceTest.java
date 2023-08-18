@@ -67,7 +67,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void getAllLocation() {
+    public void testGetAllLocation() {
 
         LocationCreate locationToSave1 = testUtils.getRandomLocationCreate();
         LocationCreate locationToSave2 = testUtils.getRandomLocationCreate();
@@ -91,7 +91,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void getLocationById() {
+    public void testGetLocationById() {
 
         // positiver Test
         ResponseEntity<LocationResponse> locationInDatabaseById = locationService.getLocationById(savedLocationId);
@@ -113,7 +113,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void updateLocation() {
+    public void testUpdateLocation() {
 
         ResponseEntity<LocationResponse> updatedLocation = locationService.updateLocation(savedLocationId, updateForLocation);
 
@@ -127,7 +127,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void deleteLocation() {
+    public void testDeleteLocation() {
 
         ResponseEntity<LocationResponse> deletedLocation = locationService.deleteLocation( savedLocationId );
 

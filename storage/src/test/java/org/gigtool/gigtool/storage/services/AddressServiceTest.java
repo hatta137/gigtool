@@ -2,8 +2,7 @@ package org.gigtool.gigtool.storage.services;
 
 
 import org.checkerframework.checker.units.qual.A;
-import org.gigtool.gigtool.storage.services.model.AddressCreate;
-import org.gigtool.gigtool.storage.services.model.AddressResponse;
+import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,9 @@ public class AddressServiceTest {
     private AddressService addressService;
     @Autowired
     private TestUtils testUtils;
+
+    @Autowired
+    private LocationService locationService;
 
     private AddressCreate addressToSave;
     private ResponseEntity<AddressResponse> savedAddress;
@@ -115,6 +117,7 @@ public class AddressServiceTest {
     @Test
     public void testUpdateAddress() {
 
+        //positive
         ResponseEntity<AddressResponse> addressBeforeUpdate = savedAddress;
 
         AddressCreate updateForAddress = new AddressCreate(
@@ -134,14 +137,49 @@ public class AddressServiceTest {
 
         assertEquals(updatedAddress.getBody().getHouseNumber(), 12);
         assertEquals(updatedAddress.getBody().getStreet(), "newStreet");
+
+        //negative
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == addressBeforeUpdate.getBody().getId()) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<AddressResponse> updatedAddressFalse = addressService.updateAddress(randomUUID, updateForAddress);
+
+        assertTrue(updatedAddressFalse.getStatusCode().is4xxClientError());
     }
 
     @Test
     public void testDeleteAddress() {
 
+        //positive
         ResponseEntity<AddressResponse> deletedAddress = addressService.deleteAddress( savedAddressId );
 
         assertNull(deletedAddress.getBody());
 
+        //negative
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == savedAddressId) {
+            randomUUID = UUID.randomUUID();
+        }
+
+
+
+        ResponseEntity<AddressResponse> deletedAddressFalse = addressService.deleteAddress( randomUUID );
+
+        assertTrue(deletedAddressFalse.getStatusCode().is4xxClientError());
+
+        UUID newAddressId = testUtils.getRandomAddressResponse().getBody().getId();
+
+        LocationCreate locationCreate = new LocationCreate(
+                newAddressId,
+                testUtils.getRandomTypeOfLocationResponse().getBody().getId()
+        );
+
+/*        ResponseEntity<LocationResponse> location = locationService.addLocation( locationCreate );
+
+        ResponseEntity<AddressResponse> deletedAddressWithLocationRelation = addressService.deleteAddress( newAddressId );
+
+        assertTrue(deletedAddressFalse.getStatusCode().is4xxClientError());*/
     }
 }

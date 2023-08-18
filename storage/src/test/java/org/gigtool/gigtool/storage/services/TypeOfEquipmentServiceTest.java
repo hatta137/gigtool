@@ -105,15 +105,15 @@ public class TypeOfEquipmentServiceTest {
 
         TypeOfEquipmentCreate updateForTypeOfEquipment = new TypeOfEquipmentCreate(
                 "name",
-                null
+                "description"
         );
 
         ResponseEntity<TypeOfEquipmentResponse> updatedTypeOfEquipment = typeOfEquipmentService.updateTypeOfEquipment(savedTypeOfEquipmentId, updateForTypeOfEquipment);
 
         assertEquals(typeOfEquipmentBeforeUpdate.getBody().getId(),          Objects.requireNonNull(updatedTypeOfEquipment.getBody()).getId());
-        assertEquals(typeOfEquipmentBeforeUpdate.getBody().getDescription(), Objects.requireNonNull(updatedTypeOfEquipment.getBody()).getDescription());
 
         assertEquals(updatedTypeOfEquipment.getBody().getName(), "name");
+        assertEquals(updatedTypeOfEquipment.getBody().getDescription(), "description");
     }
 
     @Test

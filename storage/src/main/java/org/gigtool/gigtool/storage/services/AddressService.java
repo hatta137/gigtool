@@ -1,7 +1,9 @@
 package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Address;
+import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
+import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.gigtool.gigtool.storage.services.model.AddressCreate;
@@ -23,13 +25,16 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
 
+    private final LocationRepository locationRepository;
+
     /**
      * Constructs an instance of the AddressService.
      *
      * @param addressRepository The repository for accessing address data.
      */
-    public AddressService( AddressRepository addressRepository ) {
+    public AddressService( AddressRepository addressRepository, LocationRepository locationRepository ) {
         this.addressRepository = addressRepository;
+        this.locationRepository = locationRepository;
     }
 
     /**
@@ -139,6 +144,7 @@ public class AddressService {
      * @param id The unique identifier of the address to delete.
      * @return A response entity indicating the success or failure of the deletion operation.
      */
+    @Transactional
     public ResponseEntity<AddressResponse> deleteAddress( UUID id ) {
 
         Optional<Address> foundAddress = addressRepository.findById( id );
@@ -146,11 +152,18 @@ public class AddressService {
         if (foundAddress.isEmpty())
             return ResponseEntity.notFound().build();
 
-        Address addressToDelete = foundAddress.get();
+        List<Location> foundLocationAddress = locationRepository.findByTypeOfLocationId( id );
 
-        addressRepository.delete(addressToDelete);
+        if (foundLocationAddress.isEmpty()) {
+            Address addressToDelete = foundAddress.get();
 
-        return ResponseEntity.accepted().build();
+            addressRepository.delete(addressToDelete);
+
+            return ResponseEntity.accepted().build();
+        }
+
+        // TODO Funktioniert noch nicht
+        return ResponseEntity.badRequest().build();
     }
 }
 
