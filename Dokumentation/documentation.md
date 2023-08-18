@@ -24,16 +24,19 @@ Die [Postman-App](https://www.postman.com/downloads/) werden wir später in der 
 
 ## Architektur
 
-Unsere API-Applikation besteht aus mehreren Komponenten.
+Die GigTool Architektur umfasst mehrere Bereiche, die wir euch in den kommenden Abschnitt verständlich näher bringen wollen.
+
+
+### Komponenten
 
 ![Komponentendiagramm](assets/Komponentendiagramm.drawio.v2.png "Komponentendiagramm GigTool")
 
 Wie im Komponentendiagramm zu erkennen, enthält die api alle wichtigen Controller-Klassen.
-Diese sind für das Routing der Anfragen zuständig.
+Diese sind für das Routing der Anfragen zu den Endpoints zuständig.
 
-In der storage Komponente befinden 
+Die storage Komponente ist unterteilt in verschiedene Module.
 
-Das Modul "model" ist für die Definition der Datenbank-Objekte vorgesehen und beschreibt, wie diese auszusehen haben.
+Das "model" ist für die Definition der Datenbank-Objekte vorgesehen und beschreibt, wie diese auszusehen haben.
 
 Die repos im "repositories"-Modul, benötigen wir um überhaupt Datenbank-Operationen anwenden zu können. 
 Sie sind bei Bedarf beliebig erweiterbar, falls die JPA-Funktionalitäten nicht ausreichen.
@@ -48,6 +51,13 @@ Die Komponente "db" enthält unser Initialiserungsskript mit dem Namen der Daten
 Die docker-compose.yml ist unsere docker-Komponente im Projekt. Sie sorgt für die Containerisierung unserer PostgresSQL-DB und dem Verwaltungstool pgadmin.
 
 Die Maven POM enthält alle wichtigen Abhängigkeiten für unser Spring Boot-Projekt und stellt sozusagen den Build-Planer dar.
+
+
+### Interfaces
+
+Im folgenden Schaubild zeigen wir euch, wie unser API-Interface funktioniert und welche Abläufe im backend angestoßen werden, wenn der User beispielsweise ein Equipment anlegen möchte.
+
+![Interface](assets/EquipmentInterface.png "Interface Equipment")
 
 
 
