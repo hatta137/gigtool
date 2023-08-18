@@ -79,8 +79,6 @@ public class TestUtils {
         );
     }
 
-
-
     public EquipmentCreate getRandomEquipmentCreate() {
         Random random = new Random();
 
