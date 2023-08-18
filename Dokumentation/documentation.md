@@ -31,9 +31,11 @@ Die GigTool Architektur umfasst mehrere Bereiche, die wir euch in den kommenden 
 
 ![Komponentendiagramm](assets/Komponentendiagramm.drawio.v2.png "Komponentendiagramm GigTool")
 
+#### api
 Wie im Komponentendiagramm zu erkennen, enthält die api alle wichtigen Controller-Klassen.
 Diese sind für das Routing der Anfragen zu den Endpoints zuständig.
 
+#### storage
 Die storage Komponente ist unterteilt in verschiedene Module.
 
 Das "model" ist für die Definition der Datenbank-Objekte vorgesehen und beschreibt, wie diese auszusehen haben.
@@ -45,11 +47,13 @@ Das services-Modul ist nochmal unterteilt in service.models und services.
 Die service.models definieren, wie die create- und response-Objekte auszusehen haben.
 Services sind für die Trennung von Geschäftslogik und Datenbankzugriff zuständig.
 
-
+#### db
 Die Komponente "db" enthält unser Initialiserungsskript mit dem Namen der Datenbank und dem root-User zur Verwaltung.
 
+#### docker
 Die docker-compose.yml ist unsere docker-Komponente im Projekt. Sie sorgt für die Containerisierung unserer PostgresSQL-DB und dem Verwaltungstool pgadmin.
 
+#### maven
 Die Maven POM enthält alle wichtigen Abhängigkeiten für unser Spring Boot-Projekt und stellt sozusagen den Build-Planer dar.
 
 
