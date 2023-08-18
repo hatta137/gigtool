@@ -228,10 +228,10 @@ public class EquipmentServiceTest {
 
         EquipmentCreate updateForEquipment = new EquipmentCreate(
                 "name",
-                "",
-                null,
-                0,0,0,0,
-                null,
+                "description",
+                testUtils.getRandomTypeOfEquipmentResponse().getBody().getId(),
+                1,1,1,1,
+                LocalDate.now(),
                 locationId,
                 0.0f);
 

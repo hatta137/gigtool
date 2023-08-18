@@ -1,11 +1,13 @@
 package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Address;
+import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.model.TypeOfLocation;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
 import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.repositories.TypeOfLocationRepository;
+import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
 import org.gigtool.gigtool.storage.services.model.LocationCreate;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.springframework.http.ResponseEntity;
@@ -72,6 +74,32 @@ public class LocationService {
 
         return ResponseEntity.accepted().body( new LocationResponse( foundLocation.get() ));
     }
+
+/*    public ResponseEntity<List<LocationResponse>> getLocationByTypeOfLocationId( UUID TypeOfLocationId ) {
+
+        List<Location> locationList = locationRepository.findByTypeOfLocationId( TypeOfLocationId );
+
+        if (locationList.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        List<LocationResponse> responseList = locationList
+                .stream().map(LocationResponse::new).toList();
+
+        return ResponseEntity.status(200).body( responseList );
+    }
+
+    public ResponseEntity<List<LocationResponse>> getLocationByAddressId( UUID addressId ) {
+
+        List<Location> locationList = locationRepository.findByAddressId( addressId );
+
+        if (locationList.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        List<LocationResponse> responseList = locationList
+                .stream().map(LocationResponse::new).toList();
+
+        return ResponseEntity.status(200).body( responseList );
+    }*/
 
     public ResponseEntity<LocationResponse> updateLocation( UUID id, LocationCreate locationCreate ) {
 
