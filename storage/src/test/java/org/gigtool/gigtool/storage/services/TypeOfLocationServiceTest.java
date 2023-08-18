@@ -23,6 +23,7 @@ public class TypeOfLocationServiceTest {
     @Autowired
     private TestUtils testUtils;
 
+
     private TypeOfLocationCreate typeOfLocationToSave;
     private ResponseEntity<TypeOfLocationResponse> savedTypeOfLocation;
     private UUID savedTypeOfLocationId;
@@ -76,7 +77,7 @@ public class TypeOfLocationServiceTest {
     }
 
     @Test
-    public void testGetAddressById() {
+    public void testGetTypeOfLocationById() {
 
         // positive Test
         ResponseEntity<TypeOfLocationResponse> typeOfLocationInDatabaseById = typeOfLocationService.getTypeOfLocationById(savedTypeOfLocationId);
@@ -98,28 +99,52 @@ public class TypeOfLocationServiceTest {
     }
 
     @Test
+    @Transactional
     public void testUpdateTypeOfLocation() {
 
         ResponseEntity<TypeOfLocationResponse> typeOfLocationBeforeUpdate = savedTypeOfLocation;
 
         TypeOfLocationCreate updateForTypeOfLocation = new TypeOfLocationCreate(
                 "name",
-                null
+                "description"
         );
 
+        //positiv
         ResponseEntity<TypeOfLocationResponse> updatedTypeOfLocation = typeOfLocationService.updateTypeOfLocation(savedTypeOfLocationId, updateForTypeOfLocation);
 
         assertEquals(Objects.requireNonNull(typeOfLocationBeforeUpdate.getBody()).getId(), Objects.requireNonNull(updatedTypeOfLocation.getBody()).getId());
-        assertEquals(typeOfLocationBeforeUpdate.getBody().getDescription(),         Objects.requireNonNull(updatedTypeOfLocation.getBody()).getDescription());
 
         assertEquals(updatedTypeOfLocation.getBody().getName(), "name");
+        assertEquals(updatedTypeOfLocation.getBody().getDescription(), "description");
+
+        //negative
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == typeOfLocationBeforeUpdate.getBody().getId()) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<TypeOfLocationResponse> updatedTypeOfLocationFalse = typeOfLocationService.updateTypeOfLocation(randomUUID, updateForTypeOfLocation);
+
+        assertTrue(updatedTypeOfLocationFalse.getStatusCode().is4xxClientError());
+
     }
 
     @Test
     public void testDeleteTypeOfLocation() {
 
+        //positive
         ResponseEntity<TypeOfLocationResponse> deletedTypeOfLocation = typeOfLocationService.deleteTypeOfLocation( savedTypeOfLocationId );
 
         assertNull(deletedTypeOfLocation.getBody());
+
+        //negative
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == savedTypeOfLocationId) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<TypeOfLocationResponse> deletedTypeOfLocationFalse = typeOfLocationService.deleteTypeOfLocation( randomUUID );
+
+        assertTrue(deletedTypeOfLocationFalse.getStatusCode().is4xxClientError());
     }
 }
