@@ -69,15 +69,15 @@ Im folgenden Schaubild zeigen wir euch, wie unser API-Interface funktioniert und
 
 Unser Projekt haben wir von Java 1 weitergeführt. Wie ihr sicherlich merkt, ist der Grad an Komplexität jedoch deutlich gestiegen und wir haben mehrere Umbauten vornehmen müssen.
 
-### Calc Klasse
+### Calc
 
 Diese Utility-Class wurde entfernt, da wir festgestellt haben, dass alle Funktionen auf entsprechende Services aufgeteilt werden konnten.
 
 ### WeightClass und WeightClassList
 
 Diese Klassen waren gedacht um das Equipment, anhand des Gewichts zu Kategorisieren.
-Diese Kategorien (WeightClass) waren aufsteigend in der WeightClassList gespeichert.
-Das alles sollte dazu dienen, Aussagen über das Gewicht/Gesamtgewicht zu geben.
+Diese Kategorien (WeightClasses) waren aufsteigend in der WeightClassList gespeichert.
+Das sollte dazu dienen, Aussagen über das Gewicht/Gesamtgewicht zu geben.
 Um die Klassenstruktur zu vereinfachen wurden diese Klassen gestrichen.
 Aussagen über das Gewicht/Gesamtgewicht können trotzdem getroffen werden, da das Eigengewicht in der
 Entität Equipment gespeichert wird.
@@ -101,9 +101,26 @@ Equipment speichern.
 
 ## Anwenderdokumentation
 
-### Service Tests in Intellj
+Wir unterstützen folgende Möglichkeiten, um unsere API-Applikation zu testen:
 
-### Routen und Controller in Postman
+### Intellj
+
+Für den Test der Services und Repositories ermöglicht uns die Intellj-IDE die Ausführung unserer Applikation.
+Zuerst führen wir Docker Desktop aus und starten die docker-compose.yml im Projektordner, um die benötigten Docker-Container der PostgreSQL-Datenbank zu erstellen.
+
+![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "PostgreSQL Container")
+
+Über das Startmenü im oberen Bereich unserer IDE können wir dann die Applikation starten. Allerdings erst, nachdem wir alle Maven Dependencies erfolgreich installiert haben.
+
+![IntelljRunApplication](assets/RunApplicationField.png "Application Startmenü")
+
+Im Anschluss sobald die Applikation läuft, können wir in der storage-Komponente unsere Testklassen starten.
+Mittels Rechtsklick auf den java-Testordner gelangen wir in das Optionsmenü, in dem wir " Run 'All Tests' " ausführen können.
+
+![IntelljRunAllTests](assets/RunAllTestsMenu.png "Run All Tests")
+
+
+### Postman
 
 ### Auflistung Endpoints
 
