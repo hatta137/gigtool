@@ -20,6 +20,9 @@ Zum Einstieg möchten wir euch erstmal zeigen, wie ihr unsere API-Applikation in
 Hier noch ergänzen Maven etc mal Testweise auf Laptop alles durchklicken
 docker compose up</pre>
 
+[Docker Desktop](https://www.docker.com/products/docker-desktop/) benötigen wir für die Containerisierung unserer Datenbank.
+
+
 Die [Postman-App](https://www.postman.com/downloads/) werden wir später in der Anwenderdokumentation nutzen, um unsere Routen und Controller zu testen.
 
 ## Architektur
@@ -101,15 +104,14 @@ Equipment speichern.
 
 ## Anwenderdokumentation
 
-Wir unterstützen folgende Möglichkeiten, um unsere API-Applikation zu testen:
+Die Docker Container der PostgreSQl-Datenbank und pgadmin sollten bereits laufen (siehe Installationsanleitung).
+Sollte das noch nicht der Fall sein dann starten wir die docker-compose.yml im Projektordner, um die benötigten Docker-Container der PostgreSQL-Datenbank und dem Verwaltungstool zu erstellen.
+
+![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "PostgreSQL Container")
 
 ### Intellj
 
 Für den Test der Services und Repositories ermöglicht uns die Intellj-IDE die Ausführung unserer Applikation.
-Zuerst führen wir Docker Desktop aus und starten die docker-compose.yml im Projektordner, um die benötigten Docker-Container der PostgreSQL-Datenbank zu erstellen.
-
-![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "PostgreSQL Container")
-
 Über das Startmenü im oberen Bereich unserer IDE können wir dann die Applikation starten. Allerdings erst, nachdem wir alle Maven Dependencies erfolgreich installiert haben.
 
 ![IntelljRunApplication](assets/RunApplicationField.png "Application Startmenü")
@@ -119,6 +121,11 @@ Mittels Rechtsklick auf den java-Testordner gelangen wir in das Optionsmenü, in
 
 ![IntelljRunAllTests](assets/RunAllTestsMenu.png "Run All Tests")
 
+Nun sollten alle vorhandenen Tests durchgeführt werden und im Konsolenfenster der IDE bekommen wir eine Auskunft über alle erfolgreichen oder auch fehlgeschlagenen Tests.
+
+Zum Beispiel:
+
+![IntelljConsoleTestOutput](assets/TestConsoleOutput.png "Console Output")
 
 ### Postman
 
@@ -131,5 +138,10 @@ testutils- randomgenerator
 
 ## Lessons Learned
 
-
+> - Aufbau einer API-Applikation in Java
+> - Spring Boot
+> - Maven POM
+> - JPA repos
+> - dockerize/manage PostgreSQL
+> - Postman Collection + Workspaces
 
