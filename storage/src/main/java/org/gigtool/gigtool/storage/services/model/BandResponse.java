@@ -30,4 +30,24 @@ public class BandResponse {
         this.listOfRole = band.getListOfRole();
         this.equipmentList = band.getEquipmentList();
     }
+/*
+alternative nur ids?
+    TODO welche variante?
+    private UUID id;
+    private String name;
+    private UUID genre;
+    private List<UUID> listOfRole;
+    private List<UUID> equipmentList;
+
+    public BandResponse (Band band){
+        this.id = band.getId();
+        this.name = band.getName();
+        this.genre = band.getGenre().getId();
+        this.listOfRole = band.getListOfRole().stream()
+                .map(RoleInTheBand::getId)
+                .toList();
+        this.equipmentList = band.getEquipmentList().stream()
+                .map(Equipment::getId)
+                .toList();
+    }*/
 }
