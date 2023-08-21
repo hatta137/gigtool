@@ -4,6 +4,7 @@ import org.gigtool.gigtool.storage.model.TypeOfGig;
 import org.gigtool.gigtool.storage.repositories.TypeOfGigRepository;
 import org.gigtool.gigtool.storage.services.model.TypeOfGigCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfGigResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -73,15 +74,21 @@ public class TypeOfGigService {
         return ResponseEntity.ok(new TypeOfGigResponse(savedType));
     }
 
-    public ResponseEntity<String> deleteTypeOfGig(UUID id) {
-        if (id == null) {
+    public ResponseEntity<String> deleteTypeOfGig(UUID typeId) {
+        if (typeId == null) {
             return ResponseEntity.badRequest().body("No ID");
         }
 
-        Optional<TypeOfGig> existingType = typeOfGigRepository.findById(id);
+        Optional<TypeOfGig> existingType = typeOfGigRepository.findById(typeId);
 
         if (existingType.isEmpty()) {
             return ResponseEntity.notFound().build();
+        }
+
+        int gigsWithTypeOfGig = typeOfGigRepository.countBandsWithGenre(typeId);
+
+        if(gigsWithTypeOfGig > 0){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("TypeOfGig has a relation to a Gig. You cannot delete this TypeOfGig!");
         }
 
         typeOfGigRepository.delete(existingType.get());
