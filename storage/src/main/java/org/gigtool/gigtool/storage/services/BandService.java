@@ -8,12 +8,14 @@ import org.gigtool.gigtool.storage.repositories.GenreRepository;
 import org.gigtool.gigtool.storage.repositories.RoleInTheBandRepository;
 import org.gigtool.gigtool.storage.services.model.BandCreate;
 import org.gigtool.gigtool.storage.services.model.BandResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class BandService {
@@ -60,19 +62,63 @@ public class BandService {
         return ResponseEntity.ok(new BandResponse(savedBand));
     }
 
-/*
-    public ResponseEntity<BandResponse> addEquipment(UUID id, Equipment equipment) {
+    public ResponseEntity<List<BandResponse>> getAllBands() {
 
-        if (equipment == null) {
+        List<Band> bandList = bandRepository.findAll();
+
+        List<BandResponse> responseList = bandList.stream()
+                .map(BandResponse::new)
+                .toList();
+
+        return ResponseEntity.ok(responseList);
+    }
+
+    public ResponseEntity<BandResponse> getBandById(UUID bandId) {
+        Optional<Band> bandOptional = bandRepository.findById(bandId);
+
+        return bandOptional.map(band -> ResponseEntity.ok(new BandResponse(band)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+
+    public ResponseEntity<String> deleteBand(UUID bandId) {
+
+        if (bandId == null) {
+            return ResponseEntity.badRequest().body("No ID");
+        }
+
+        Optional<Band> existingBand = bandRepository.findById(bandId);
+
+        if (existingBand.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        int gigsForBand = bandRepository.countGigsForBand(bandId);
+
+        if (gigsForBand > 0) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Band has a relation to Gigs. You cannot delete this Band!");
+        }
+
+        bandRepository.delete(existingBand.get());
+
+        return ResponseEntity.ok("Band is deleted");
+    }
+
+
+/*
+
+    public ResponseEntity<BandResponse> addEquipment(UUID bandId, UUID equipmentId) {
+
+        if ((equipmentId == null) || (bandId == null)) {
             return ResponseEntity.badRequest().build();
         }
 
         //TODO @Dario Inventory gibts nicht mehr, da Datenbank
         //checken ob es das equipmentb allgemein schon gibt in der equipment tabbelle
-*//*        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
+        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
 
             Inventory.getInstance().getEquipmentList().addEquipment(equipment);
-        }*//*
+        }
 
         this.equipmentList.add(equipment);
 
@@ -131,7 +177,8 @@ public class BandService {
             }
         }
         return false;
-    }*/
+    }
+*/
 
 
 }
