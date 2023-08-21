@@ -22,7 +22,7 @@ public class RoleInTheBandService {
 
     public ResponseEntity<RoleInTheBandResponse> addRoleInTheBand (RoleInTheBandCreate roleInTheBandCreate) {
 
-        if ((roleInTheBandCreate.getName() == null) && (roleInTheBandCreate.getDescription() == null)) {
+        if ((roleInTheBandCreate.getName() == null) || (roleInTheBandCreate.getDescription() == null)) {
             return ResponseEntity.badRequest().build();
         }
 
