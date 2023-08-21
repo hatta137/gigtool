@@ -154,16 +154,18 @@ public class AddressService {
 
         List<Location> foundLocationAddress = locationRepository.findByTypeOfLocationId( id );
 
-        if (foundLocationAddress.isEmpty()) {
-            Address addressToDelete = foundAddress.get();
+        if (!foundLocationAddress.isEmpty())
+            return ResponseEntity.badRequest().build();
 
-            addressRepository.delete(addressToDelete);
+        Address addressToDelete = foundAddress.get();
 
-            return ResponseEntity.accepted().build();
-        }
+        addressRepository.delete(addressToDelete);
+
+        return ResponseEntity.accepted().build();
+
 
         // TODO Funktioniert noch nicht
-        return ResponseEntity.badRequest().build();
+
     }
 }
 
