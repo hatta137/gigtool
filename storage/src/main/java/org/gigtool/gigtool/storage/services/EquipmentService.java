@@ -32,7 +32,7 @@ public class EquipmentService {
         this.locationRepository = locationRepository;
     }
 
-    //TODO @Hendrik Fehlermeldung einbauen
+
     @Transactional
     public ResponseEntity<EquipmentResponse> addEquipment( EquipmentCreate equipmentCreate ) {
 
@@ -45,24 +45,26 @@ public class EquipmentService {
             return ResponseEntity.badRequest().build();
         }
 
-        TypeOfEquipment typeOfEquipment = typeOfEquipmentRepository.findById( equipmentCreate.getTypeOfEquipmentId() )
-                .orElseThrow(() -> new IllegalArgumentException("Type of equipment not found"));
+        Optional<TypeOfEquipment> typeOfEquipment = typeOfEquipmentRepository.findById( equipmentCreate.getTypeOfEquipmentId() );
 
-        Location location = locationRepository.findById(equipmentCreate.getLocationId())
-                .orElseThrow(() -> new IllegalArgumentException("Location not found"));
+        if (typeOfEquipment.isEmpty())
+            return ResponseEntity.notFound().build();
 
+        Optional<Location> location = locationRepository.findById(equipmentCreate.getLocationId());
 
+        if (location.isEmpty())
+            return ResponseEntity.notFound().build();
 
         Equipment equipment = new Equipment(
                 equipmentCreate.getName(),
                 equipmentCreate.getDescription(),
-                typeOfEquipment,
+                typeOfEquipment.get(),
                 equipmentCreate.getWeight(),
                 equipmentCreate.getLength(),
                 equipmentCreate.getWidth(),
                 equipmentCreate.getHeight(),
                 equipmentCreate.getDateOfPurchase(),
-                location,
+                location.get(),
                 equipmentCreate.getPrice()
         );
 
@@ -101,7 +103,7 @@ public class EquipmentService {
         Optional<Equipment> existingEquipment = equipmentRepository.findById( id );
 
         if (existingEquipment.isEmpty())
-            throw new RuntimeException( "Address not found with id: " + id );
+            return ResponseEntity.notFound().build();
 
         Equipment equipmentToUpdate = existingEquipment.get();
 

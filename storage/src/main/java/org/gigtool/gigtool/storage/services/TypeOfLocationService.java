@@ -106,7 +106,7 @@ public class TypeOfLocationService {
 
         List<Location> foundLocationByTypeOfLocation = locationRepository.findByTypeOfLocationId( id );
 
-        if (foundLocationByTypeOfLocation.size() != 0)
+        if (!foundLocationByTypeOfLocation.isEmpty())
             return ResponseEntity.badRequest().build();
 
         TypeOfLocation typeOfLocationToDelete = foundTypeOfLocation.get();
