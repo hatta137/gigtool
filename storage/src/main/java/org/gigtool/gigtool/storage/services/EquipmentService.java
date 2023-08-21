@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 //TODO Kommentare der Funktionen + Allg. Klasse
+
+/**
+ * @author Hendrik Lendeckel
+ * Service class for managing equipment-related operations.
+ */
 @Service
 public class EquipmentService {
 
@@ -32,7 +37,12 @@ public class EquipmentService {
         this.locationRepository = locationRepository;
     }
 
-
+    /**
+     * Adds a new equipment.
+     *
+     * @param equipmentCreate The details of the equipment to be added.
+     * @return A ResponseEntity containing the added equipment response or a bad request if input is invalid.
+     */
     @Transactional
     public ResponseEntity<EquipmentResponse> addEquipment( EquipmentCreate equipmentCreate ) {
 
@@ -73,7 +83,11 @@ public class EquipmentService {
         return ResponseEntity.accepted().body( new EquipmentResponse( savedEquipment ) );
     }
 
-
+    /**
+     * Retrieves a list of all equipment.
+     *
+     * @return A ResponseEntity containing a list of equipment responses.
+     */
     public ResponseEntity<List<EquipmentResponse>> getAllEquipment() {
 
         List<Equipment> equipmentList = equipmentRepository.findAll();
@@ -86,7 +100,12 @@ public class EquipmentService {
         return ResponseEntity.status(200).body( responseList );
     }
 
-
+    /**
+     * Retrieves equipment by its ID.
+     *
+     * @param id The ID of the equipment to retrieve.
+     * @return A ResponseEntity containing the equipment response or not found if the equipment doesn't exist.
+     */
     public ResponseEntity<EquipmentResponse> getEquipmentById( UUID id ) {
 
         Optional<Equipment> foundEquipment = equipmentRepository.findById( id );
@@ -97,7 +116,13 @@ public class EquipmentService {
         return ResponseEntity.accepted().body( new EquipmentResponse( foundEquipment.get() ));
     }
 
-
+    /**
+     * Updates an existing equipment.
+     *
+     * @param id               The ID of the equipment to update.
+     * @param equipmentCreate The updated equipment details.
+     * @return A ResponseEntity containing the updated equipment response or not found if the equipment doesn't exist.
+     */
     public ResponseEntity<EquipmentResponse> updateEquipment( UUID id, EquipmentCreate equipmentCreate ) {
 
         Optional<Equipment> existingEquipment = equipmentRepository.findById( id );
@@ -153,7 +178,12 @@ public class EquipmentService {
         return ResponseEntity.ok().body( new EquipmentResponse( savedEquipment ));
     }
 
-
+    /**
+     * Deletes an existing equipment.
+     *
+     * @param id The ID of the equipment to delete.
+     * @return A ResponseEntity indicating the success of the deletion or not found if the equipment doesn't exist.
+     */
     public ResponseEntity<EquipmentResponse> deleteEquipment( UUID id ) {
 
         Optional<Equipment> foundEquiupment = equipmentRepository.findById( id );
@@ -169,6 +199,12 @@ public class EquipmentService {
         return ResponseEntity.accepted().build();
     }
 
+    /**
+     * Retrieves a list of equipment by a specific type of equipment.
+     *
+     * @param typeOfEquipmentId The ID of the type of equipment.
+     * @return A ResponseEntity containing a list of equipment responses or not found if no equipment exists for the given type.
+     */
     public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByTypeOfEquipment( UUID typeOfEquipmentId ) {
 
         List<Equipment> equipmentList = equipmentRepository.findByTypeOfEquipmentId( typeOfEquipmentId );
@@ -182,7 +218,12 @@ public class EquipmentService {
         return ResponseEntity.status(200).body( responseList );
     }
 
-
+    /**
+     * Retrieves a list of equipment by a specific location.
+     *
+     * @param locationId The ID of the location.
+     * @return A ResponseEntity containing a list of equipment responses or not found if no equipment exists for the given location.
+     */
     public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByLocation( UUID locationId ) {
 
         List<Equipment> equipmentList = equipmentRepository.findByLocationId( locationId );
