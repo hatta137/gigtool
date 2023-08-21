@@ -78,6 +78,7 @@ public class GenreService {
     }
 
     public ResponseEntity<String> deleteGenre(UUID genreId) {
+
         if (genreId == null) {
             return ResponseEntity.badRequest().body("No ID");
         }
