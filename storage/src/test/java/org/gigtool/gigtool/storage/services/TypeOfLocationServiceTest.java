@@ -127,6 +127,14 @@ public class TypeOfLocationServiceTest {
 
         assertTrue(updatedTypeOfLocationFalse.getStatusCode().is4xxClientError());
 
+        TypeOfLocationCreate updateForTypeOfLocationFalse = new TypeOfLocationCreate(
+                "name",
+                null
+        );
+
+        ResponseEntity<TypeOfLocationResponse> updatedTypeOfLocationFalse2 = typeOfLocationService.updateTypeOfLocation(randomUUID, updateForTypeOfLocationFalse);
+
+        assertTrue(updatedTypeOfLocationFalse2.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -146,5 +154,12 @@ public class TypeOfLocationServiceTest {
         ResponseEntity<TypeOfLocationResponse> deletedTypeOfLocationFalse = typeOfLocationService.deleteTypeOfLocation( randomUUID );
 
         assertTrue(deletedTypeOfLocationFalse.getStatusCode().is4xxClientError());
+
+        ResponseEntity<LocationResponse> locationResponse = testUtils.getRandomLocationResponse();
+        TypeOfLocationResponse typeOfLocationResponse  = locationResponse.getBody().getTypeOfLocationResponse();
+
+        ResponseEntity<TypeOfLocationResponse> deletedTypeOfLocationFalse2 = typeOfLocationService.deleteTypeOfLocation( typeOfLocationResponse.getId() );
+
+        assertTrue(deletedTypeOfLocationFalse2.getStatusCode().is4xxClientError());
     }
 }

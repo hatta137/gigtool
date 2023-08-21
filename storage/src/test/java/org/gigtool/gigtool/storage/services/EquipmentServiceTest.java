@@ -2,6 +2,7 @@ package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.services.model.EquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
+import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,27 @@ public class EquipmentServiceTest {
         ResponseEntity<EquipmentResponse> negativeResult = equipmentService.addEquipment(incompleteEquipment);
 
         assertFalse(negativeResult.getStatusCode().is2xxSuccessful());
+
+        UUID randomUUID = UUID.randomUUID();
+
+        while (randomUUID.equals(savedEquipmentId)) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        EquipmentCreate incompleteEquipment2 = new EquipmentCreate(
+                "name",
+                "null",
+                randomUUID,
+                0, 1, 2, 3,
+                LocalDate.now(),
+                randomUUID,
+                100.0f
+        );
+
+        ResponseEntity<EquipmentResponse> negativeResult2 = equipmentService.addEquipment(incompleteEquipment2);
+
+        assertTrue(negativeResult2.getStatusCode().is4xxClientError());
+
     }
 
     @Test
@@ -145,7 +167,8 @@ public class EquipmentServiceTest {
     @Test
     @Transactional
     public void testUpdateEquipment() {
-        EquipmentCreate updateForEquipment = new EquipmentCreate("newName");
+        EquipmentCreate updateForEquipment = new EquipmentCreate("newName" );
+        updateForEquipment.setPrice(10.50f);
 
         ResponseEntity<EquipmentResponse> equipmentBeforeUpdate = savedEquipment;
 
@@ -161,9 +184,19 @@ public class EquipmentServiceTest {
         assertEquals(updatedEquipment.getBody().getHeight(),                            equipmentBeforeUpdate.getBody().getHeight());
         assertEquals(updatedEquipment.getBody().getDateOfPurchase(),                    equipmentBeforeUpdate.getBody().getDateOfPurchase());
         assertEquals(updatedEquipment.getBody().getLocationResponse().getId(),          equipmentBeforeUpdate.getBody().getLocationResponse().getId());
-        assertEquals(updatedEquipment.getBody().getPrice(),                             equipmentBeforeUpdate.getBody().getPrice());
 
         assertEquals(updatedEquipment.getBody().getName(), "newName");
+        assertEquals(updatedEquipment.getBody().getPrice(), 10.50f);
+
+        //negative
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == savedEquipmentId) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<EquipmentResponse> negativeResult = equipmentService.updateEquipment( randomUUID, updateForEquipment);
+
+        assertTrue(negativeResult.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -212,6 +245,15 @@ public class EquipmentServiceTest {
         assertEquals(listOfEquipmentByTypeOfEquipment.getBody().get(0).getTypeOfEquipmentResponse().getId(), typeOfEquipmentId);
         assertEquals(listOfEquipmentByTypeOfEquipment.getBody().get(1).getTypeOfEquipmentResponse().getId(), typeOfEquipmentId);
 
+        //negative
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == typeOfEquipmentId) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<List<EquipmentResponse>> negativeResult = equipmentService.getAllEquipmentByTypeOfEquipment( randomUUID );
+
+        assertTrue(negativeResult.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -243,5 +285,15 @@ public class EquipmentServiceTest {
 
         assertEquals(listOfEquipmentByLocation.getBody().get(0).getLocationResponse().getId(), locationId);
         assertEquals(listOfEquipmentByLocation.getBody().get(1).getLocationResponse().getId(), locationId);
+
+        //negative
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == locationId) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<List<EquipmentResponse>> negativeResult = equipmentService.getAllEquipmentByLocation( randomUUID );
+
+        assertTrue(negativeResult.getStatusCode().is4xxClientError());
     }
 }

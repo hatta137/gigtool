@@ -1,5 +1,6 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -114,6 +115,26 @@ public class TypeOfEquipmentServiceTest {
 
         assertEquals(updatedTypeOfEquipment.getBody().getName(), "name");
         assertEquals(updatedTypeOfEquipment.getBody().getDescription(), "description");
+
+        //negative
+        TypeOfEquipmentCreate updateForTypeOfEquipmentFalse = new TypeOfEquipmentCreate(
+                "name",
+                null
+        );
+
+        ResponseEntity<TypeOfEquipmentResponse> updatedTypeOfEquipmentFalse = typeOfEquipmentService.updateTypeOfEquipment(savedTypeOfEquipmentId, updateForTypeOfEquipmentFalse);
+
+        assertTrue(updatedTypeOfEquipmentFalse.getStatusCode().is4xxClientError());
+
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == savedTypeOfEquipmentId) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<TypeOfEquipmentResponse> existingTypeOfEquipmentFalse = typeOfEquipmentService.deleteTypeOfEquipment( randomUUID );
+
+        assertTrue(existingTypeOfEquipmentFalse.getStatusCode().is4xxClientError());
+
     }
 
     @Test

@@ -138,6 +138,22 @@ public class AddressServiceTest {
         assertEquals(updatedAddress.getBody().getHouseNumber(), 12);
         assertEquals(updatedAddress.getBody().getStreet(), "newStreet");
 
+        AddressCreate updateForAddress2 = new AddressCreate(
+                0,
+                null,
+                "zipCode",
+                "country",
+                "city"
+        );
+
+        ResponseEntity<AddressResponse> updatedAddress2 = addressService.updateAddress(savedAddressId, updateForAddress2);
+
+        assertEquals(updatedAddress2.getBody().getCity(), "city");
+        assertEquals(updatedAddress2.getBody().getZipCode(), "zipCode");
+        assertEquals(updatedAddress2.getBody().getCountry(), "country");
+
+        assertEquals(addressBeforeUpdate.getBody().getId(),          updatedAddress2.getBody().getId());
+
         //negative
         UUID randomUUID = UUID.randomUUID();
         while (randomUUID == addressBeforeUpdate.getBody().getId()) {
@@ -163,23 +179,16 @@ public class AddressServiceTest {
             randomUUID = UUID.randomUUID();
         }
 
-
-
         ResponseEntity<AddressResponse> deletedAddressFalse = addressService.deleteAddress( randomUUID );
 
         assertTrue(deletedAddressFalse.getStatusCode().is4xxClientError());
 
-        UUID newAddressId = testUtils.getRandomAddressResponse().getBody().getId();
+        ResponseEntity<LocationResponse> locationResponse = testUtils.getRandomLocationResponse();
+        AddressResponse addressResponse = locationResponse.getBody().getAddressResponse();
 
-        LocationCreate locationCreate = new LocationCreate(
-                newAddressId,
-                testUtils.getRandomTypeOfLocationResponse().getBody().getId()
-        );
+        //ResponseEntity<AddressResponse> deletedAddressFalse2 = addressService.deleteAddress( addressResponse.getId() );
 
-/*        ResponseEntity<LocationResponse> location = locationService.addLocation( locationCreate );
+        //assertTrue(deletedAddressFalse2.getStatusCode().is4xxClientError());
 
-        ResponseEntity<AddressResponse> deletedAddressWithLocationRelation = addressService.deleteAddress( newAddressId );
-
-        assertTrue(deletedAddressFalse.getStatusCode().is4xxClientError());*/
     }
 }

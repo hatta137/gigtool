@@ -115,6 +115,8 @@ public class LocationServiceTest {
     @Test
     public void testUpdateLocation() {
 
+        ResponseEntity<LocationResponse> locationBeforeUpdate = savedLocation;
+
         ResponseEntity<LocationResponse> updatedLocation = locationService.updateLocation(savedLocationId, updateForLocation);
 
         assertEquals(updatedLocation.getBody().getTypeOfLocationResponse().getId(), updateForLocation.getTypeOfLocationId());
@@ -124,6 +126,15 @@ public class LocationServiceTest {
         assertEquals(updatedLocation.getBody().getTypeOfLocationResponse().getId(), updateForLocation.getTypeOfLocationId());
         assertEquals(updatedLocation.getBody().getAddressResponse().getId(),        updateForLocation.getAddressId());
 
+        //negative
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == locationBeforeUpdate.getBody().getId()) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<LocationResponse> updatedLocationFalse = locationService.updateLocation(randomUUID, updateForLocation);
+
+        assertTrue(updatedLocationFalse.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -132,5 +143,15 @@ public class LocationServiceTest {
         ResponseEntity<LocationResponse> deletedLocation = locationService.deleteLocation( savedLocationId );
 
         assertNull(deletedLocation.getBody());
+
+        //negative
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID == savedLocationId) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<LocationResponse> negativeResult = locationService.deleteLocation( randomUUID );
+
+        assertTrue(negativeResult.getStatusCode().is4xxClientError());
     }
 }
