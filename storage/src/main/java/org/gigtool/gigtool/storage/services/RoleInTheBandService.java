@@ -4,6 +4,7 @@ import org.gigtool.gigtool.storage.model.RoleInTheBand;
 import org.gigtool.gigtool.storage.repositories.RoleInTheBandRepository;
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandCreate;
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -82,16 +83,22 @@ public class RoleInTheBandService {
         return ResponseEntity.ok(new RoleInTheBandResponse(savedRole));
     }
 
-    public ResponseEntity<String> deleteRoleInTheBand(UUID id) {
+    public ResponseEntity<String> deleteRoleInTheBand(UUID roleId) {
 
-        if (id == null) {
+        if (roleId == null) {
             return ResponseEntity.badRequest().body("No ID");
         }
 
-        Optional<RoleInTheBand> existingRole = roleInTheBandRepository.findById(id);
+        Optional<RoleInTheBand> existingRole = roleInTheBandRepository.findById(roleId);
 
         if (existingRole.isEmpty()) {
             return ResponseEntity.notFound().build();
+        }
+
+        int bandsWithRoleInTheBand = roleInTheBandRepository.countBandsWithRole(roleId);
+
+        if(bandsWithRoleInTheBand > 0){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("RoleInTheBand has a relation to a Band. You cannot delete this RoleInTheBand!");
         }
 
         roleInTheBandRepository.delete(existingRole.get());
