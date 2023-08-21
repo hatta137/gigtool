@@ -18,7 +18,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
+/**
+ * @author Hendrik Lendeckel
+ * Service class for managing location-related operations.
+ */
 @Service
 @Transactional
 public class LocationService {
@@ -34,6 +37,12 @@ public class LocationService {
         this.typeOfLocationRepository = typeOfLocationRepository;
     }
 
+    /**
+     * Adds a new location.
+     *
+     * @param locationCreate The details of the location to be added.
+     * @return A ResponseEntity containing the added location response or a bad request if input is invalid.
+     */
     @Transactional
     public ResponseEntity<LocationResponse> addLocation(LocationCreate locationCreate) {
 
@@ -54,6 +63,11 @@ public class LocationService {
         return ResponseEntity.accepted().body(new LocationResponse(savedLocation));
     }
 
+    /**
+     * Retrieves a list of all locations.
+     *
+     * @return A ResponseEntity containing a list of location responses.
+     */
     public ResponseEntity<List<LocationResponse>> getAllLocation() {
 
         List<Location> locationList = locationRepository.findAll();
@@ -66,6 +80,12 @@ public class LocationService {
         return ResponseEntity.status(200).body( responseList );
     }
 
+    /**
+     * Retrieves location by its ID.
+     *
+     * @param id The ID of the location to retrieve.
+     * @return A ResponseEntity containing the location response or not found if the location doesn't exist.
+     */
     public ResponseEntity<LocationResponse> getLocationById( UUID id ) {
         Optional<Location> foundLocation = locationRepository.findById( id );
 
@@ -101,6 +121,13 @@ public class LocationService {
         return ResponseEntity.status(200).body( responseList );
     }*/
 
+    /**
+     * Updates an existing location.
+     *
+     * @param id               The ID of the location to update.
+     * @param locationCreate The updated location details.
+     * @return A ResponseEntity containing the updated location response or not found if the location doesn't exist.
+     */
     public ResponseEntity<LocationResponse> updateLocation( UUID id, LocationCreate locationCreate ) {
 
         Optional<Location> existingLocation = locationRepository.findById( id );
@@ -133,6 +160,12 @@ public class LocationService {
         return ResponseEntity.ok().body( new LocationResponse( savedLocation ));
     }
 
+    /**
+     * Deletes an existing location.
+     *
+     * @param id The ID of the location to delete.
+     * @return A ResponseEntity indicating the success of the deletion or not found if the location doesn't exist.
+     */
     public ResponseEntity<LocationResponse> deleteLocation( UUID id ) {
 
         Optional<Location> foundLocation = locationRepository.findById( id );
