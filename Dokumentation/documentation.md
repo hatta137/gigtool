@@ -136,6 +136,7 @@ Zum Beispiel:
 testutils- randomgenerator
 
 
+
 ## Lessons Learned
 
 > - Aufbau einer API-Applikation in Java
@@ -144,4 +145,13 @@ testutils- randomgenerator
 > - JPA repos
 > - dockerize/manage PostgreSQL
 > - Postman Collection + Workspaces
+> - Location, Address und TypeOfLocation sind sehr komplex verschachtelt => hier hatten wir große Ambitionen sind dann aber an einen zu hohen Grad an Komplexität gelangt
+> - bei Happening ist uns der Schritt der Vereinfachung gelungen => hier konnten wir ein einheitliches Zeitformat (Zeit + Datum) für alle Happenings einführen und unsere Datenstrukturen optimieren
 
+## Über den Projektumfang hinausgehende Funktionen
+
+Responses könnten mit einer response_utils noch weiter verfeinert werden. Beispielsweise zu individuellen Messages bei nicht 2xx-Statuscodes.
+
+Bei dem Hinzufügen von mehreren Equipments zu einer Band könnte man anstelle von mehreren Aufrufen mit path-Paramtern auch eine Liste der hinzuzufügenden Equipments im Body übergeben. Dadurch könnten wir den Traffic noch mehr optimieren und die Usability verbessern.
+
+Unsere Applikation könnte durch weitere Get-Requests oder Suchfunktionen nochmals funktionell erweitert werden, z.B. getAllBandsWithGenre oder searchByDescription.
