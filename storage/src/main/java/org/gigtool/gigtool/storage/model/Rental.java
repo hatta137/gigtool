@@ -27,11 +27,4 @@ public class Rental extends Happening {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String responsiblePerson;
-    private LocalDate returnDate;
-
-    public Rental(String name, String description, Address address, Timeslot timeslot, String responsiblePerson, LocalDate returnDate) {
-        super(name, description, address, timeslot);
-        this.responsiblePerson = responsiblePerson;
-        this.returnDate = returnDate;
-    }
 }
