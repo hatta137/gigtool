@@ -34,13 +34,18 @@ public class BandController {
         return bandService.getBandById(id);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<BandResponse> updateBand(@PathVariable UUID id, @RequestBody BandCreate bandRequest) {
+        return bandService.updateBand(id, bandRequest);
+    }
+
     @PutMapping("/{id}/equipment/{eqID}")
-    public ResponseEntity<BandResponse> addEquipment(@PathVariable UUID id, @PathVariable UUID eqID){
+    public ResponseEntity<BandResponse> addEquipment(@PathVariable UUID id, @PathVariable UUID eqID) {
         return bandService.addEquipment(id, eqID);
     }
 
     @DeleteMapping("/{id}/equipment/{eqID}")
-    public ResponseEntity<BandResponse> deleteEquipment(@PathVariable UUID id, @PathVariable UUID eqID){
+    public ResponseEntity<BandResponse> deleteEquipment(@PathVariable UUID id, @PathVariable UUID eqID) {
         return bandService.deleteEquipment(id, eqID);
     }
 

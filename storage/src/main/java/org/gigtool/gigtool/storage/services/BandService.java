@@ -10,6 +10,8 @@ import org.gigtool.gigtool.storage.repositories.GenreRepository;
 import org.gigtool.gigtool.storage.repositories.RoleInTheBandRepository;
 import org.gigtool.gigtool.storage.services.model.BandCreate;
 import org.gigtool.gigtool.storage.services.model.BandResponse;
+import org.gigtool.gigtool.storage.services.model.GenreCreate;
+import org.gigtool.gigtool.storage.services.model.GenreResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -112,6 +114,40 @@ public class BandService {
 
         return ResponseEntity.ok(new BandResponse(savedBand));
 
+    }
+
+    public ResponseEntity<BandResponse> updateBand(UUID bandId, BandCreate bandRequest) {
+
+        if ((bandId == null)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<Band> existingBand = bandRepository.findById(bandId);
+
+        if (existingBand.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Band updatedBand = existingBand.get();
+
+        if (bandRequest.getName() != null) {
+            updatedBand.setName(bandRequest.getName());
+        }
+
+        if (bandRequest.getGenre() != null) {
+
+            Optional<Genre> existingGenre = genreRepository.findById(bandRequest.getGenre());
+
+            if (existingGenre.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            updatedBand.setGenre(existingGenre.get());
+        }
+
+        Band savedBand = bandRepository.saveAndFlush(updatedBand);
+
+        return ResponseEntity.ok(new BandResponse(savedBand));
     }
 
     public ResponseEntity<BandResponse> deleteEquipment(UUID bandId, UUID equipmentId) {
