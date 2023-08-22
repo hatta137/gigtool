@@ -143,6 +143,65 @@ public class BandService {
 
     }
 
+    public ResponseEntity<BandResponse> addRole(UUID bandId, UUID roleId) {
+
+        if ((roleId == null) || (bandId == null)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<Band> existingBand = bandRepository.findById(bandId);
+
+        Optional<RoleInTheBand> existingRole = roleInTheBandRepository.findById(roleId);
+
+        if(existingRole.isEmpty() || existingBand.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Band band = existingBand.get();
+        RoleInTheBand role = existingRole.get();
+
+        if (band.getListOfRole().contains(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        band.getListOfRole().add(role);
+
+        Band savedBand = bandRepository.saveAndFlush(band);
+
+        return ResponseEntity.ok(new BandResponse(savedBand));
+
+    }
+
+    public ResponseEntity<BandResponse> deleteRole(UUID bandId, UUID roleId) {
+
+        if ((roleId == null) || (bandId == null)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<Band> existingBand = bandRepository.findById(bandId);
+
+        Optional<RoleInTheBand> existingRole = roleInTheBandRepository.findById(roleId);
+
+        if(existingRole.isEmpty() || existingBand.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Band band = existingBand.get();
+        RoleInTheBand role = existingRole.get();
+
+        if (!band.getListOfRole().contains(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        band.getListOfRole().remove(role);
+
+        Band savedBand = bandRepository.saveAndFlush(band);
+
+        return ResponseEntity.ok(new BandResponse(savedBand));
+
+    }
+
+
     public ResponseEntity<String> deleteBand(UUID bandId) {
 
         if (bandId == null) {
@@ -165,63 +224,5 @@ public class BandService {
 
         return ResponseEntity.ok("Band is deleted");
     }
-
-
-/*
-    public ArrayList<Equipment> deleteEquipment(Equipment equipment){
-
-        if (equipment == null) {
-
-            throw new IllegalArgumentException("Equipment cannot be null.");
-        }
-
-        this.equipmentList.remove(equipment);
-
-        return this.equipmentList;
-    }
-
-    public ArrayList<RoleInTheBand> addRoleInTheBand(RoleInTheBand roleInTheBand){
-
-        this.listOfRole.add(roleInTheBand);
-
-        return this.listOfRole;
-    }
-
-    public Optional<RoleInTheBand> getRoleInTheBand(int index){
-
-        if (index >= 0 && index < listOfRole.size()){
-
-            return Optional.of(this.listOfRole.get(index));
-        }
-        return Optional.empty();
-    }
-
-    public boolean deleteRoleInTheBand(RoleInTheBand roleInTheBand){
-
-        if (this.listOfRole.isEmpty()){
-            throw new NoSuchElementException("No listOfRole existing");
-        }
-
-        if (roleInTheBand == null){
-            throw new NoSuchElementException("No such RoleInTheBand existing");
-        }
-
-        Iterator<RoleInTheBand> iterator = this.listOfRole.iterator();
-
-        while (iterator.hasNext()) {
-
-            RoleInTheBand role = iterator.next();
-
-            if (roleInTheBand.getName().equals(role.getName())){
-
-                iterator.remove();
-
-                return true;
-            }
-        }
-        return false;
-    }
-*/
-
 
 }

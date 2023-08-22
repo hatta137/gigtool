@@ -44,6 +44,17 @@ public class BandController {
         return bandService.deleteEquipment(id, eqID);
     }
 
+    @PutMapping("/{id}/roleintheband/{roleId}")
+    public ResponseEntity<BandResponse> addRole(@PathVariable UUID id, @PathVariable UUID roleId) {
+        return bandService.addRole(id, roleId);
+    }
+
+    @DeleteMapping("/{id}/roleintheband/{roleId}")
+    public ResponseEntity<BandResponse> deleteRole(@PathVariable UUID id, @PathVariable UUID roleId) {
+        return bandService.deleteRole(id, roleId);
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBand(@PathVariable UUID id) {
         return bandService.deleteBand(id);
