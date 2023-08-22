@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequestMapping("/gig/band")
 public class BandController {
 
-    public final BandService bandService;
+    private final BandService bandService;
 
     public BandController (BandService bandService){
         this.bandService = bandService;
@@ -41,22 +41,22 @@ public class BandController {
 
     @PutMapping("/{id}/equipment/{eqID}")
     public ResponseEntity<BandResponse> addEquipment(@PathVariable UUID id, @PathVariable UUID eqID) {
-        return bandService.addEquipment(id, eqID);
+        return bandService.addEquipmentToBand(id, eqID);
     }
 
     @DeleteMapping("/{id}/equipment/{eqID}")
     public ResponseEntity<BandResponse> deleteEquipment(@PathVariable UUID id, @PathVariable UUID eqID) {
-        return bandService.deleteEquipment(id, eqID);
+        return bandService.deleteEquipmentFromBand(id, eqID);
     }
 
     @PutMapping("/{id}/roleintheband/{roleId}")
     public ResponseEntity<BandResponse> addRole(@PathVariable UUID id, @PathVariable UUID roleId) {
-        return bandService.addRole(id, roleId);
+        return bandService.addRoleToBand(id, roleId);
     }
 
     @DeleteMapping("/{id}/roleintheband/{roleId}")
     public ResponseEntity<BandResponse> deleteRole(@PathVariable UUID id, @PathVariable UUID roleId) {
-        return bandService.deleteRole(id, roleId);
+        return bandService.deleteRoleFromBand(id, roleId);
     }
 
 

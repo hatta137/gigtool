@@ -18,20 +18,11 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Gig extends Happening {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-    //eig doch many to one?
+
     @ManyToOne
     private TypeOfGig typeOfGig;
     @ManyToOne
     private Band band;
 
 
-    public Gig(String name, String description, Address address, Timeslot timeslot, TypeOfGig typeOfGig, Band band){
-        super(name, description, address,timeslot);
-        this.setTypeOfGig(typeOfGig);
-        this.setBand(band);
-        this.setBand(band);
-    }
 }
