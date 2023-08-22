@@ -1,9 +1,11 @@
 package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Band;
+import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Genre;
 import org.gigtool.gigtool.storage.model.RoleInTheBand;
 import org.gigtool.gigtool.storage.repositories.BandRepository;
+import org.gigtool.gigtool.storage.repositories.EquipmentRepository;
 import org.gigtool.gigtool.storage.repositories.GenreRepository;
 import org.gigtool.gigtool.storage.repositories.RoleInTheBandRepository;
 import org.gigtool.gigtool.storage.services.model.BandCreate;
@@ -24,13 +26,16 @@ public class BandService {
     private final GenreRepository genreRepository;
     private final RoleInTheBandRepository roleInTheBandRepository;
 
-    public BandService(BandRepository bandRepository, GenreRepository genreRepository, RoleInTheBandRepository roleInTheBandRepository) {
+    private final EquipmentRepository equipmentRepository;
+
+    public BandService(BandRepository bandRepository, GenreRepository genreRepository, RoleInTheBandRepository roleInTheBandRepository, EquipmentRepository equipmentRepository) {
         this.bandRepository = bandRepository;
         this.genreRepository = genreRepository;
         this.roleInTheBandRepository = roleInTheBandRepository;
+        this.equipmentRepository = equipmentRepository;
     }
 
-    public ResponseEntity<BandResponse> createBand(BandCreate bandCreate){
+    public ResponseEntity<BandResponse> addBand(BandCreate bandCreate){
 
         Band band = new Band();
 
@@ -80,6 +85,63 @@ public class BandService {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    public ResponseEntity<BandResponse> addEquipment(UUID bandId, UUID equipmentId) {
+
+        if ((equipmentId == null) || (bandId == null)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<Band> existingBand = bandRepository.findById(bandId);
+
+        Optional<Equipment> existingEquipment = equipmentRepository.findById(equipmentId);
+
+        if(existingEquipment.isEmpty() || existingBand.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Band band = existingBand.get();
+        Equipment equipment = existingEquipment.get();
+
+        if (band.getEquipmentList().contains(equipment)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        band.getEquipmentList().add(equipment);
+
+        Band savedBand = bandRepository.saveAndFlush(band);
+
+        return ResponseEntity.ok(new BandResponse(savedBand));
+
+    }
+
+    public ResponseEntity<BandResponse> deleteEquipment(UUID bandId, UUID equipmentId) {
+
+        if ((equipmentId == null) || (bandId == null)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        Optional<Band> existingBand = bandRepository.findById(bandId);
+
+        Optional<Equipment> existingEquipment = equipmentRepository.findById(equipmentId);
+
+        if(existingEquipment.isEmpty() || existingBand.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        Band band = existingBand.get();
+        Equipment equipment = existingEquipment.get();
+
+        if (!band.getEquipmentList().contains(equipment)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        band.getEquipmentList().remove(equipment);
+
+        Band savedBand = bandRepository.saveAndFlush(band);
+
+        return ResponseEntity.ok(new BandResponse(savedBand));
+
+    }
 
     public ResponseEntity<String> deleteBand(UUID bandId) {
 
@@ -106,25 +168,6 @@ public class BandService {
 
 
 /*
-
-    public ResponseEntity<BandResponse> addEquipment(UUID bandId, UUID equipmentId) {
-
-        if ((equipmentId == null) || (bandId == null)) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        //TODO @Dario Inventory gibts nicht mehr, da Datenbank
-        //checken ob es das equipmentb allgemein schon gibt in der equipment tabbelle
-        if (!Inventory.getInstance().isEquipmentInInventory(equipment.getId())) {
-
-            Inventory.getInstance().getEquipmentList().addEquipment(equipment);
-        }
-
-        this.equipmentList.add(equipment);
-
-        return this.equipmentList;
-    }
-
     public ArrayList<Equipment> deleteEquipment(Equipment equipment){
 
         if (equipment == null) {
