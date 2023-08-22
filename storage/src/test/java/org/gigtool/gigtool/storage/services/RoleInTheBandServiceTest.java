@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @SpringBootTest
 @Transactional
-public class RoleInTheBandTest {
+public class RoleInTheBandServiceTest {
 
     @Autowired
     private RoleInTheBandService roleInTheBandService;
