@@ -2,7 +2,7 @@ package org.gigtool.gigtool.api;
 
 import org.gigtool.gigtool.storage.services.model.GigCreate;
 import org.gigtool.gigtool.storage.services.model.GigResponse;
-import org.gigtool.gigtool.storage.services.model.GigService;
+import org.gigtool.gigtool.storage.services.GigService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

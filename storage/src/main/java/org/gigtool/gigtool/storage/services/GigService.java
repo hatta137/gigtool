@@ -1,7 +1,9 @@
-package org.gigtool.gigtool.storage.services.model;
+package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.*;
 import org.gigtool.gigtool.storage.repositories.*;
+import org.gigtool.gigtool.storage.services.model.GigCreate;
+import org.gigtool.gigtool.storage.services.model.GigResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
