@@ -10,8 +10,6 @@ import org.gigtool.gigtool.storage.repositories.GenreRepository;
 import org.gigtool.gigtool.storage.repositories.RoleInTheBandRepository;
 import org.gigtool.gigtool.storage.services.model.BandCreate;
 import org.gigtool.gigtool.storage.services.model.BandResponse;
-import org.gigtool.gigtool.storage.services.model.GenreCreate;
-import org.gigtool.gigtool.storage.services.model.GenreResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,6 +36,11 @@ public class BandService {
     }
 
     public ResponseEntity<BandResponse> addBand(BandCreate bandCreate){
+
+        if (bandCreate.getName() == null || bandCreate.getGenre() == null || bandCreate.getMainRoleInTheBand() == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
 
         Band band = new Band();
 
@@ -87,14 +90,13 @@ public class BandService {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    public ResponseEntity<BandResponse> addEquipment(UUID bandId, UUID equipmentId) {
+    public ResponseEntity<BandResponse> addEquipmentToBand(UUID bandId, UUID equipmentId) {
 
         if ((equipmentId == null) || (bandId == null)) {
             return ResponseEntity.badRequest().build();
         }
 
         Optional<Band> existingBand = bandRepository.findById(bandId);
-
         Optional<Equipment> existingEquipment = equipmentRepository.findById(equipmentId);
 
         if(existingEquipment.isEmpty() || existingBand.isEmpty()){
@@ -150,7 +152,7 @@ public class BandService {
         return ResponseEntity.ok(new BandResponse(savedBand));
     }
 
-    public ResponseEntity<BandResponse> deleteEquipment(UUID bandId, UUID equipmentId) {
+    public ResponseEntity<BandResponse> deleteEquipmentFromBand(UUID bandId, UUID equipmentId) {
 
         if ((equipmentId == null) || (bandId == null)) {
             return ResponseEntity.badRequest().build();
@@ -179,7 +181,7 @@ public class BandService {
 
     }
 
-    public ResponseEntity<BandResponse> addRole(UUID bandId, UUID roleId) {
+    public ResponseEntity<BandResponse> addRoleToBand(UUID bandId, UUID roleId) {
 
         if ((roleId == null) || (bandId == null)) {
             return ResponseEntity.badRequest().build();
@@ -208,7 +210,7 @@ public class BandService {
 
     }
 
-    public ResponseEntity<BandResponse> deleteRole(UUID bandId, UUID roleId) {
+    public ResponseEntity<BandResponse> deleteRoleFromBand(UUID bandId, UUID roleId) {
 
         if ((roleId == null) || (bandId == null)) {
             return ResponseEntity.badRequest().build();
