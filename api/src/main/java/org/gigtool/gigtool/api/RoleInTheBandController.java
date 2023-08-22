@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/gig/band/role")
+@RequestMapping("/gig/band/roleintheband")
 public class RoleInTheBandController {
 
     public final RoleInTheBandService roleInTheBandService;
