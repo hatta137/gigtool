@@ -25,6 +25,23 @@ public class TestUtils {
     private RoleInTheBandService roleInTheBandService;
     @Autowired
     private TypeOfGigService typeOfGigService;
+    @Autowired
+    private GenreService genreService;
+
+
+    public GenreCreate getRandomGenreCreate() {
+        return new GenreCreate(
+                UUID.randomUUID() + "name",
+                UUID.randomUUID() + "description"
+        );
+    }
+
+    public ResponseEntity<GenreResponse> getRandomGenreResponse(){
+
+        return genreService.addGenre( getRandomGenreCreate() );
+    }
+
+
 
     public TypeOfGigCreate getRandomTypeOfGigCreate() {
         return new TypeOfGigCreate(
@@ -134,4 +151,6 @@ public class TestUtils {
                 random.nextFloat(100)
         );
     }
+
+
 }
