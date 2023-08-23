@@ -186,9 +186,9 @@ public class AddressServiceTest {
         ResponseEntity<LocationResponse> locationResponse = testUtils.getRandomLocationResponse();
         AddressResponse addressResponse = locationResponse.getBody().getAddressResponse();
 
-        //ResponseEntity<AddressResponse> deletedAddressFalse2 = addressService.deleteAddress( addressResponse.getId() );
+        ResponseEntity<AddressResponse> deletedAddressFalse2 = addressService.deleteAddress( addressResponse.getId() );
 
-        //assertTrue(deletedAddressFalse2.getStatusCode().is4xxClientError());
+        assertTrue(deletedAddressFalse2.getStatusCode().is4xxClientError());
 
     }
 }

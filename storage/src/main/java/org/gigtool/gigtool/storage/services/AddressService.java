@@ -1,7 +1,9 @@
 package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Address;
+import org.gigtool.gigtool.storage.model.Gig;
 import org.gigtool.gigtool.storage.model.Location;
+import org.gigtool.gigtool.storage.model.TypeOfLocation;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
 import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.springframework.http.ResponseEntity;
@@ -152,7 +154,10 @@ public class AddressService {
         if (foundAddress.isEmpty())
             return ResponseEntity.notFound().build();
 
-        List<Location> foundLocationAddress = locationRepository.findByTypeOfLocationId( id );
+
+        // TODO to find By Address Id
+        List<Location> foundLocationAddress = locationRepository.findByAddressId( id );
+       // List<Gig> foundGigAddress = gigRepository.findByAddressId( id );
 
         if (!foundLocationAddress.isEmpty())
             return ResponseEntity.badRequest().build();

@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.UUID;
 
 @Component
-@Transactional
 public class TestUtils {
 
     @Autowired
