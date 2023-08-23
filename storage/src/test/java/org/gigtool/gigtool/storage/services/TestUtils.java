@@ -24,6 +24,22 @@ public class TestUtils {
     private LocationService locationService;
     @Autowired
     private RoleInTheBandService roleInTheBandService;
+    @Autowired
+    private TypeOfGigService typeOfGigService;
+
+    public TypeOfGigCreate getRandomTypeOfGigCreate() {
+        return new TypeOfGigCreate(
+                UUID.randomUUID() + "name",
+                UUID.randomUUID() + "description"
+        );
+    }
+
+    public ResponseEntity<TypeOfGigResponse> getRandomTypeOfGigResponse() {
+
+        return typeOfGigService.addTypeOfGig( getRandomTypeOfGigCreate() );
+    }
+
+
 
     public RoleInTheBandCreate getRandomRoleInTheBandCreate() {
         return new RoleInTheBandCreate(
@@ -38,6 +54,7 @@ public class TestUtils {
     }
 
 
+
     public TypeOfEquipmentCreate getRandomTypeOfEquipmentCreate() {
         return new TypeOfEquipmentCreate(
                 UUID.randomUUID() + "name",
@@ -49,6 +66,7 @@ public class TestUtils {
 
         return typeOfEquipmentService.addTypeOfEquipment( getRandomTypeOfEquipmentCreate() );
     }
+
 
 
     public AddressCreate getRandomAddressCreate() {
@@ -70,6 +88,7 @@ public class TestUtils {
     }
 
 
+
     public TypeOfLocationCreate getRandomTypeOfLocationCreate() {
         return new TypeOfLocationCreate(
                 UUID.randomUUID() + "name",
@@ -85,6 +104,7 @@ public class TestUtils {
     }
 
 
+
     public LocationCreate getRandomLocationCreate() {
         return new LocationCreate(
                 getRandomAddressResponse().getBody().getId(),
@@ -93,8 +113,10 @@ public class TestUtils {
     }
 
     public ResponseEntity<LocationResponse> getRandomLocationResponse() {
+
         return locationService.addLocation( getRandomLocationCreate() );
     }
+
 
 
     public EquipmentCreate getRandomEquipmentCreate() {
