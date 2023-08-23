@@ -15,9 +15,11 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @SpringBootTest
 @Transactional
 public class TypeOfGigServiceTest {
+
 
     @Autowired
     private TypeOfGigService typeOfGigService;
@@ -138,4 +140,13 @@ public class TypeOfGigServiceTest {
 
         assertTrue(deletedTypeOfGig.getStatusCode().is2xxSuccessful());
     }
+
+    @Test
+    public void testDeleteTypeOfGigWithNullId() {
+        ResponseEntity<String> deleteResult = typeOfGigService.deleteTypeOfGig(null);
+
+        assertTrue(deleteResult.getStatusCode().is4xxClientError());
+        assertEquals("No ID", deleteResult.getBody());
+    }
+
 }
