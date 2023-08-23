@@ -58,7 +58,7 @@ public class RoleInTheBandService {
 
     public ResponseEntity<RoleInTheBandResponse> updateRoleInTheBand(UUID roleId, RoleInTheBandCreate roleRequest) {
 
-        if (roleId == null) {
+        if (roleId == null || roleRequest.getName() == null || roleRequest.getDescription() == null) {
             return ResponseEntity.badRequest().build();
         }
 
