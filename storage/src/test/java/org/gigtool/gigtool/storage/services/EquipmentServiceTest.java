@@ -218,6 +218,16 @@ public class EquipmentServiceTest {
         assertTrue(negativeResult.getStatusCode().is4xxClientError());
 
         //TODO @Hendrik negativ test wenn equipment in Band oder Happening hinterlegt ist
+
+        // random Band anlegen
+
+        // random Happening anlegen
+
+        // dem Happening/der Band das Equipment hinzufügen
+
+        // equipment löschen
+
+        // bad request status checken
     }
 
     @Test
