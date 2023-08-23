@@ -22,21 +22,21 @@ public class TestUtils {
     private TypeOfEquipmentService typeOfEquipmentService;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private RoleInTheBandService roleInTheBandService;
 
-
-    public ResponseEntity<AddressResponse> getRandomAddressResponse() {
-
-        AddressCreate addressToSave = getRandomAddressCreate();
-
-        return addressService.addNewAddress(addressToSave);
+    public RoleInTheBandCreate getRandomRoleInTheBandCreate() {
+        return new RoleInTheBandCreate(
+                UUID.randomUUID() + "name",
+                UUID.randomUUID() + "description"
+        );
     }
 
-    public ResponseEntity<TypeOfLocationResponse> getRandomTypeOfLocationResponse() {
+    public ResponseEntity<RoleInTheBandResponse> getRandomRoleInTheBandResponse() {
 
-        TypeOfLocationCreate typeOfLocationToSave = getRandomTypeOfLocationCreate();
-
-        return typeOfLocationService.addTypeOfLocation( typeOfLocationToSave );
+        return roleInTheBandService.addRoleInTheBand( getRandomRoleInTheBandCreate() );
     }
+
 
     public TypeOfEquipmentCreate getRandomTypeOfEquipmentCreate() {
         return new TypeOfEquipmentCreate(
@@ -50,16 +50,6 @@ public class TestUtils {
         return typeOfEquipmentService.addTypeOfEquipment( getRandomTypeOfEquipmentCreate() );
     }
 
-    public LocationCreate getRandomLocationCreate() {
-        return new LocationCreate(
-                getRandomAddressResponse().getBody().getId(),
-                getRandomTypeOfLocationResponse().getBody().getId()
-        );
-    }
-
-    public ResponseEntity<LocationResponse> getRandomLocationResponse() {
-        return locationService.addLocation( getRandomLocationCreate() );
-    }
 
     public AddressCreate getRandomAddressCreate() {
         Random random = new Random();
@@ -72,12 +62,40 @@ public class TestUtils {
         );
     }
 
+    public ResponseEntity<AddressResponse> getRandomAddressResponse() {
+
+        AddressCreate addressToSave = getRandomAddressCreate();
+
+        return addressService.addNewAddress(addressToSave);
+    }
+
+
     public TypeOfLocationCreate getRandomTypeOfLocationCreate() {
         return new TypeOfLocationCreate(
                 UUID.randomUUID() + "name",
                 UUID.randomUUID() + "description"
         );
     }
+
+    public ResponseEntity<TypeOfLocationResponse> getRandomTypeOfLocationResponse() {
+
+        TypeOfLocationCreate typeOfLocationToSave = getRandomTypeOfLocationCreate();
+
+        return typeOfLocationService.addTypeOfLocation( typeOfLocationToSave );
+    }
+
+
+    public LocationCreate getRandomLocationCreate() {
+        return new LocationCreate(
+                getRandomAddressResponse().getBody().getId(),
+                getRandomTypeOfLocationResponse().getBody().getId()
+        );
+    }
+
+    public ResponseEntity<LocationResponse> getRandomLocationResponse() {
+        return locationService.addLocation( getRandomLocationCreate() );
+    }
+
 
     public EquipmentCreate getRandomEquipmentCreate() {
         Random random = new Random();
