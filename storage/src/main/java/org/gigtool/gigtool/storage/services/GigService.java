@@ -52,6 +52,18 @@ public class GigService {
         return !overlappingHappenings.isEmpty();
     }
 
+    private boolean equiptmentlistIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Gig gig) {
+        for (Equipment equipment: gig.getEquipmentList()) {
+            List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
+            if(!overlappingHappenings.isEmpty()){
+                if(!(overlappingHappenings.size() == 1 && overlappingHappenings.contains(gig))){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public ResponseEntity<GigResponse> addGig(GigCreate gigCreate){
         if (gigCreate.getName() == null || gigCreate.getStartTime() == null || gigCreate.getEndTime() == null ||
                 gigCreate.getDescription() == null || gigCreate.getAddress() == null ||
@@ -137,24 +149,25 @@ public class GigService {
         }
 
         if (gigRequest.getStartTime() != null && gigRequest.getEndTime() == null) {
-            if (gigIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig)){
+            if (gigIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig)){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedGig.setStartTime(gigRequest.getStartTime());
         }
 
         if (gigRequest.getEndTime() != null && gigRequest.getStartTime() == null) {
-            if (gigIsOverlapping(updatedGig.getStartTime(), gigRequest.getEndTime(), updatedGig)){
+            if (gigIsOverlapping(updatedGig.getStartTime(), gigRequest.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(updatedGig.getStartTime(), gigRequest.getEndTime(), updatedGig)){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedGig.setEndTime(gigRequest.getEndTime());
         }
 
         if (gigRequest.getStartTime() != null && gigRequest.getEndTime() != null) {
-            if (gigIsOverlapping(gigRequest.getStartTime(), gigRequest.getEndTime(), updatedGig)){
+            if (gigIsOverlapping(gigRequest.getStartTime(), gigRequest.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(gigRequest.getStartTime(), gigRequest.getEndTime(), updatedGig)){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedGig.setStartTime(gigRequest.getStartTime());
+            updatedGig.setEndTime(gigRequest.getEndTime());
         }
 
         if (gigRequest.getDescription() != null) {
@@ -207,7 +220,7 @@ public class GigService {
         Gig gig = existingGig.get();
         Equipment equipment = existingEquipment.get();
 
-        if (gig.getEquipmentList().contains(equipment) || equipmentIsOverlapping(gig.getStartTime(), gig.getEndTime(), equipment)) {
+        if (gig.getEquipmentList().contains(equipment) || gig.getBand().getEquipmentList().contains(equipment) || equipmentIsOverlapping(gig.getStartTime(), gig.getEndTime(), equipment)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
