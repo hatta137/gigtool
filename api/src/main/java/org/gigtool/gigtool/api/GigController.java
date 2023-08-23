@@ -2,7 +2,7 @@ package org.gigtool.gigtool.api;
 
 import org.gigtool.gigtool.storage.services.model.GigCreate;
 import org.gigtool.gigtool.storage.services.model.GigResponse;
-import org.gigtool.gigtool.storage.services.model.GigService;
+import org.gigtool.gigtool.storage.services.GigService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,10 +34,10 @@ public class GigController {
         return gigService.getGigById(id);
     }
 
-   /* @PutMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<GigResponse> updateGig(@PathVariable UUID id, @RequestBody GigCreate gigRequest) {
         return gigService.updateGig(id, gigRequest);
-    }*/
+    }
 
     @PutMapping("/{id}/equipment/{eqID}")
     public ResponseEntity<GigResponse> addEquipment(@PathVariable UUID id, @PathVariable UUID eqID) {
@@ -49,4 +49,8 @@ public class GigController {
         return gigService.deleteEquipmentFromGig(id, eqID);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteGig(@PathVariable UUID id) {
+        return gigService.deleteGig(id);
+    }
 }

@@ -59,7 +59,6 @@ public class BandController {
         return bandService.deleteRoleFromBand(id, roleId);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteBand(@PathVariable UUID id) {
         return bandService.deleteBand(id);

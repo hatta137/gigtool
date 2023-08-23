@@ -1,19 +1,14 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.model.Band;
-import org.gigtool.gigtool.storage.model.Equipment;
-import org.gigtool.gigtool.storage.model.Genre;
-import org.gigtool.gigtool.storage.model.RoleInTheBand;
-import org.gigtool.gigtool.storage.repositories.BandRepository;
-import org.gigtool.gigtool.storage.repositories.EquipmentRepository;
-import org.gigtool.gigtool.storage.repositories.GenreRepository;
-import org.gigtool.gigtool.storage.repositories.RoleInTheBandRepository;
+import org.gigtool.gigtool.storage.model.*;
+import org.gigtool.gigtool.storage.repositories.*;
 import org.gigtool.gigtool.storage.services.model.BandCreate;
 import org.gigtool.gigtool.storage.services.model.BandResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,14 +20,28 @@ public class BandService {
     private final BandRepository bandRepository;
     private final GenreRepository genreRepository;
     private final RoleInTheBandRepository roleInTheBandRepository;
-
     private final EquipmentRepository equipmentRepository;
+    private final HappeningRepository happeningRepository;
+    private final GigRepository gigRepository;
 
-    public BandService(BandRepository bandRepository, GenreRepository genreRepository, RoleInTheBandRepository roleInTheBandRepository, EquipmentRepository equipmentRepository) {
+    public BandService(BandRepository bandRepository, GenreRepository genreRepository, RoleInTheBandRepository roleInTheBandRepository, EquipmentRepository equipmentRepository, HappeningRepository happeningRepository, GigRepository gigRepository) {
         this.bandRepository = bandRepository;
         this.genreRepository = genreRepository;
         this.roleInTheBandRepository = roleInTheBandRepository;
         this.equipmentRepository = equipmentRepository;
+        this.happeningRepository = happeningRepository;
+        this.gigRepository = gigRepository;
+    }
+
+    private boolean equiptmentIsUseSameTimeLikeBandGigs(Band band, Equipment equipment){
+        List<Gig> bandGigs = gigRepository.findGigsByBand(band);
+        for (Gig bandGig: bandGigs) {
+            List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(bandGig.getStartTime(), bandGig.getEndTime(), equipment);
+            if(!overlappingHappenings.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ResponseEntity<BandResponse> addBand(BandCreate bandCreate){
@@ -106,7 +115,7 @@ public class BandService {
         Band band = existingBand.get();
         Equipment equipment = existingEquipment.get();
 
-        if (band.getEquipmentList().contains(equipment)) {
+        if (band.getEquipmentList().contains(equipment) || this.equiptmentIsUseSameTimeLikeBandGigs(band, equipment)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
