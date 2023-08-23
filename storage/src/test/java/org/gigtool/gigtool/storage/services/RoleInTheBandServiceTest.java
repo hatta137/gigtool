@@ -116,8 +116,8 @@ public class RoleInTheBandServiceTest {
 
         assertEquals(roleInTheBandBeforeUpdate.getBody().getId(),          Objects.requireNonNull(updatedRoleInTheBand.getBody()).getId());
 
-        assertEquals(updatedRoleInTheBand.getBody().getName(), "name");
-        assertEquals(updatedRoleInTheBand.getBody().getDescription(), "description");
+        assertEquals(updatedRoleInTheBand.getBody().getName(), "newName");
+        assertEquals(updatedRoleInTheBand.getBody().getDescription(), "newDescription");
 
         // Negative test
         RoleInTheBandCreate updateForRoleInTheBandFalse = new RoleInTheBandCreate(
