@@ -2,13 +2,10 @@ package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandCreate;
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandResponse;
-import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
-import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +45,7 @@ public class RoleInTheBandServiceTest {
         assertEquals(savedRoleInTheBand.getBody().getName(),        roleInTheBandToSave.getName());
         assertEquals(savedRoleInTheBand.getBody().getDescription(), roleInTheBandToSave.getDescription());
 
-        //Negative Test: Try adding a RoleInTheBand with missing information
+        //Negative test: Try adding a RoleInTheBand with missing information
         RoleInTheBandCreate incompleteRoleInTheBand = new RoleInTheBandCreate(
                 "name",
                 null
@@ -124,7 +121,7 @@ public class RoleInTheBandServiceTest {
 
         // Negative test
         RoleInTheBandCreate updateForRoleInTheBandFalse = new RoleInTheBandCreate(
-                "test",
+                "newName",
                 null
         );
 
