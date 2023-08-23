@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -135,8 +136,38 @@ public class GenreServiceTest {
     }
 
     @Test
+    public void testUpdateGenreWithNonExistingId() {
+        UUID nonExistingGenreId = UUID.randomUUID();
+        GenreCreate updateForNonExistingGenre = new GenreCreate(
+                "newName",
+                "newDescription"
+        );
+
+        ResponseEntity<GenreResponse> updatedGenre = genreService.updateGenre(nonExistingGenreId, updateForNonExistingGenre);
+
+        assertTrue(updatedGenre.getStatusCode().is4xxClientError());
+        assertEquals(HttpStatus.NOT_FOUND, updatedGenre.getStatusCode());
+    }
+
+    @Test
     public void testDeleteGenre() {
         ResponseEntity<String> deletedGenre = genreService.deleteGenre(savedGenreId);
         assertTrue(deletedGenre.getStatusCode().is2xxSuccessful());
     }
+
+    @Test
+    public void testDeleteGenreWithNullId() {
+        ResponseEntity<String> response = genreService.deleteGenre(null);
+        assertTrue(response.getStatusCode().is4xxClientError());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    public void testDeleteNonExistingGenre() {
+        UUID nonExistingGenreId = UUID.randomUUID();
+        ResponseEntity<String> response = genreService.deleteGenre(nonExistingGenreId);
+        assertTrue(response.getStatusCode().is4xxClientError());
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
 }
