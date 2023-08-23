@@ -37,14 +37,16 @@ public class BandService {
         List<Gig> bandGigs = gigRepository.findGigsByBand(band);
         for (Gig bandGig: bandGigs) {
             List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(bandGig.getStartTime(), bandGig.getEndTime(), equipment);
-            if(!overlappingHappenings.isEmpty()) {
-                return true;
+            if(!overlappingHappenings.isEmpty()){
+                if(!(overlappingHappenings.size() == 1 && overlappingHappenings.contains(bandGig))){
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public ResponseEntity<BandResponse> addBand(BandCreate bandCreate){
+    public ResponseEntity<BandResponse> addBand(BandCreate bandCreate) {
 
         if (bandCreate.getName() == null || bandCreate.getGenre() == null || bandCreate.getMainRoleInTheBand() == null) {
             return ResponseEntity.badRequest().build();
@@ -117,6 +119,14 @@ public class BandService {
 
         if (band.getEquipmentList().contains(equipment) || this.equiptmentIsUseSameTimeLikeBandGigs(band, equipment)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        List<Gig> bandGigs = gigRepository.findGigsByBand(band);
+
+        for (Gig bandGig: bandGigs) {
+            if(bandGig.getEquipmentList().contains(equipment)) {
+                bandGig.getEquipmentList().remove(equipment);
+            }
         }
 
         band.getEquipmentList().add(equipment);
