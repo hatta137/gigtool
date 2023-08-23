@@ -206,6 +206,8 @@ public class EquipmentServiceTest {
 
         assertNull(deletedEquipment.getBody());
 
+        assertTrue(deletedEquipment.getStatusCode().is2xxSuccessful());
+
         UUID randomUUID = UUID.randomUUID();
         while (randomUUID == savedEquipmentId) {
             randomUUID = UUID.randomUUID();

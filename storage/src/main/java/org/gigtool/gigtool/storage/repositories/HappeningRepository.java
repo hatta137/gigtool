@@ -4,6 +4,7 @@ import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Happening;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,9 +24,10 @@ public interface HappeningRepository extends JpaRepository<Happening, UUID> {
 
     @Query("SELECT h FROM Happening h " +
             "WHERE h.address.id = :addressId")
-    List<Happening> findByAddressId(UUID addressId);
+    List<Happening> findByAddressId(@Param("addressId") UUID addressId);
 
     @Query("SELECT h FROM Happening h " +
-            "WHERE :equipmentId MEMBER OF h.equipmentList")
-    List<Happening> findByEquipmentId(UUID equipmentId);
+            "JOIN h.equipmentList e " +
+            "WHERE e.id = :equipmentId")
+    List<Happening> findByEquipmentId(@Param("equipmentId") UUID equipmentId);
 }

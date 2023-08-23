@@ -13,7 +13,8 @@ public interface BandRepository extends JpaRepository<Band, UUID> {
     @Query("SELECT COUNT(g) FROM Gig g WHERE g.band.id = :bandId")
     int countGigsForBand(@Param("bandId") UUID bandId);
 
-    @Query("SELECT b FROM Band b " +
-            "WHERE :equipmentId MEMBER OF b.equipmentList")
-    List<Band> findByEquipmentId(UUID equipmentId);
+    @Query("SELECT DISTINCT b FROM Band b " +
+            "JOIN b.equipmentList e " +
+            "WHERE e.id = :equipmentId")
+    List<Band> findByEquipmentId(@Param("equipmentId") UUID equipmentId);
 }
