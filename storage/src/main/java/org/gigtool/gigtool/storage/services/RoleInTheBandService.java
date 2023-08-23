@@ -58,6 +58,13 @@ public class RoleInTheBandService {
 
     public ResponseEntity<RoleInTheBandResponse> updateRoleInTheBand(UUID roleId, RoleInTheBandCreate roleRequest) {
 
+        //TODO @Dario Fehlerbehandlung ergänzen name or description gleich null wird nicht überprüft
+        /*siehe Beispiel Hendrik
+        if (typeOfEquipmentCreate.getName() == null || typeOfEquipmentCreate.getDescription() == null) {
+            return ResponseEntity.badRequest().build();
+        }*/
+
+
         if (roleId == null) {
             return ResponseEntity.badRequest().build();
         }
