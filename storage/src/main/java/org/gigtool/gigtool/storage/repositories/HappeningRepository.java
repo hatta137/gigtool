@@ -19,4 +19,13 @@ public interface HappeningRepository extends JpaRepository<Happening, UUID> {
     List<Happening> findOverlappingHappeningsWithEquipment(LocalDateTime startTime,
                                                            LocalDateTime endTime,
                                                            Equipment equipment);
+
+
+    @Query("SELECT h FROM Happening h " +
+            "WHERE h.address.id = :addressId")
+    List<Happening> findByAddressId(UUID addressId);
+
+    @Query("SELECT h FROM Happening h " +
+            "WHERE :equipmentId MEMBER OF h.equipmentList")
+    List<Happening> findByEquipmentId(UUID equipmentId);
 }

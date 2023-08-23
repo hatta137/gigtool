@@ -1,10 +1,8 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.model.Address;
-import org.gigtool.gigtool.storage.model.Gig;
-import org.gigtool.gigtool.storage.model.Location;
-import org.gigtool.gigtool.storage.model.TypeOfLocation;
+import org.gigtool.gigtool.storage.model.*;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
+import org.gigtool.gigtool.storage.repositories.HappeningRepository;
 import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,17 +24,13 @@ import java.util.stream.Collectors;
 public class AddressService {
 
     private final AddressRepository addressRepository;
-
     private final LocationRepository locationRepository;
+    private final HappeningRepository happeningRepository;
 
-    /**
-     * Constructs an instance of the AddressService.
-     *
-     * @param addressRepository The repository for accessing address data.
-     */
-    public AddressService( AddressRepository addressRepository, LocationRepository locationRepository ) {
+    public AddressService( AddressRepository addressRepository, LocationRepository locationRepository, HappeningRepository happeningRepository ) {
         this.addressRepository = addressRepository;
         this.locationRepository = locationRepository;
+        this.happeningRepository = happeningRepository;
     }
 
     /**
@@ -154,12 +148,10 @@ public class AddressService {
         if (foundAddress.isEmpty())
             return ResponseEntity.notFound().build();
 
+        List<Location> locationWithAddress = locationRepository.findByAddressId( id );
+        List<Happening> happeningWithAddress = happeningRepository.findByAddressId( id );
 
-        // TODO to find By Address Id
-        List<Location> foundLocationAddress = locationRepository.findByAddressId( id );
-       // List<Gig> foundGigAddress = gigRepository.findByAddressId( id );
-
-        if (!foundLocationAddress.isEmpty())
+        if (!locationWithAddress.isEmpty() || !happeningWithAddress.isEmpty())
             return ResponseEntity.badRequest().build();
 
         Address addressToDelete = foundAddress.get();
@@ -167,9 +159,6 @@ public class AddressService {
         addressRepository.delete(addressToDelete);
 
         return ResponseEntity.accepted().build();
-
-
-        // TODO Funktioniert noch nicht
 
     }
 }

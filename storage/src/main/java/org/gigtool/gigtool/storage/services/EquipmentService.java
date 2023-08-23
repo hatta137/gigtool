@@ -1,11 +1,7 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.model.Equipment;
-import org.gigtool.gigtool.storage.model.Location;
-import org.gigtool.gigtool.storage.model.TypeOfEquipment;
-import org.gigtool.gigtool.storage.repositories.EquipmentRepository;
-import org.gigtool.gigtool.storage.repositories.LocationRepository;
-import org.gigtool.gigtool.storage.repositories.TypeOfEquipmentRepository;
+import org.gigtool.gigtool.storage.model.*;
+import org.gigtool.gigtool.storage.repositories.*;
 import org.gigtool.gigtool.storage.services.model.EquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +24,20 @@ public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
     private final TypeOfEquipmentRepository typeOfEquipmentRepository;
     private final LocationRepository locationRepository;
+    private final HappeningRepository happeningRepository;
+    private final BandRepository bandRepository;
 
     @Autowired
-    public EquipmentService(EquipmentRepository equipmentRepository, TypeOfEquipmentRepository typeOfEquipmentRepository, LocationRepository locationRepository) {
+    public EquipmentService(EquipmentRepository equipmentRepository,
+                            TypeOfEquipmentRepository typeOfEquipmentRepository,
+                            LocationRepository locationRepository,
+                            HappeningRepository happeningRepository,
+                            BandRepository bandRepository) {
         this.equipmentRepository = equipmentRepository;
         this.typeOfEquipmentRepository = typeOfEquipmentRepository;
         this.locationRepository = locationRepository;
+        this.happeningRepository = happeningRepository;
+        this.bandRepository = bandRepository;
     }
 
     /**
@@ -190,6 +194,12 @@ public class EquipmentService {
         if (foundEquiupment.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
+
+        List<Happening> happeningWithEquipment = happeningRepository.findByEquipmentId( id );
+        List<Band> bandWithEquipment = bandRepository.findByEquipmentId( id );
+
+        if (!happeningWithEquipment.isEmpty() || !bandWithEquipment.isEmpty())
+            return ResponseEntity.badRequest().build();
 
         Equipment equipmentToDelete = foundEquiupment.get();
 

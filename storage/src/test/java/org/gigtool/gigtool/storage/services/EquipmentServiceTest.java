@@ -214,6 +214,8 @@ public class EquipmentServiceTest {
         ResponseEntity<EquipmentResponse> negativeResult = equipmentService.deleteEquipment( randomUUID );
 
         assertTrue(negativeResult.getStatusCode().is4xxClientError());
+
+        //TODO @Hendrik negativ test wenn equipment in Band oder Happening hinterlegt ist
     }
 
     @Test

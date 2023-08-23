@@ -190,5 +190,7 @@ public class AddressServiceTest {
 
         assertTrue(deletedAddressFalse2.getStatusCode().is4xxClientError());
 
+        //TODO @Hendrik Test ob Address in einem Happening gelöscht werden kann...
+
     }
 }
