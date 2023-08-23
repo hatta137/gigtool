@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
+//TODO @Dario Funktionen zu Happening oder Timetable und dann Calc löschen
 @Service
 public class Calc {
 

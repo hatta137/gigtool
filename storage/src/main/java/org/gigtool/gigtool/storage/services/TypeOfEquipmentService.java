@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class TypeOfEquipmentService {
 
-    public final TypeOfEquipmentRepository typeOfEquipmentRepository;
+    private final TypeOfEquipmentRepository typeOfEquipmentRepository;
 
     public TypeOfEquipmentService( TypeOfEquipmentRepository typeOfEquipmentRepository ) {
         this.typeOfEquipmentRepository = typeOfEquipmentRepository;

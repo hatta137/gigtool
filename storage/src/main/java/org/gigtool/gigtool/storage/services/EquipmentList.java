@@ -6,6 +6,7 @@ import org.gigtool.gigtool.storage.model.Equipment;
 import java.util.ArrayList;
 import java.util.Optional;
 
+//TODO  @Dario Löschen wenn nicht mehr gebraucht
 
 /***
  * @author Hendrik Lendeckel
