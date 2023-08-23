@@ -14,8 +14,8 @@ public interface HappeningRepository extends JpaRepository<Happening, UUID> {
     @Query("SELECT h FROM Happening h " +
             "LEFT JOIN h.band b " +
             "WHERE (h.startTime <= :endTime AND h.endTime >= :startTime) " +
-            "AND :equipment MEMBER OF h.equipmentList " +
-            "OR (:equipment MEMBER OF b.equipmentList OR b IS NULL)")
+            "AND (:equipment MEMBER OF h.equipmentList " +
+            "OR (:equipment MEMBER OF b.equipmentList ))")
     List<Happening> findOverlappingHappeningsWithEquipment(LocalDateTime startTime,
                                                            LocalDateTime endTime,
                                                            Equipment equipment);
