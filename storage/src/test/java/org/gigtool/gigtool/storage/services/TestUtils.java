@@ -29,8 +29,6 @@ public class TestUtils {
     private GenreService genreService;
     @Autowired
     private BandService bandService;
-
-    //check ob notwending
     @Autowired
     private EquipmentService equipmentService;
 
