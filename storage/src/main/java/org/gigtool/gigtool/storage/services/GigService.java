@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -108,6 +109,7 @@ public class GigService {
         gig.setStartTime(gigCreate.getStartTime());
         gig.setEndTime(gigCreate.getEndTime());
         gig.setDescription(gigCreate.getDescription());
+        gig.setEquipmentList(new ArrayList<>());
 
         Gig savedGig = gigRepository.saveAndFlush(gig);
 
