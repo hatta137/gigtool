@@ -172,7 +172,7 @@ public class GigServiceTest {
 
     @Test
     @Transactional
-    public void testAddAndDeleteEquipmentToGig() {
+    public void testAddEquipmentToGig() {
 
         ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
         ResponseEntity<GigResponse> gigWithEquipment = gigService.addEquipmentToGig( savedGigId, equipment.getBody().getId());
@@ -183,11 +183,69 @@ public class GigServiceTest {
         //negative equipmentId ==  null
         ResponseEntity<GigResponse> gigEquNull = gigService.addEquipmentToGig( savedGigId, null);
         assertFalse(gigEquNull.getStatusCode().is2xxSuccessful());
+
+        //negative equipment already part of equipmentList
+        ResponseEntity<GigResponse> alreadyPartOf = gigService.addEquipmentToGig( savedGigId, equipment.getBody().getId());
+        assertFalse(gigEquNull.getStatusCode().is2xxSuccessful());
+
+        //gig is empty
+        ResponseEntity<EquipmentResponse> equipment2 = testUtils.getRandomEquipmentResponse();
+        ResponseEntity<GigResponse> gigEmpty = gigService.addEquipmentToGig( UUID.randomUUID(), equipment2.getBody().getId());
+        assertFalse(gigEquNull.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    @Transactional
+    public void testDeleteEquipmentFromGig() {
+
+        ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
+        ResponseEntity<GigResponse> gigWithEquipment = gigService.addEquipmentToGig( savedGigId, equipment.getBody().getId());
+
+        assertTrue(gigWithEquipment.getStatusCode().is2xxSuccessful());
+
+        assertEquals(gigWithEquipment.getBody().getEquipmentList().size(), 1);
+
+        ResponseEntity<GigResponse> deletedFromGig = gigService.deleteEquipmentFromGig( savedGigId, equipment.getBody().getId());
+
+        assertTrue(deletedFromGig.getStatusCode().is2xxSuccessful());
+
+        assertEquals(deletedFromGig.getBody().getEquipmentList().size(), 0);
+
+        //negativ equipmentId == null
+        ResponseEntity<GigResponse> gigEquNull = gigService.deleteEquipmentFromGig( gigWithEquipment.getBody().getId(), null);
+        assertTrue(gigEquNull.getStatusCode().is4xxClientError());
+
+        //negative non existing equipment
+        ResponseEntity<GigResponse> gigEquNonExist = gigService.deleteEquipmentFromGig( gigWithEquipment.getBody().getId(), UUID.randomUUID());
+        assertTrue(gigEquNonExist.getStatusCode().is4xxClientError());
+
+        //negative equipmentList not containing equipment
+        ResponseEntity<EquipmentResponse> equipment2 = testUtils.getRandomEquipmentResponse();
+        ResponseEntity<GigResponse> gigWith2Equ = gigService.addEquipmentToGig( savedGigId, equipment2.getBody().getId());
+
+        ResponseEntity<EquipmentResponse> equipment3 = testUtils.getRandomEquipmentResponse();
+
+        ResponseEntity<GigResponse> deleteNotConEqu = gigService.deleteEquipmentFromGig( savedGigId, equipment3.getBody().getId());
+        assertTrue(gigEquNonExist.getStatusCode().is4xxClientError());
     }
 
     @Test
     @Transactional
     public void testDeleteGig() {
 
+        ResponseEntity<String> deletedGig = gigService.deleteGig(savedGigId);
+
+        assertTrue(deletedGig.getStatusCode().is2xxSuccessful());
+
+        assertTrue(deletedGig.getBody().contains("Gig is deleted"));
+
+        //negative gigId == null
+        ResponseEntity<String> deletedGigNull = gigService.deleteGig(null);
+        assertTrue(deletedGigNull.getStatusCode().is4xxClientError());
+        assertTrue(deletedGigNull.getBody().contains("No ID"));
+
+        //negative gigId not in Database
+        ResponseEntity<String> deletedGigNotInDataBase = gigService.deleteGig(UUID.randomUUID());
+        assertTrue(deletedGigNotInDataBase.getStatusCode().is4xxClientError());
     }
 }

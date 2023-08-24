@@ -207,7 +207,7 @@ public class GigService {
         Equipment equipment = existingEquipment.get();
 
         if (gig.getEquipmentList().contains(equipment) || gig.getBand().getEquipmentList().contains(equipment) || equipmentIsOverlapping(gig.getStartTime(), gig.getEndTime(), equipment)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.badRequest().build();
         }
 
         gig.getEquipmentList().add(equipment);
