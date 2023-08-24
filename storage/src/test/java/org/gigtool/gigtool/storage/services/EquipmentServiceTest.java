@@ -97,7 +97,6 @@ public class EquipmentServiceTest {
         ResponseEntity<EquipmentResponse> negativeResult2 = equipmentService.addEquipment(incompleteEquipment2);
 
         assertTrue(negativeResult2.getStatusCode().is4xxClientError());
-
     }
 
     @Test

@@ -142,5 +142,14 @@ public class TypeOfEquipmentServiceTest {
         ResponseEntity<TypeOfEquipmentResponse> deletedTypeOfEquipment = typeOfEquipmentService.deleteTypeOfEquipment( savedTypeOfEquipmentId );
 
         assertNull(deletedTypeOfEquipment.getBody());
+
+        UUID randomUUID = UUID.randomUUID();
+        while (randomUUID.equals(savedTypeOfEquipmentId)) {
+            randomUUID = UUID.randomUUID();
+        }
+
+        ResponseEntity<TypeOfEquipmentResponse> existingTypeOfEquipmentFalse = typeOfEquipmentService.deleteTypeOfEquipment( randomUUID );
+
+        assertTrue(existingTypeOfEquipmentFalse.getStatusCode().is4xxClientError());
     }
 }
