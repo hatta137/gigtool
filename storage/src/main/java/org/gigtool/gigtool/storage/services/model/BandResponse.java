@@ -20,35 +20,16 @@ import java.util.UUID;
 public class BandResponse {
     private UUID id;
     private String name;
-    private Genre genre;
-    private List<RoleInTheBand> listOfRole;
-    private List<Equipment> equipmentList;
+    private GenreResponse genre;
+    private List<RoleInTheBandResponse> listOfRole;
+    private List<EquipmentResponse> equipmentList;
 
-    public BandResponse (Band band){
+    public BandResponse (Band band) {
         this.id = band.getId();
         this.name = band.getName();
-        this.genre = band.getGenre();
-        this.listOfRole = band.getListOfRole();
-        this.equipmentList = band.getEquipmentList();
+        this.genre = new GenreResponse(band.getGenre());
+        this.listOfRole = band.getListOfRole().stream().map(RoleInTheBandResponse::new).toList();
+        this.equipmentList = band.getEquipmentList().stream().map(EquipmentResponse::new).toList();
     }
-/*
-alternative nur ids?
-    TODO welche variante?
-    private UUID id;
-    private String name;
-    private UUID genre;
-    private List<UUID> listOfRole;
-    private List<UUID> equipmentList;
 
-    public BandResponse (Band band){
-        this.id = band.getId();
-        this.name = band.getName();
-        this.genre = band.getGenre().getId();
-        this.listOfRole = band.getListOfRole().stream()
-                .map(RoleInTheBand::getId)
-                .toList();
-        this.equipmentList = band.getEquipmentList().stream()
-                .map(Equipment::getId)
-                .toList();
-    }*/
 }

@@ -7,22 +7,15 @@ import org.gigtool.gigtool.storage.model.Band;
 import org.gigtool.gigtool.storage.model.Gig;
 import org.gigtool.gigtool.storage.model.TypeOfGig;
 
-@NoArgsConstructor
 @Getter
 @Setter
 public class GigResponse extends HappeningResponse {
-    private TypeOfGig typeOfGig;
-    private Band band;
+    private TypeOfGigResponse typeOfGig;
+    private BandResponse band;
 
     public GigResponse(Gig gig){
-        this.setName(gig.getName());
-        this.setStartTime(gig.getStartTime());
-        this.setEndTime(gig.getEndTime());
-        this.setDescription(gig.getDescription());
-        this.setAddress(gig.getAddress());
-        this.setEquipmentList(gig.getEquipmentList());
-        this.setId(gig.getId());
-        this.typeOfGig = gig.getTypeOfGig();
-        this.band = gig.getBand();
+        super(gig);
+        this.typeOfGig = new TypeOfGigResponse(gig.getTypeOfGig());
+        this.band = new BandResponse(gig.getBand());
     }
 }

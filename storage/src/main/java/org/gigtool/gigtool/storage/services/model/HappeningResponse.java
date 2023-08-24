@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.gigtool.gigtool.storage.model.Address;
 import org.gigtool.gigtool.storage.model.Equipment;
+import org.gigtool.gigtool.storage.model.Happening;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,10 +21,18 @@ public abstract class HappeningResponse {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private String description;
-    private Address address;
-    private List<Equipment> equipmentList;
+    private AddressResponse address;
+    private List<EquipmentResponse> equipmentList;
 
-    //TODO super konstruktor?
+    public HappeningResponse(Happening happening) {
+        this.setName(happening.getName());
+        this.setStartTime(happening.getStartTime());
+        this.setEndTime(happening.getEndTime());
+        this.setDescription(happening.getDescription());
+        this.setAddress(new AddressResponse(happening.getAddress()));
+        this.setEquipmentList(happening.getEquipmentList().stream().map(EquipmentResponse::new).toList());
+        this.setId(happening.getId());
+    }
 
 
 }
