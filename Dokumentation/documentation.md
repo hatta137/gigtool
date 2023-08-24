@@ -60,6 +60,10 @@ Die GigTool Architektur umfasst mehrere Bereiche, die wir euch in den kommenden 
 
 ![Komponentendiagramm](assets/Komponentendiagramm.drawio.v2.png "Komponentendiagramm GigTool")
 
+### Klassendiagramm
+
+![Klassendiagramm](assets/ClassChart_gigtool23_v1.drawio.svg "Klassendiagramm")
+
 #### api
 Wie im Komponentendiagramm zu erkennen, enthält die api alle wichtigen Controller-Klassen.
 Diese sind für das Routing der Anfragen zu den Endpoints zuständig.
