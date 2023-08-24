@@ -7,6 +7,7 @@ import org.gigtool.gigtool.storage.repositories.HappeningRepository;
 import org.gigtool.gigtool.storage.services.model.CalcResponse;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.gigtool.gigtool.storage.services.model.TimetableResponse;
+import org.gigtool.gigtool.storage.services.model.whereismyequipmentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -89,7 +90,7 @@ public class TimetableService {
         return ResponseEntity.ok(new CalcResponse(happening, totalWeight, totalCuboidVolume, totalCosts));
     }
 
-    public ResponseEntity<List<LocationResponse>> getLocationsOfEquiptmentFromHappening(UUID id) {
+    public ResponseEntity<List<whereismyequipmentResponse>> getLocationsOfEquiptmentFromHappening(UUID id) {
 
         Optional<Happening> existingHappening = happeningRepository.findById(id);
 
@@ -108,15 +109,13 @@ public class TimetableService {
             equipmentList = happening.getEquipmentList();
         }
 
-        List<Location> locationList = new ArrayList<>();
+        List<whereismyequipmentResponse> locationList = new ArrayList<>();
 
         for (Equipment equipment: equipmentList) {
-            locationList.add(equipment.getLocation());
+            locationList.add(new whereismyequipmentResponse(equipment.getId(), equipment.getLocation().getId()));
         }
 
-        List<LocationResponse> responseList = locationList.stream().map(LocationResponse::new).toList();
-
-        return ResponseEntity.ok(responseList);
+        return ResponseEntity.ok(locationList);
     }
 
 }
