@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Random;
 import java.util.UUID;
 
@@ -179,10 +180,17 @@ public class TestUtils {
 
 
     public GigCreate getRandomGigCreate() {
-        return new GigCreate(
-                getRandomTypeOfGigResponse().getBody().getId(),
-                getRandomBandResponse().getBody().getId()
-        );
+
+        GigCreate gigCreate = new GigCreate();
+        gigCreate.setAddress( getRandomAddressResponse().getBody().getId() );
+        gigCreate.setName( UUID.randomUUID() + "name" );
+        gigCreate.setStartTime(LocalDateTime.now());
+        gigCreate.setEndTime(LocalDateTime.now());
+        gigCreate.setDescription( UUID.randomUUID() + "description" );
+        gigCreate.setTypeOfGig( getRandomTypeOfGigResponse().getBody().getId() );
+        gigCreate.setBand( getRandomBandResponse().getBody().getId());
+
+        return  gigCreate;
     }
 
     public ResponseEntity<GigResponse> getRandomGigResponse() {

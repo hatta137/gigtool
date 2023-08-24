@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.UUID;
 
-//TODO comments
+//TODO comments @Max
 /* Author: Dario Daßler*/
 @Entity
 @NoArgsConstructor

@@ -22,9 +22,9 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @OneToOne
+    @ManyToOne
     private Address address;
-    @OneToOne
+    @ManyToOne
     private TypeOfLocation typeOfLocation;
 
 

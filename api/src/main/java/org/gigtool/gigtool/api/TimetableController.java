@@ -5,6 +5,7 @@ import org.gigtool.gigtool.storage.services.TimetableService;
 import org.gigtool.gigtool.storage.services.model.CalcResponse;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.gigtool.gigtool.storage.services.model.TimetableResponse;
+import org.gigtool.gigtool.storage.services.model.whereismyequipmentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +41,7 @@ public class TimetableController {
     }
 
     @GetMapping("/{id}/whereismyequipment")
-    public ResponseEntity<List<LocationResponse>> whereIsMyEquipment(@PathVariable UUID id) {
+    public ResponseEntity<List<whereismyequipmentResponse>> whereIsMyEquipment(@PathVariable UUID id) {
         return this.timetableService.getLocationsOfEquiptmentFromHappening(id);
     }
 
