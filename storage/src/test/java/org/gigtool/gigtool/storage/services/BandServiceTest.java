@@ -103,7 +103,7 @@ public class BandServiceTest {
 
         assertEquals(bandInDatabaseById.getBody().getId(), savedBandId);
         assertEquals(bandInDatabaseById.getBody().getName(), savedBand.getBody().getName());
-        assertEquals(bandInDatabaseById.getBody().getGenre(), savedBand.getBody().getGenre());
+        assertEquals(bandInDatabaseById.getBody().getGenre().getId(), savedBand.getBody().getGenre().getId());
         assertEquals(bandInDatabaseById.getBody().getListOfRole().get(0).getId(), savedBand.getBody().getListOfRole().get(0).getId());
 
         // Negative test
