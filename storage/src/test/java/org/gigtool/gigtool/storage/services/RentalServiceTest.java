@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +40,18 @@ public class RentalServiceTest {
     public void testAddRental() {
 
 
+        //negative name == null
+        rentalToSave.setName( null );
+        ResponseEntity<RentalResponse> rentalNameNull = rentalService.addRental( rentalToSave );
+
+        assertTrue(rentalNameNull.getStatusCode().is4xxClientError());
+
+        //negative  add == not in db
+        rentalToSave.setName( "name" );
+        rentalToSave.setAddress( UUID.randomUUID() );
+        ResponseEntity<RentalResponse> rentalRandAdd = rentalService.addRental( rentalToSave );
+
+        assertTrue(rentalRandAdd.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -78,7 +91,37 @@ public class RentalServiceTest {
     @Test
     @Transactional
     public void testUpdateRental() {
+        RentalCreate updateForRental = new RentalCreate();
+        updateForRental.setName( "update" );
+        updateForRental.setDescription( "update" );
+        updateForRental.setAddress( testUtils.getRandomAddressResponse().getBody().getId() );
+        updateForRental.setStartTime( LocalDateTime.now() );
+        updateForRental.setEndTime( LocalDateTime.of(2024, 1, 1, 15, 30, 0) );
 
+        ResponseEntity<RentalResponse> updatedRental = rentalService.updateRental( savedRentalId, updateForRental);
+        assertEquals(updatedRental.getBody().getName(), "update");
+        assertEquals(updatedRental.getBody().getDescription(), "update");
+
+        //negative gig not in database
+        UUID randomUUID = UUID.randomUUID();
+
+        while (randomUUID == savedRentalId ) {
+            randomUUID = UUID.randomUUID();
+        }
+        ResponseEntity<RentalResponse> RentalNotInDb = rentalService.updateRental( randomUUID, updateForRental);
+        assertTrue(RentalNotInDb.getStatusCode().is4xxClientError());
+
+        //negative gigId == null
+        ResponseEntity<RentalResponse> RentalIdNull = rentalService.updateRental( null, updateForRental);
+        assertTrue(RentalIdNull.getStatusCode().is4xxClientError());
+
+        //negative overlapping time
+        rentalToSave.setStartTime( LocalDateTime.now() );
+
+/*        ResponseEntity<RentalResponse> rentalTime = rentalService.addRental( rentalToSave );
+        ResponseEntity<RentalResponse> rentalTimeUpdate = rentalService.updateRental(rentalTime.getBody().getId(), updateForRental);
+
+        assertTrue(rentalTimeUpdate.getStatusCode().is4xxClientError());*/
     }
 
     @Test
