@@ -1,3 +1,30 @@
+
+- [GigTool Dokumentation](#gigtool-dokumentation)
+    - [Installationsanleitung](#installationsanleitung)
+    - [Architektur](#architektur)
+        - [Komponenten](#komponenten)
+            - [api](#api)
+            - [storage](#storage)
+            - [db](#db)
+            - [docker](#docker)
+            - [maven](#maven)
+        - [Interfaces (wird noch überarbeitet)](#interfaces-wird-noch-überarbeitet)
+        - [Größere Architekturänderungen im Vergleich zu Java 1](#größere-architekturänderungen-im-vergleich-zu-java-1)
+        - [Calc](#calc)
+        - [WeightClass und WeightClassList](#weightclass-und-weightclasslist)
+        - [EquipmentList](#equipmentlist)
+        - [Happening](#happening)
+        - [Rental und Gig](#rental-und-gig)
+        - [Dimension](#dimension)
+    - [Anwenderdokumentation](#anwenderdokumentation)
+        - [Intellj](#intellj)
+        - [Postman](#postman)
+        - [Auflistung Endpoints](#auflistung-endpoints)
+    - [Besonderheiten/Features des Projekts](#besonderheitenfeatures-des-projekts)
+    - [Lessons Learned](#lessons-learned)
+    - [Über den Projektumfang hinausgehende Funktionen](#über-den-projektumfang-hinausgehende-funktionen)
+
+
 # GigTool Dokumentation
 
 Willkommen bei der Dokumentation unserer API-Applikation GigTool.
