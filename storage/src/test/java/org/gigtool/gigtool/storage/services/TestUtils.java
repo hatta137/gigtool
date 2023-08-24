@@ -162,6 +162,4 @@ public class TestUtils {
     public ResponseEntity<TypeOfGigResponse> getRandomTypeOfGigResponse() {
         return typeOfGigService.addTypeOfGig( getRandomTypeOfGigCreate() );
     }
-
-
 }

@@ -226,15 +226,11 @@ public class EquipmentServiceTest {
 
         ResponseEntity<EquipmentResponse> savedEquipment2 = equipmentService.addEquipment( testUtils.getRandomEquipmentCreate() );
 
-//        ResponseEntity<GigResponse> gig = testUtils.getRandomGigResponse();
+        bandService.addEquipmentToBand( band.getBody().getId(), savedEquipment2.getBody().getId() );
 
-//        gigService.addEquipmentToGig(gig.getBody().getId(), savedEquipment2.getBody().getId());
+        ResponseEntity<EquipmentResponse> deletedEquipmentFalse = equipmentService.deleteEquipment( savedEquipment2.getBody().getId() );
 
-//        bandService.addEquipmentToBand( band.getBody().getId(), savedEquipment2.getBody().getId() );
-//TODO @hendrik funktioniert noch nicht
-//        ResponseEntity<EquipmentResponse> deletedEquipmentFalse = equipmentService.deleteEquipment( savedEquipment2.getBody().getId() );
-
- //       assertTrue(deletedEquipmentFalse.getStatusCode().is4xxClientError());
+        assertTrue(deletedEquipmentFalse.getStatusCode().is4xxClientError());
     }
 
     @Test

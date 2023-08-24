@@ -50,7 +50,6 @@ public class BandService {
             return ResponseEntity.badRequest().build();
         }
 
-
         Band band = new Band();
 
         Optional<Genre> genre = genreRepository.findById(bandCreate.getGenre());
@@ -75,6 +74,7 @@ public class BandService {
         band.setGenre(existingGenre);
         band.setListOfRole(roleInTheBandList);
         band.setName(bandCreate.getName());
+        band.setEquipmentList(new ArrayList<>());
 
         Band savedBand = bandRepository.saveAndFlush(band);
 
