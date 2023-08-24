@@ -127,14 +127,13 @@ public class TypeOfEquipmentServiceTest {
         assertTrue(updatedTypeOfEquipmentFalse.getStatusCode().is4xxClientError());
 
         UUID randomUUID = UUID.randomUUID();
-        while (randomUUID == savedTypeOfEquipmentId) {
+        while (randomUUID.equals(savedTypeOfEquipmentId)) {
             randomUUID = UUID.randomUUID();
         }
 
-        ResponseEntity<TypeOfEquipmentResponse> existingTypeOfEquipmentFalse = typeOfEquipmentService.deleteTypeOfEquipment( randomUUID );
+        ResponseEntity<TypeOfEquipmentResponse> existingTypeOfEquipmentFalse = typeOfEquipmentService.updateTypeOfEquipment( randomUUID, updateForTypeOfEquipment );
 
         assertTrue(existingTypeOfEquipmentFalse.getStatusCode().is4xxClientError());
-
     }
 
     @Test

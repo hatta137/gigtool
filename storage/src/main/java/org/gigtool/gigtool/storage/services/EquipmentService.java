@@ -60,12 +60,9 @@ public class EquipmentService {
 
         Optional<TypeOfEquipment> typeOfEquipment = typeOfEquipmentRepository.findById( equipmentCreate.getTypeOfEquipmentId() );
 
-        if (typeOfEquipment.isEmpty())
-            return ResponseEntity.notFound().build();
-
         Optional<Location> location = locationRepository.findById(equipmentCreate.getLocationId());
 
-        if (location.isEmpty())
+        if (typeOfEquipment.isEmpty() || location.isEmpty())
             return ResponseEntity.notFound().build();
 
         Equipment equipment = new Equipment(

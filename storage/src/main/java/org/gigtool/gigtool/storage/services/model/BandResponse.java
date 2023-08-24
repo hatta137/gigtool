@@ -9,6 +9,7 @@ import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Genre;
 import org.gigtool.gigtool.storage.model.RoleInTheBand;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

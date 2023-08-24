@@ -21,6 +21,16 @@ public class TestUtils {
     private TypeOfEquipmentService typeOfEquipmentService;
     @Autowired
     private LocationService locationService;
+    @Autowired
+    private GenreService genreService;
+    @Autowired
+    private RoleInTheBandService roleInTheBandService;
+    @Autowired
+    private BandService bandService;
+    @Autowired
+    private TypeOfGigService typeOfGigService;
+    @Autowired
+    private GigService gigService;
 
 
     public ResponseEntity<AddressResponse> getRandomAddressResponse() {
@@ -94,4 +104,64 @@ public class TestUtils {
                 random.nextFloat(100)
         );
     }
+
+    public GenreCreate getRandomGenreCreate() {
+
+        return new GenreCreate(
+                UUID.randomUUID() + "name",
+                UUID.randomUUID() + "description"
+        );
+    }
+
+    public RoleInTheBandCreate getRandomRoleInTheBandCreate() {
+
+        return new RoleInTheBandCreate(
+                UUID.randomUUID() + "name",
+                UUID.randomUUID() + "description"
+        );
+    }
+
+    public ResponseEntity<GenreResponse> getRandomGenreResponse() {
+        return genreService.addGenre( getRandomGenreCreate() );
+    }
+
+    public ResponseEntity<RoleInTheBandResponse> getRandomRoleInTheBandResponse() {
+        return roleInTheBandService.addRoleInTheBand( getRandomRoleInTheBandCreate() );
+    }
+
+    public BandCreate getRandomBandCreate() {
+        return new BandCreate(
+                UUID.randomUUID() + "name",
+                getRandomGenreResponse().getBody().getId(),
+                getRandomRoleInTheBandResponse().getBody().getId()
+        );
+    }
+
+    public ResponseEntity<BandResponse> getRandomBandResponse() {
+        return bandService.addBand( getRandomBandCreate() );
+    }
+
+    public GigCreate getRandomGigCreate() {
+        return new GigCreate(
+                getRandomTypeOfGigResponse().getBody().getId(),
+                getRandomBandResponse().getBody().getId()
+        );
+    }
+
+    public ResponseEntity<GigResponse> getRandomGigResponse() {
+        return gigService.addGig( getRandomGigCreate() );
+    }
+
+    public TypeOfGigCreate getRandomTypeOfGigCreate() {
+        return new TypeOfGigCreate(
+                UUID.randomUUID() + "name",
+                UUID.randomUUID() + "description"
+        );
+    }
+
+    public ResponseEntity<TypeOfGigResponse> getRandomTypeOfGigResponse() {
+        return typeOfGigService.addTypeOfGig( getRandomTypeOfGigCreate() );
+    }
+
+
 }

@@ -1,8 +1,7 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.services.model.EquipmentCreate;
-import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
-import org.gigtool.gigtool.storage.services.model.LocationResponse;
+import org.gigtool.gigtool.storage.model.Equipment;
+import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,10 @@ public class EquipmentServiceTest {
     private LocationService locationService;
     @Autowired
     private TestUtils testUtils;
+    @Autowired
+    private BandService bandService;
+    @Autowired
+    private GigService gigService;
 
 
     private EquipmentCreate equipmentToSave;
@@ -71,7 +74,7 @@ public class EquipmentServiceTest {
                 100.0f
         );
 
-        ResponseEntity<EquipmentResponse> negativeResult = equipmentService.addEquipment(incompleteEquipment);
+        ResponseEntity<EquipmentResponse> negativeResult = equipmentService.addEquipment( incompleteEquipment );
 
         assertFalse(negativeResult.getStatusCode().is2xxSuccessful());
 
@@ -200,6 +203,7 @@ public class EquipmentServiceTest {
     }
 
     @Test
+    @Transactional
     public void testDeleteEquipment() {
 
         ResponseEntity<EquipmentResponse> deletedEquipment = equipmentService.deleteEquipment( savedEquipmentId );
@@ -217,17 +221,20 @@ public class EquipmentServiceTest {
 
         assertTrue(negativeResult.getStatusCode().is4xxClientError());
 
-        //TODO @Hendrik negativ test wenn equipment in Band oder Happening hinterlegt ist
 
-        // random Band anlegen
+        ResponseEntity<BandResponse> band = testUtils.getRandomBandResponse();
 
-        // random Happening anlegen
+        ResponseEntity<EquipmentResponse> savedEquipment2 = equipmentService.addEquipment( testUtils.getRandomEquipmentCreate() );
 
-        // dem Happening/der Band das Equipment hinzufügen
+//        ResponseEntity<GigResponse> gig = testUtils.getRandomGigResponse();
 
-        // equipment löschen
+//        gigService.addEquipmentToGig(gig.getBody().getId(), savedEquipment2.getBody().getId());
 
-        // bad request status checken
+//        bandService.addEquipmentToBand( band.getBody().getId(), savedEquipment2.getBody().getId() );
+//TODO @hendrik funktioniert noch nicht
+//        ResponseEntity<EquipmentResponse> deletedEquipmentFalse = equipmentService.deleteEquipment( savedEquipment2.getBody().getId() );
+
+ //       assertTrue(deletedEquipmentFalse.getStatusCode().is4xxClientError());
     }
 
     @Test
