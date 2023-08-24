@@ -25,13 +25,13 @@ public abstract class HappeningResponse {
     private List<EquipmentResponse> equipmentList;
 
     public HappeningResponse(Happening happening) {
-        this.setName(happening.getName());
-        this.setStartTime(happening.getStartTime());
-        this.setEndTime(happening.getEndTime());
-        this.setDescription(happening.getDescription());
-        this.setAddress(new AddressResponse(happening.getAddress()));
-        this.setEquipmentList(happening.getEquipmentList().stream().map(EquipmentResponse::new).toList());
-        this.setId(happening.getId());
+        this.name = happening.getName();
+        this.startTime = happening.getStartTime();
+        this.endTime = happening.getEndTime();
+        this.description = happening.getDescription();
+        this.address = new AddressResponse(happening.getAddress());
+        this.equipmentList = happening.getEquipmentList().stream().map(EquipmentResponse::new).toList();
+        this.id = happening.getId();
     }
 
 
