@@ -1,5 +1,6 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
 import org.gigtool.gigtool.storage.services.model.GigCreate;
 import org.gigtool.gigtool.storage.services.model.GigResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -170,5 +170,24 @@ public class GigServiceTest {
 
     }
 
+    @Test
+    @Transactional
+    public void testAddAndDeleteEquipmentToGig() {
 
+        ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
+        ResponseEntity<GigResponse> gigWithEquipment = gigService.addEquipmentToGig( savedGigId, equipment.getBody().getId());
+
+        assertTrue(gigWithEquipment.getStatusCode().is2xxSuccessful());
+        assertEquals(gigWithEquipment.getBody().getEquipmentList().get(0).getId(), equipment.getBody().getId());
+
+        //negative equipmentId ==  null
+        ResponseEntity<GigResponse> gigEquNull = gigService.addEquipmentToGig( savedGigId, null);
+        assertFalse(gigEquNull.getStatusCode().is2xxSuccessful());
+    }
+
+    @Test
+    @Transactional
+    public void testDeleteGig() {
+
+    }
 }
