@@ -72,34 +72,20 @@ public class GigService {
             return ResponseEntity.badRequest().build();
         }
 
-        if (gigIsOverlapping(gigCreate.getStartTime(), gigCreate.getEndTime())){
+        if (gigIsOverlapping(gigCreate.getStartTime(), gigCreate.getEndTime()))
            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
         Gig gig = new Gig();
 
         Optional<Address> addressOptional = addressRepository.findById(gigCreate.getAddress());
-
-        if (addressOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Address address = addressOptional.get();
-
         Optional<TypeOfGig> typeOfGigOptional = typeOfGigRepository.findById(gigCreate.getTypeOfGig());
-
-        if (typeOfGigOptional.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        TypeOfGig typeOfGig = typeOfGigOptional.get();
-
         Optional<Band> bandOptional = bandRepository.findById(gigCreate.getBand());
 
-        if (bandOptional.isEmpty()) {
+        if (addressOptional.isEmpty() || typeOfGigOptional.isEmpty() || bandOptional.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
+        Address address = addressOptional.get();
+        TypeOfGig typeOfGig = typeOfGigOptional.get();
         Band band = bandOptional.get();
 
         gig.setAddress(address);
@@ -140,19 +126,17 @@ public class GigService {
 
         Optional<Gig> existingGig = gigRepository.findById(gigId);
 
-        if (existingGig.isEmpty()) {
+        if (existingGig.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
         Gig updatedGig = existingGig.get();
 
-        if (gigRequest.getName() != null) {
+        if (gigRequest.getName() != null)
             updatedGig.setName(gigRequest.getName());
-        }
 
         if (gigRequest.getStartTime() != null && gigRequest.getEndTime() == null) {
             if (gigIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig)){
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                return ResponseEntity.badRequest().build();
             }
             updatedGig.setStartTime(gigRequest.getStartTime());
         }
@@ -172,9 +156,9 @@ public class GigService {
             updatedGig.setEndTime(gigRequest.getEndTime());
         }
 
-        if (gigRequest.getDescription() != null) {
+        if (gigRequest.getDescription() != null)
             updatedGig.setDescription(gigRequest.getDescription());
-        }
+
 
         if (gigRequest.getAddress() != null) {
             Optional<Address> existingAddress = addressRepository.findById(gigRequest.getAddress());
@@ -274,6 +258,4 @@ public class GigService {
 
         return ResponseEntity.ok("Gig is deleted");
     }
-
-
 }
