@@ -225,6 +225,4 @@ public class RentalService {
 
         return ResponseEntity.ok("Rental is deleted");
     }
-
-
 }

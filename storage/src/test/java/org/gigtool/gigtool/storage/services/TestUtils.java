@@ -48,8 +48,6 @@ public class TestUtils {
         return bandService.addBand( getRandomBandCreate() );
     }
 
-
-
     public GenreCreate getRandomGenreCreate() {
         return new GenreCreate(
                 UUID.randomUUID() + "name",
@@ -61,8 +59,6 @@ public class TestUtils {
 
         return genreService.addGenre( getRandomGenreCreate() );
     }
-
-
 
     public TypeOfGigCreate getRandomTypeOfGigCreate() {
         return new TypeOfGigCreate(
@@ -76,8 +72,6 @@ public class TestUtils {
         return typeOfGigService.addTypeOfGig( getRandomTypeOfGigCreate() );
     }
 
-
-
     public RoleInTheBandCreate getRandomRoleInTheBandCreate() {
         return new RoleInTheBandCreate(
                 UUID.randomUUID() + "name",
@@ -90,8 +84,6 @@ public class TestUtils {
         return roleInTheBandService.addRoleInTheBand( getRandomRoleInTheBandCreate() );
     }
 
-
-
     public TypeOfEquipmentCreate getRandomTypeOfEquipmentCreate() {
         return new TypeOfEquipmentCreate(
                 UUID.randomUUID() + "name",
@@ -103,8 +95,6 @@ public class TestUtils {
 
         return typeOfEquipmentService.addTypeOfEquipment( getRandomTypeOfEquipmentCreate() );
     }
-
-
 
     public AddressCreate getRandomAddressCreate() {
         Random random = new Random();
@@ -124,8 +114,6 @@ public class TestUtils {
         return addressService.addNewAddress(addressToSave);
     }
 
-
-
     public TypeOfLocationCreate getRandomTypeOfLocationCreate() {
         return new TypeOfLocationCreate(
                 UUID.randomUUID() + "name",
@@ -140,8 +128,6 @@ public class TestUtils {
         return typeOfLocationService.addTypeOfLocation( typeOfLocationToSave );
     }
 
-
-
     public LocationCreate getRandomLocationCreate() {
         return new LocationCreate(
                 getRandomAddressResponse().getBody().getId(),
@@ -153,8 +139,6 @@ public class TestUtils {
 
         return locationService.addLocation( getRandomLocationCreate() );
     }
-
-
 
     public EquipmentCreate getRandomEquipmentCreate() {
         Random random = new Random();
@@ -178,7 +162,6 @@ public class TestUtils {
         return equipmentService.addEquipment( getRandomEquipmentCreate() );
     }
 
-
     public GigCreate getRandomGigCreate() {
 
         GigCreate gigCreate = new GigCreate();
@@ -195,5 +178,18 @@ public class TestUtils {
 
     public ResponseEntity<GigResponse> getRandomGigResponse() {
         return gigService.addGig( getRandomGigCreate() );
+    }
+
+    public RentalCreate getRandomRentalCreate() {
+
+        RentalCreate rentalCreate = new RentalCreate();
+        rentalCreate.setAddress( getRandomAddressResponse().getBody().getId() );
+        rentalCreate.setName( UUID.randomUUID() + "name" );
+        rentalCreate.setStartTime(LocalDateTime.now());
+        rentalCreate.setEndTime(LocalDateTime.now());
+        rentalCreate.setDescription( UUID.randomUUID() + "description" );
+        rentalCreate.setResponsiblePerson( UUID.randomUUID() + "responsible person" );
+
+        return rentalCreate;
     }
 }

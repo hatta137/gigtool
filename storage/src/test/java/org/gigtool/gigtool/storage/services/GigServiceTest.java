@@ -101,7 +101,6 @@ public class GigServiceTest {
         assertEquals(gigInDatabaseById.getBody().getName(), savedGig.getBody().getName());
 
         //negative
-        GigCreate gigWithoutExistingAddress = testUtils.getRandomGigCreate();
         UUID randomUUID = UUID.randomUUID();
 
         while (randomUUID == savedGigId ) {
@@ -186,12 +185,12 @@ public class GigServiceTest {
 
         //negative equipment already part of equipmentList
         ResponseEntity<GigResponse> alreadyPartOf = gigService.addEquipmentToGig( savedGigId, equipment.getBody().getId());
-        assertFalse(gigEquNull.getStatusCode().is2xxSuccessful());
+        assertFalse(alreadyPartOf.getStatusCode().is2xxSuccessful());
 
         //gig is empty
         ResponseEntity<EquipmentResponse> equipment2 = testUtils.getRandomEquipmentResponse();
         ResponseEntity<GigResponse> gigEmpty = gigService.addEquipmentToGig( UUID.randomUUID(), equipment2.getBody().getId());
-        assertFalse(gigEquNull.getStatusCode().is2xxSuccessful());
+        assertFalse(gigEmpty.getStatusCode().is2xxSuccessful());
     }
 
     @Test
