@@ -27,6 +27,25 @@ public class TestUtils {
     private TypeOfGigService typeOfGigService;
     @Autowired
     private GenreService genreService;
+    @Autowired
+    private BandService bandService;
+
+    //check ob notwending
+    @Autowired
+    private EquipmentService equipmentService;
+
+    public BandCreate getRandomBandCreate() {
+        return new BandCreate(
+                UUID.randomUUID() + "name",
+                getRandomGenreResponse().getBody().getId(),
+                getRandomRoleInTheBandResponse().getBody().getId()
+        );
+    }
+
+    public ResponseEntity<BandResponse> getRandomBandResponse() {
+        return bandService.addBand( getRandomBandCreate() );
+    }
+
 
 
     public GenreCreate getRandomGenreCreate() {
@@ -36,7 +55,7 @@ public class TestUtils {
         );
     }
 
-    public ResponseEntity<GenreResponse> getRandomGenreResponse(){
+    public ResponseEntity<GenreResponse> getRandomGenreResponse() {
 
         return genreService.addGenre( getRandomGenreCreate() );
     }
@@ -150,6 +169,11 @@ public class TestUtils {
                 getRandomLocationResponse().getBody().getId(),
                 random.nextFloat(100)
         );
+    }
+
+    public ResponseEntity<EquipmentResponse> getRandomEquipmentResponse() {
+
+        return equipmentService.addEquipment( getRandomEquipmentCreate() );
     }
 
 
