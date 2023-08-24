@@ -243,20 +243,3 @@ public class EquipmentService {
         return ResponseEntity.status(200).body( responseList );
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

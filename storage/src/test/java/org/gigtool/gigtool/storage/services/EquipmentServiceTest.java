@@ -74,6 +74,8 @@ public class EquipmentServiceTest {
                 100.0f
         );
 
+        incompleteEquipment.setLocationId(null);
+
         ResponseEntity<EquipmentResponse> negativeResult = equipmentService.addEquipment( incompleteEquipment );
 
         assertFalse(negativeResult.getStatusCode().is2xxSuccessful());
