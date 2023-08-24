@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,24 +29,25 @@ public class RentalService {
         this.happeningRepository = happeningRepository;
     }
 
-    private boolean rentalIsOverlapping(LocalDateTime startTime, LocalDateTime endTime) {
-        List<Rental> overlappingRentals = rentalRepository.findOverlappingRentals(startTime, endTime);
-        return !overlappingRentals.isEmpty();
-    }
 
-    private boolean rentalIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Rental excludedRental) {
-        List<Rental> overlappingRentals = rentalRepository.findOverlappingRentals(startTime, endTime);
-
-        if (overlappingRentals.isEmpty()) {
-            return false;
-        }
-
-        return !(overlappingRentals.size() == 1 && overlappingRentals.contains(excludedRental));
-    }
 
     private boolean equipmentIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Equipment equipment) {
         List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
         return !overlappingHappenings.isEmpty();
+    }
+    
+    private boolean equiptmentlistIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Rental rental) {
+        for (Equipment equipment: rental.getEquipmentList()) {
+            List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
+            System.out.println(equipment);
+            if(!overlappingHappenings.isEmpty()){
+                System.out.println(overlappingHappenings);
+                if(!(overlappingHappenings.size() == 1 && overlappingHappenings.contains(rental))){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public ResponseEntity<RentalResponse> addRental(RentalCreate rentalCreate) {
@@ -55,9 +57,6 @@ public class RentalService {
             return ResponseEntity.badRequest().build();
         }
 
-        if (rentalIsOverlapping(rentalCreate.getStartTime(), rentalCreate.getEndTime())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
         Rental rental = new Rental();
 
@@ -75,6 +74,7 @@ public class RentalService {
         rental.setEndTime(rentalCreate.getEndTime());
         rental.setDescription(rentalCreate.getDescription());
         rental.setResponsiblePerson(rentalCreate.getResponsiblePerson());
+        rental.setEquipmentList(new ArrayList<>());
 
         Rental savedRental = rentalRepository.saveAndFlush(rental);
 
@@ -116,24 +116,25 @@ public class RentalService {
         }
 
         if (rentalRequest.getStartTime() != null && rentalRequest.getEndTime() == null) {
-            if (rentalIsOverlapping(rentalRequest.getStartTime(), updatedRental.getEndTime(), updatedRental)){
+            if (equiptmentlistIsOverlapping(rentalRequest.getStartTime(), updatedRental.getEndTime(), updatedRental)){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedRental.setStartTime(rentalRequest.getStartTime());
         }
 
         if (rentalRequest.getEndTime() != null && rentalRequest.getStartTime() == null) {
-            if (rentalIsOverlapping(updatedRental.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
+            if (equiptmentlistIsOverlapping(updatedRental.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedRental.setEndTime(rentalRequest.getEndTime());
         }
 
         if (rentalRequest.getStartTime() != null && rentalRequest.getEndTime() != null) {
-            if (rentalIsOverlapping(rentalRequest.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
+            if (equiptmentlistIsOverlapping(rentalRequest.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedRental.setStartTime(rentalRequest.getStartTime());
+            updatedRental.setEndTime(rentalRequest.getEndTime());
         }
 
         if (rentalRequest.getDescription() != null) {

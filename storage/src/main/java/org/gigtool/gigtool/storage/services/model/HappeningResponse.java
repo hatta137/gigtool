@@ -23,6 +23,7 @@ public abstract class HappeningResponse {
     private Address address;
     private List<Equipment> equipmentList;
 
+    //TODO super konstruktor?
 
 
 }
