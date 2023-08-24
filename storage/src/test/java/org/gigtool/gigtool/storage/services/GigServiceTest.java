@@ -117,11 +117,16 @@ public class GigServiceTest {
 
         GigCreate updateForGig = new GigCreate();
         updateForGig.setName( "update" );
+        updateForGig.setDescription( "update" );
+        updateForGig.setAddress( testUtils.getRandomAddressResponse().getBody().getId() );
+        updateForGig.setTypeOfGig( testUtils.getRandomTypeOfGigResponse().getBody().getId() );
+        updateForGig.setBand( testUtils.getRandomBandResponse().getBody().getId() );
         updateForGig.setStartTime( LocalDateTime.now() );
         updateForGig.setEndTime( LocalDateTime.of(2024, 1, 1, 15, 30, 0) );
 
         ResponseEntity<GigResponse> updatedGig = gigService.updateGig( savedGigId, updateForGig);
         assertEquals(updatedGig.getBody().getName(), "update");
+        assertEquals(updatedGig.getBody().getDescription(), "update");
 
         //negative gig not in database
         UUID randomUUID = UUID.randomUUID();
@@ -143,5 +148,27 @@ public class GigServiceTest {
         ResponseEntity<GigResponse> gigTimeUpdate = gigService.updateGig(gigTime.getBody().getId(), updateForGig);
 
         assertTrue(gigTimeUpdate.getStatusCode().is4xxClientError());
+
+        //negative attributes not found in db
+/*        GigCreate noAddressInDb = updateForGig;
+        noAddressInDb.setAddress( UUID.randomUUID() );
+        ResponseEntity<GigResponse> newGig1 = gigService.addGig( testUtils.getRandomGigCreate() );
+        ResponseEntity<GigResponse> noAddress = gigService.updateGig( newGig1.getBody().getId(), noAddressInDb );
+        assertTrue(noAddress.getStatusCode().is4xxClientError());
+
+        GigCreate noTypeOfGig = updateForGig;
+        noAddressInDb.setTypeOfGig( UUID.randomUUID() );
+        ResponseEntity<GigResponse> newGig2 = gigService.addGig( testUtils.getRandomGigCreate() );
+        ResponseEntity<GigResponse> noToG = gigService.updateGig( newGig2.getBody().getId(), noTypeOfGig );
+        assertTrue(noToG.getStatusCode().is4xxClientError());
+
+        GigCreate noBand = updateForGig;
+        noAddressInDb.setBand( UUID.randomUUID() );
+        ResponseEntity<GigResponse> newGig3 = gigService.addGig( testUtils.getRandomGigCreate() );
+        ResponseEntity<GigResponse> noBandInDb = gigService.updateGig( newGig3.getBody().getId(), noBand );
+        assertTrue(noBandInDb.getStatusCode().is4xxClientError());*/
+
     }
+
+
 }
