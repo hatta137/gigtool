@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +32,7 @@ public class BandService {
         this.gigRepository = gigRepository;
     }
 
-    private boolean equiptmentIsUseSameTimeLikeBandGigs(Band band, Equipment equipment){
+    private boolean equipmentIsUseSameTimeLikeBandGigs(Band band, Equipment equipment){
         List<Gig> bandGigs = gigRepository.findGigsByBand(band);
         for (Gig bandGig: bandGigs) {
             List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(bandGig.getStartTime(), bandGig.getEndTime(), equipment);
@@ -117,7 +116,7 @@ public class BandService {
         Band band = existingBand.get();
         Equipment equipment = existingEquipment.get();
 
-        if (band.getEquipmentList().contains(equipment) || this.equiptmentIsUseSameTimeLikeBandGigs(band, equipment)) {
+        if (band.getEquipmentList().contains(equipment) || this.equipmentIsUseSameTimeLikeBandGigs(band, equipment)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
