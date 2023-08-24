@@ -41,15 +41,18 @@ Zum Einstieg möchten wir euch erstmal zeigen, wie ihr unsere API-Applikation in
 
 ## Installationsanleitung
 
+[Docker Desktop](https://www.docker.com/products/docker-desktop/) benötigen wir für die Docker Engine.
 
+Die [Intellj IDE](https://www.jetbrains.com/de-de/idea/download/?section=windows) nutzen wir im späteren Verlauf für die Tests der Services.
+
+Die [Postman-App](https://www.postman.com/downloads/) werden wir später in der Anwenderdokumentation nutzen, um unsere Routen und Controller zu testen.
 
 <pre>git clone https://git.ai.fh-erfurt.de/prgj2-23/gigtool.git
 docker compose up</pre>
 
-[Docker Desktop](https://www.docker.com/products/docker-desktop/) benötigen wir für die Containerisierung unserer Datenbank.
 
 
-Die [Postman-App](https://www.postman.com/downloads/) werden wir später in der Anwenderdokumentation nutzen, um unsere Routen und Controller zu testen.
+
 
 ## Architektur
 
@@ -130,11 +133,9 @@ Equipment speichern.
 
 ## Anwenderdokumentation
 
-Wenn alle in der Installtionsanleitung beschriebenen Schritte erfolgreich ausgeführt wurden, sollte die ApiApplication, PostgreSQL-Datenbank unbd pgadmin auf der Docker Engine laufen.
+Wenn alle in der Installtionsanleitung beschriebenen Schritte erfolgreich ausgeführt wurden, sollte die ApiApplication, PostgreSQL-Datenbank und pgadmin auf der Docker Engine laufen.
 
-Sollte das noch nicht der Fall sein dann starten wir die docker-compose.yml im Projektordner, um die benötigten Docker-Container erstellen.
-
-- ToDo Bild noch überarbeiten wenn alles dockerized ist mit Jar und Co -
+- ToDo Bild noch überarbeiten wenn alles dockerized ist mit Jar und Co kommt noch ein container dazu
 ![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "PostgreSQL Container")
 
 ### Intellj
