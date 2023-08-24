@@ -42,7 +42,7 @@ public class BandServiceTest {
     public void testAddBand() {
 
         assertEquals(savedBand.getBody().getName(), bandToSave.getName());
-        assertEquals(savedBand.getBody().getGenre(), bandToSave.getGenre());
+        assertEquals(savedBand.getBody().getGenre().getId(), bandToSave.getGenre());
         assertEquals(savedBand.getBody().getListOfRole().get(0).getId(), bandToSave.getMainRoleInTheBand());
 
         // Negative Test: Try adding a band with missing information
@@ -88,11 +88,11 @@ public class BandServiceTest {
         assertEquals(3, savedBandList.getBody().size());
 
         assertEquals(bandToSave1.getName(), savedBandList.getBody().get(1).getName());
-        assertEquals(bandToSave1.getGenre(), savedBandList.getBody().get(1).getGenre());
+        assertEquals(bandToSave1.getGenre(), savedBandList.getBody().get(1).getGenre().getId());
         assertEquals(bandToSave1.getMainRoleInTheBand(), savedBandList.getBody().get(1).getListOfRole().get(0).getId());
 
         assertEquals(bandToSave2.getName(), savedBandList.getBody().get(2).getName());
-        assertEquals(bandToSave2.getGenre(), savedBandList.getBody().get(2).getGenre());
+        assertEquals(bandToSave2.getGenre(), savedBandList.getBody().get(2).getGenre().getId());
         assertEquals(bandToSave2.getMainRoleInTheBand(), savedBandList.getBody().get(2).getListOfRole().get(0).getId());
     }
 
@@ -125,7 +125,7 @@ public class BandServiceTest {
         BandCreate updateForBand = new BandCreate(
                 "newName",
                 testUtils.getRandomGenreResponse().getBody().getId(),
-                testUtils.getRandomRoleInTheBandResponse().getBody().getId()
+                null
         );
 
         ResponseEntity<BandResponse> bandBeforeUpdate = savedBand;
@@ -133,10 +133,8 @@ public class BandServiceTest {
         ResponseEntity<BandResponse> updatedBand = bandService.updateBand(savedBandId, updateForBand);
 
         assertEquals(updatedBand.getBody().getName(), updateForBand.getName());
-        assertEquals(updatedBand.getBody().getGenre(), updateForBand.getGenre());
-        assertEquals(updatedBand.getBody().getListOfRole().get(0).getId(), updateForBand.getMainRoleInTheBand());
+        assertEquals(updatedBand.getBody().getGenre().getId(), updateForBand.getGenre());
 
-        assertEquals(updatedBand.getBody().getName(), "newName");
 
         // Negative test
         UUID randomUUID = UUID.randomUUID();
