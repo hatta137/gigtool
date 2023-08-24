@@ -17,7 +17,6 @@ Zum Einstieg möchten wir euch erstmal zeigen, wie ihr unsere API-Applikation in
 
 
 <pre>git clone https://git.ai.fh-erfurt.de/prgj2-23/gigtool.git
-Hier noch ergänzen Maven etc mal Testweise auf Laptop alles durchklicken
 docker compose up</pre>
 
 [Docker Desktop](https://www.docker.com/products/docker-desktop/) benötigen wir für die Containerisierung unserer Datenbank.
@@ -27,7 +26,7 @@ Die [Postman-App](https://www.postman.com/downloads/) werden wir später in der 
 
 ## Architektur
 
-Die GigTool Architektur umfasst mehrere Bereiche, die wir euch in den kommenden Abschnitt verständlich näher bringen wollen.
+Die GigTool Architektur umfasst mehrere Bereiche, die wir euch in den kommenden Abschnitten verständlich näher bringen wollen.
 
 
 ### Komponenten
@@ -41,13 +40,13 @@ Diese sind für das Routing der Anfragen zu den Endpoints zuständig.
 #### storage
 Die storage Komponente ist unterteilt in verschiedene Module.
 
-Das "model" ist für die Definition der Datenbank-Objekte vorgesehen und beschreibt, wie diese auszusehen haben.
+Das "model" ist für die Definition der Datenbank-Objekte vorgesehen und beschreibt deren Aussehen.
 
 Die repos im "repositories"-Modul, benötigen wir um überhaupt Datenbank-Operationen anwenden zu können. 
 Sie sind bei Bedarf beliebig erweiterbar, falls die JPA-Funktionalitäten nicht ausreichen.
 
 Das services-Modul ist nochmal unterteilt in service.models und services.
-Die service.models definieren, wie die create- und response-Objekte auszusehen haben.
+Die service.models definieren die Struktur der create- und response-Objekte.
 Services sind für die Trennung von Geschäftslogik und Datenbankzugriff zuständig.
 
 #### db
@@ -70,7 +69,7 @@ Im folgenden Schaubild zeigen wir euch, wie unser API-Interface funktioniert und
 
 ### Größere Architekturänderungen im Vergleich zu Java 1
 
-Unser Projekt haben wir von Java 1 weitergeführt. Wie ihr sicherlich merkt, ist der Grad an Komplexität jedoch deutlich gestiegen und wir haben mehrere Umbauten vornehmen müssen.
+Unser Projekt haben wir von Java 1 weitergeführt. Der Grad an Komplexität ist jedoch deutlich gestiegen und wir haben mehrere Umbauten vornehmen müssen.
 
 ### Calc
 
@@ -80,7 +79,7 @@ Diese Utility-Class wurde entfernt, da wir festgestellt haben, dass alle Funktio
 
 Diese Klassen waren gedacht um das Equipment, anhand des Gewichts zu Kategorisieren.
 Diese Kategorien (WeightClasses) waren aufsteigend in der WeightClassList gespeichert.
-Das sollte dazu dienen, Aussagen über das Gewicht/Gesamtgewicht zu geben.
+Das sollte dazu dienen, Aussagen über das Gewicht/Gesamtgewicht geben zu können.
 Um die Klassenstruktur zu vereinfachen wurden diese Klassen gestrichen.
 Aussagen über das Gewicht/Gesamtgewicht können trotzdem getroffen werden, da das Eigengewicht in der
 Entität Equipment gespeichert wird.
@@ -104,9 +103,11 @@ Equipment speichern.
 
 ## Anwenderdokumentation
 
-Die Docker Container der PostgreSQl-Datenbank und pgadmin sollten bereits laufen (siehe Installationsanleitung).
-Sollte das noch nicht der Fall sein dann starten wir die docker-compose.yml im Projektordner, um die benötigten Docker-Container der PostgreSQL-Datenbank und dem Verwaltungstool zu erstellen.
+Wenn alle in der Installtionsanleitung beschriebenen Schritte erfolgreich ausgeführt wurden, sollte die ApiApplication, PostgreSQL-Datenbank unbd pgadmin auf der Docker Engine laufen.
 
+Sollte das noch nicht der Fall sein dann starten wir die docker-compose.yml im Projektordner, um die benötigten Docker-Container erstellen.
+
+- ToDo Bild noch überarbeiten wenn alles dockerized ist mit Jar und Co -
 ![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "PostgreSQL Container")
 
 ### Intellj
@@ -131,7 +132,7 @@ Zum Beispiel:
 
 ### Auflistung Endpoints
 
-## Besonderheiten im Projekt
+## Besonderheiten/Features des Projekts
 
 testutils- randomgenerator
 
