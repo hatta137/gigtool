@@ -170,7 +170,6 @@ public class GigServiceTest {
     }
 
     @Test
-    @Transactional
     public void testAddEquipmentToGig() {
 
         ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
