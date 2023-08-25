@@ -1,5 +1,7 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.services.model.GigCreate;
+import org.gigtool.gigtool.storage.services.model.GigResponse;
 import org.gigtool.gigtool.storage.services.model.TypeOfGigCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfGigResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -23,9 +26,10 @@ public class TypeOfGigServiceTest {
 
     @Autowired
     private TypeOfGigService typeOfGigService;
-
     @Autowired
     private TestUtils testUtils;
+    @Autowired
+    private GigService gigService;
 
     private TypeOfGigCreate typeOfGigToSave;
 
@@ -132,6 +136,10 @@ public class TypeOfGigServiceTest {
         ResponseEntity<String> existingTypeOfGigFalse = typeOfGigService.deleteTypeOfGig(randomUUID);
 
         assertTrue(existingTypeOfGigFalse.getStatusCode().is4xxClientError());
+
+        //negative existing Type is empty
+        ResponseEntity<TypeOfGigResponse> negativeResult = typeOfGigService.updateTypeOfGig( UUID.randomUUID(), updateForTypeOfGig);
+        assertTrue(negativeResult.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -147,6 +155,23 @@ public class TypeOfGigServiceTest {
 
         assertTrue(deleteResult.getStatusCode().is4xxClientError());
         assertEquals("No ID", deleteResult.getBody());
+
+        ResponseEntity<TypeOfGigResponse> typeOfGig = testUtils.getRandomTypeOfGigResponse();
+        GigCreate gigCreate = testUtils.getRandomGigCreate();
+        gigCreate.setName("name");
+        gigCreate.setTypeOfGig(typeOfGig.getBody().getId());
+        gigCreate.setAddress(testUtils.getRandomAddressResponse().getBody().getId());
+        gigCreate.setDescription("descr");
+        gigCreate.setStartTime(LocalDateTime.now());
+        gigCreate.setEndTime(LocalDateTime.now());
+
+        ResponseEntity<GigResponse> savedGig = gigService.addGig(gigCreate);
+
+        ResponseEntity<String> negativeResult = typeOfGigService.deleteTypeOfGig(typeOfGig.getBody().getId());
+        assertTrue(negativeResult.getStatusCode().is4xxClientError());
+
+
+
     }
 
 }

@@ -184,7 +184,6 @@ public class EquipmentServiceTest {
     }
 
     @Test
-    @Transactional
     public void testUpdateEquipment() {
         EquipmentCreate updateForEquipment = new EquipmentCreate("newName" );
         updateForEquipment.setPrice(10.50f);
@@ -219,7 +218,6 @@ public class EquipmentServiceTest {
     }
 
     @Test
-    @Transactional
     public void testDeleteEquipment() {
 
         ResponseEntity<EquipmentResponse> deletedEquipment = equipmentService.deleteEquipment( savedEquipmentId );
