@@ -99,6 +99,21 @@ public class EquipmentServiceTest {
         ResponseEntity<EquipmentResponse> negativeResult2 = equipmentService.addEquipment(incompleteEquipment2);
 
         assertTrue(negativeResult2.getStatusCode().is4xxClientError());
+
+        EquipmentCreate incompleteEquipment3 = new EquipmentCreate();
+        incompleteEquipment3.setName( "name" );
+        incompleteEquipment3.setDescription( "description" );
+        incompleteEquipment3.setWeight( 1 );
+        incompleteEquipment3.setWidth( 1 );
+        incompleteEquipment3.setLength( 1 );
+        incompleteEquipment3.setHeight( 1 );
+        incompleteEquipment3.setDateOfPurchase( LocalDate.now() );
+        incompleteEquipment3.setPrice( 10.0f );
+        incompleteEquipment3.setLocationId( UUID.randomUUID() );
+        incompleteEquipment3.setTypeOfEquipmentId( UUID.randomUUID() );
+
+        ResponseEntity<EquipmentResponse> negativeResult3 = equipmentService.addEquipment( incompleteEquipment3 );
+        assertTrue(negativeResult3.getStatusCode().is4xxClientError());
     }
 
     @Test
