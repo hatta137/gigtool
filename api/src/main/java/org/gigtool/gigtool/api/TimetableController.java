@@ -42,7 +42,7 @@ public class TimetableController {
 
     @GetMapping("/{id}/whereismyequipment")
     public ResponseEntity<List<whereismyequipmentResponse>> whereIsMyEquipment(@PathVariable UUID id) {
-        return this.timetableService.getLocationsOfEquiptmentFromHappening(id);
+        return this.timetableService.getLocationsOfEquipmentFromHappening(id);
     }
 
 }

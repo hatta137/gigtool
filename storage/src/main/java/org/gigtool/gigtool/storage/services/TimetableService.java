@@ -1,5 +1,5 @@
 package org.gigtool.gigtool.storage.services;
-
+//TODO Comments überarbeiten (Darius!)
 import org.gigtool.gigtool.storage.model.*;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
 import org.gigtool.gigtool.storage.repositories.EquipmentRepository;
@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-//TODO Comments
+
+/**
+ * @author Dario
+ * Service class for managing timetable operations
+ */
 @Service
 public class TimetableService {
 
@@ -44,6 +48,12 @@ public class TimetableService {
 
     }
 
+    /**
+     * Filters a happening by name and description.
+     * @param name
+     * @param description
+     * @return A ResponseEntity containing a list of happening responses.
+     */
     public ResponseEntity<List<TimetableResponse>> getFilteredHappenings(String name,  String description) {
 
         List<Happening> happeningList = happeningRepository.findFilteredHappenings(name, description);
@@ -57,6 +67,11 @@ public class TimetableService {
         return ResponseEntity.ok(responseList);
     }
 
+    /**
+     * Sums up the value (each) of weight, volume and costs of a happening by its id.
+     * @param id
+     * @return A ResponseEntity containing list of calc responses if happenings are existing.
+     */
     public  ResponseEntity<CalcResponse> getTotalValuesOfHappening(UUID id) {
 
         int totalWeight = 0;
@@ -90,7 +105,12 @@ public class TimetableService {
         return ResponseEntity.ok(new CalcResponse(happening, totalWeight, totalCuboidVolume, totalCosts));
     }
 
-    public ResponseEntity<List<whereismyequipmentResponse>> getLocationsOfEquiptmentFromHappening(UUID id) {
+    /**
+     * Retrieves the location of equipment by its id
+     * @param id
+     * @return A ResponseEntity containing a list of locations
+     */
+    public ResponseEntity<List<whereismyequipmentResponse>> getLocationsOfEquipmentFromHappening(UUID id) {
 
         Optional<Happening> existingHappening = happeningRepository.findById(id);
 
