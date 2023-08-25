@@ -1,5 +1,6 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.model.Happening;
 import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,11 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Transactional
@@ -108,12 +111,12 @@ public class RentalServiceTest {
         while (randomUUID == savedRentalId ) {
             randomUUID = UUID.randomUUID();
         }
-        ResponseEntity<RentalResponse> RentalNotInDb = rentalService.updateRental( randomUUID, updateForRental);
-        assertTrue(RentalNotInDb.getStatusCode().is4xxClientError());
+        ResponseEntity<RentalResponse> rentalNotInDb = rentalService.updateRental( randomUUID, updateForRental);
+        assertTrue(rentalNotInDb.getStatusCode().is4xxClientError());
 
         //negative gigId == null
-        ResponseEntity<RentalResponse> RentalIdNull = rentalService.updateRental( null, updateForRental);
-        assertTrue(RentalIdNull.getStatusCode().is4xxClientError());
+        ResponseEntity<RentalResponse> rentalIdNull = rentalService.updateRental( null, updateForRental);
+        assertTrue(rentalIdNull.getStatusCode().is4xxClientError());
 
         //negative overlapping time
         rentalToSave.setStartTime( LocalDateTime.now() );
@@ -122,6 +125,21 @@ public class RentalServiceTest {
         ResponseEntity<RentalResponse> rentalTimeUpdate = rentalService.updateRental(rentalTime.getBody().getId(), updateForRental);
 
         assertTrue(rentalTimeUpdate.getStatusCode().is4xxClientError());*/
+
+        //update Time start and end
+        LocalDateTime startTime = LocalDateTime.of(2023, 8, 25, 10, 0);
+        LocalDateTime endTime = LocalDateTime.of(2023, 8, 25, 12, 0);
+        RentalCreate rental = testUtils.getRandomRentalCreate();
+        rental.setStartTime( startTime );
+        rental.setEndTime( endTime );
+
+        ResponseEntity<RentalResponse> rentalTimeUpdateStartEnd = rentalService.updateRental( savedRentalId, rental);
+        assertTrue(rentalTimeUpdateStartEnd.getStatusCode().is2xxSuccessful());
+
+        RentalCreate rental2 = testUtils.getRandomRentalCreate();
+        rental2.setStartTime( startTime );
+        ResponseEntity<RentalResponse> rentalTimeUpdateStart = rentalService.updateRental( savedRentalId, rental2);
+        assertTrue(rentalTimeUpdateStart.getStatusCode().is2xxSuccessful());
     }
 
     @Test
@@ -200,5 +218,34 @@ public class RentalServiceTest {
         //negative rentalId not in Database
         ResponseEntity<String> deletedRentalNotInDataBase = rentalService.deleteRental(UUID.randomUUID());
         assertTrue(deletedRentalNotInDataBase.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    public void testEquipmentIsOverlapping() {
+        LocalDateTime startTime = LocalDateTime.of(2023, 8, 25, 10, 0);
+        LocalDateTime endTime = LocalDateTime.of(2023, 8, 25, 12, 0);
+        ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
+        ResponseEntity<EquipmentResponse> equipment2 = testUtils.getRandomEquipmentResponse();
+
+        RentalCreate rental = testUtils.getRandomRentalCreate();
+        rental.setStartTime( startTime );
+        rental.setEndTime( endTime );
+
+        ResponseEntity<RentalResponse> rentalInDb = rentalService.addRental( rental );
+        ResponseEntity<RentalResponse> rentalWithEquipment = rentalService.addEquipmentToRental( rentalInDb.getBody().getId(), equipment.getBody().getId() );
+
+        ResponseEntity<RentalResponse> negativeResult = rentalService.addEquipmentToRental( rentalInDb.getBody().getId(), equipment2.getBody().getId() );
+
+        assertTrue(negativeResult.getStatusCode().is2xxSuccessful());
+
+        //equipmentList overlapping
+        LocalDateTime startTime2 = LocalDateTime.of(2023, 8, 26, 10, 0);
+        LocalDateTime endTime2 = LocalDateTime.of(2023, 8, 26, 12, 0);
+        ResponseEntity<EquipmentResponse> equipment3 = testUtils.getRandomEquipmentResponse();
+
+        ResponseEntity<RentalResponse> rentalWithEquipmentList = rentalService.addEquipmentToRental( rentalInDb.getBody().getId(), equipment3.getBody().getId() );
+        ResponseEntity<RentalResponse> negativeResultList = rentalService.addEquipmentToRental( rentalInDb.getBody().getId(), equipment2.getBody().getId() );
+
+        assertTrue(negativeResult.getStatusCode().is2xxSuccessful());
     }
 }
