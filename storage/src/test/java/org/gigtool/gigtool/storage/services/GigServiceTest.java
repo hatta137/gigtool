@@ -194,7 +194,6 @@ public class GigServiceTest {
     }
 
     @Test
-    @Transactional
     public void testDeleteEquipmentFromGig() {
 
         ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();

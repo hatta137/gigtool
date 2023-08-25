@@ -201,7 +201,6 @@ public class RentalServiceTest {
     }
 
     @Test
-    @Transactional
     public void testDeleteRental() {
 
         ResponseEntity<String> deletedRental = rentalService.deleteRental(savedRentalId);

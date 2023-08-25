@@ -290,7 +290,6 @@ public class EquipmentServiceTest {
     }
 
     @Test
-    @Transactional
     public void testGetAllEquipmentByLocation() {
 
         ResponseEntity<EquipmentResponse> savedEquipment1 = equipmentService.addEquipment(testUtils.getRandomEquipmentCreate());
