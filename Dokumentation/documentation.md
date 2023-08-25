@@ -51,12 +51,9 @@ Die [Postman-App](https://www.postman.com/downloads/) werden wir später in der 
 docker compose up</pre>
 
 
-
-
-
 ## Architektur
 
-Die GigTool Architektur umfasst mehrere Bereiche, die wir euch in den kommenden Abschnitten verständlich näher bringen wollen.
+Die GigTool Architektur umfasst mehrere strukturelle Bereiche, die wir euch in den kommenden Abschnitten verständlich näher bringen wollen.
 
 
 ### Komponenten
@@ -87,13 +84,13 @@ Services sind für die Trennung von Geschäftslogik und Datenbankzugriff zustän
 Die Komponente "db" enthält unser Initialiserungsskript mit dem Namen der Datenbank und dem root-User zur Verwaltung.
 
 #### docker
-Die docker-compose.yml ist unsere docker-Komponente im Projekt. Sie sorgt für die Containerisierung unserer PostgresSQL-DB und dem Verwaltungstool pgadmin.
+Die docker-compose.yml ist unsere docker-Komponente im Projekt. Sie sorgt für die Containerisierung unserer ApiApplication, PostgreSQL-DB und dem Verwaltungstool pgadmin.
 
 #### maven
 Die Maven POM enthält alle wichtigen Abhängigkeiten für unser Spring Boot-Projekt und stellt sozusagen den Build-Planer dar.
 
 
-### Interfaces (wird noch überarbeitet)
+### Interfaces (muss noch überarbeitet werden wenn sich Docker ändert muss der Docker frame um alle 3 gehen nicht nur um DB)
 
 Im folgenden Schaubild zeigen wir euch, wie unser API-Interface funktioniert und welche Abläufe im backend angestoßen werden, wenn der User beispielsweise ein Equipment anlegen möchte.
 
@@ -145,7 +142,7 @@ Wenn alle in der Installtionsanleitung beschriebenen Schritte erfolgreich ausgef
 ### Intellj
 
 Für den Test der Services und Repositories ermöglicht uns die Intellj-IDE die Ausführung unserer Applikation.
-Über das Startmenü im oberen Bereich unserer IDE können wir dann die Applikation starten. Allerdings erst, nachdem wir alle Maven Dependencies erfolgreich installiert haben.
+Über das RUN-menü im oberen Bereich unserer IDE können wir dann die Applikation starten, nachdem wir alle Maven Dependencies erfolgreich installiert haben.
 
 ![IntelljRunApplication](assets/RunApplicationField.png "Application Startmenü")
 
@@ -162,11 +159,59 @@ Zum Beispiel:
 
 ### Postman
 
-### Auflistung Endpoints
+Postman ist eines der beliebtesten Werkzeuge zum Testen von APIs (Application Programming Interfaces).
+
+#### Auflistung Endpoints
+
+![ApiApplication_Endpoints](assets/ListOfAllEndpoints.png "List of all Endpoints")
+
+#### Import der Collection
+
+Die GigTool Postman Collection findet ihr im Java 2 GigTool/gigtool/dokumentation/postman_collection Ordner.
+
+Diese könnt ihr ganz simpel per Drag&Drop in Postman importieren.
+
+![PostmanCollection](assets/collection_import_postman.png "Postman Collection Import")
+
+#### Ausführung der Collection
+
+Mittels Rechtsklick auf den Collection_Ordner könnt ihr die komplette Collection ausführen. 
+
+![PostmanCollectionRun](assets/Run_Collection.png "Postman Collection Run")
+
+Der GigTool API Run durchläuft dann alle gespeicherten Methoden...
+
+![PostmanCollectionRun](assets/Run_GigToolAPI.png "Postman GigTool API Run")
+
+und überprüft deren Ergebnisse auf Erfolg oder Fehlschlag.
+
+![PostmanCollectionResults](assets/postman_results.png "Postman GigTool API Results")
+
+Im Postman Documentation Bereich haben wir für jeden Endpoint Beschreibungen und Beispiele hinzugefügt, um einen möglichst detaillierten Einblick zu gewährleisten.
 
 ## Besonderheiten/Features des Projekts
 
+Im Laufe des Projekts haben sich ein paar coole Features angesammelt, die es in unseren Augen verdienen hier nochmal erwähnt zu werden.
+
+### TestUtils
+
 testutils- randomgenerator
+
+### Kollisionsprüfungen
+
+// Todo Umschreiben
+
+Kollisionsprüfung findet in gig, rental udn band statt
+Kolliision das 2 gigs nicht gleichzeitig + equipment nicht doppellt in einem zeitslot buchbar
+instrument verliehen während gig ist nicht möglich
+wenn du instrument einer band hinzufügst darf das instrument während eines gigs nicht in einem rental sein
+bei Updates der zeit wird neuer zeitpunkt mit existieren rentals, etc anderen happenings überprüft dass equipment in der zeit frei ist
+
+bandtest testet ob hinzugeüfgtes equipment in nem gig ist 
+gig equipment list 
+band equipment list in band equipment kollidiert
+
+### Timetable
 
 
 
