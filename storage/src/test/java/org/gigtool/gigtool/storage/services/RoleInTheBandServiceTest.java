@@ -1,5 +1,6 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.services.model.BandResponse;
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandCreate;
 import org.gigtool.gigtool.storage.services.model.RoleInTheBandResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,9 +22,11 @@ public class RoleInTheBandServiceTest {
 
     @Autowired
     private RoleInTheBandService roleInTheBandService;
-
     @Autowired
     private TestUtils testUtils;
+    @Autowired
+    private BandService bandService;
+
 
     private RoleInTheBandCreate roleInTheBandToSave;
 
@@ -101,7 +104,7 @@ public class RoleInTheBandServiceTest {
         assertNull(falseRoleInTheBandInDatabaseId.getBody());
     }
 
-   /* @Test
+    @Test
     public void testUpdateRoleInTheBand() {
 
         // Positive test
@@ -116,8 +119,8 @@ public class RoleInTheBandServiceTest {
 
         assertEquals(roleInTheBandBeforeUpdate.getBody().getId(),          Objects.requireNonNull(updatedRoleInTheBand.getBody()).getId());
 
-        assertEquals(updatedRoleInTheBand.getBody().getName(), "newName");
-        assertEquals(updatedRoleInTheBand.getBody().getDescription(), "newDescription");
+        assertEquals(updatedRoleInTheBand.getBody().getName(), "name");
+        assertEquals(updatedRoleInTheBand.getBody().getDescription(), "description");
 
         // Negative test
         RoleInTheBandCreate updateForRoleInTheBandFalse = new RoleInTheBandCreate(
@@ -138,7 +141,11 @@ public class RoleInTheBandServiceTest {
 
         assertTrue(existingRoleInTheBandFalse.getStatusCode().is4xxClientError());
 
-    }*/
+        //negative existing role is empty
+        ResponseEntity<RoleInTheBandResponse> existingRoleEmpty = roleInTheBandService.updateRoleInTheBand( randomUUID, updateForRoleInTheBand );
+
+        assertTrue(existingRoleEmpty.getStatusCode().is4xxClientError());
+    }
 
     @Test
     public void testDeleteRoleInTheBand() {
@@ -146,6 +153,20 @@ public class RoleInTheBandServiceTest {
         ResponseEntity<String> deletedRoleInTheBand = roleInTheBandService.deleteRoleInTheBand( savedRoleInTheBandId );
 
         assertTrue(deletedRoleInTheBand.getStatusCode().is2xxSuccessful());
+
+        //negative rolieId = null
+        ResponseEntity<String> negativeResult = roleInTheBandService.deleteRoleInTheBand( null );
+
+        assertTrue(negativeResult.getStatusCode().is4xxClientError());
+
+        //negative role is part of a band
+        ResponseEntity<RoleInTheBandResponse> newRole = testUtils.getRandomRoleInTheBandResponse();
+        ResponseEntity<BandResponse> band = testUtils.getRandomBandResponse();
+        ResponseEntity<BandResponse> bandResponseResponseEntity = bandService.addRoleToBand(band.getBody().getId(), newRole.getBody().getId());
+
+        ResponseEntity<String> negativeResult2 = roleInTheBandService.deleteRoleInTheBand( newRole.getBody().getId() );
+
+        assertTrue(negativeResult2.getStatusCode().is4xxClientError());
     }
 
 
