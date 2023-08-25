@@ -1,5 +1,7 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.services.model.BandCreate;
+import org.gigtool.gigtool.storage.services.model.BandResponse;
 import org.gigtool.gigtool.storage.services.model.GenreCreate;
 import org.gigtool.gigtool.storage.services.model.GenreResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,9 +24,10 @@ public class GenreServiceTest {
 
     @Autowired
     private GenreService genreService;
-
     @Autowired
     private TestUtils testUtils;
+    @Autowired
+    private BandService bandService;
 
     private GenreCreate genreToSave;
     private ResponseEntity<GenreResponse> savedGenre;
@@ -153,6 +156,15 @@ public class GenreServiceTest {
     public void testDeleteGenre() {
         ResponseEntity<String> deletedGenre = genreService.deleteGenre(savedGenreId);
         assertTrue(deletedGenre.getStatusCode().is2xxSuccessful());
+
+        //negative delete genre part of a band
+        BandCreate band = testUtils.getRandomBandCreate();
+        ResponseEntity<GenreResponse> genre = testUtils.getRandomGenreResponse();
+        band.setGenre(genre.getBody().getId());
+
+        ResponseEntity<BandResponse> savedBand = bandService.addBand(band);
+        ResponseEntity<String> negativeResult = genreService.deleteGenre(genre.getBody().getId());
+        assertTrue(negativeResult.getStatusCode().is4xxClientError());
     }
 
     @Test

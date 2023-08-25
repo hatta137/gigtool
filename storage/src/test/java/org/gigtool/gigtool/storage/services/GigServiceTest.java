@@ -228,7 +228,6 @@ public class GigServiceTest {
     }
 
     @Test
-    @Transactional
     public void testDeleteGig() {
 
         ResponseEntity<String> deletedGig = gigService.deleteGig(savedGigId);
