@@ -135,6 +135,12 @@ public class LocationServiceTest {
         ResponseEntity<LocationResponse> updatedLocationFalse = locationService.updateLocation(randomUUID, updateForLocation);
 
         assertTrue(updatedLocationFalse.getStatusCode().is4xxClientError());
+
+        //negative addressId == null
+        updateForLocation.setAddressId( null );
+        ResponseEntity<LocationResponse> updatedLocationFalseAddr = locationService.updateLocation(savedLocationId, updateForLocation);
+
+        assertTrue(updatedLocationFalseAddr.getStatusCode().is4xxClientError());
     }
 
     @Test
