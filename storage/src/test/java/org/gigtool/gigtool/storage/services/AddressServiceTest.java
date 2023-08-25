@@ -1,7 +1,4 @@
 package org.gigtool.gigtool.storage.services;
-
-
-import org.checkerframework.checker.units.qual.A;
 import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -189,8 +186,5 @@ public class AddressServiceTest {
         ResponseEntity<AddressResponse> deletedAddressFalse2 = addressService.deleteAddress( addressResponse.getId() );
 
         assertTrue(deletedAddressFalse2.getStatusCode().is4xxClientError());
-
-        //TODO @Hendrik Test ob Address in einem Happening gelöscht werden kann...
-
     }
 }

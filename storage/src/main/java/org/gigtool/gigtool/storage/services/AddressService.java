@@ -159,7 +159,6 @@ public class AddressService {
         addressRepository.delete(addressToDelete);
 
         return ResponseEntity.accepted().build();
-
     }
 }
 
