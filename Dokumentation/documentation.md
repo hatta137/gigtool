@@ -1,5 +1,24 @@
 
+
+
+# GigTool Dokumentation
+
+Willkommen bei der Dokumentation unserer API-Applikation GigTool.
+
+Ein Herzensprojekt von Robin Harris, Hendrik Lendeckel, Dario Daßler und Max Schelenz für die Inventarisierung und Organisation von Musikequipment.
+
+Wir möchten Musikern dabei helfen ihr Equipment zu verwalten, um sich auf das eigentlich Wichtige - die Musik fokussieren zu können.
+
+<pre> Hinweis: Unser Projekt wurde wie besprochen als Verbesserungsversuch für Java 1 angemeldet. </pre>
+
+Zum Einstieg möchten wir euch erstmal zeigen, wie ihr unsere API-Applikation installieren könnt.
+
+---
+
+## Inhaltsverzeichnis
+
 - [GigTool Dokumentation](#gigtool-dokumentation)
+    - [Inhaltsverzeichnis](#inhaltsverzeichnis)
     - [Installationsanleitung](#installationsanleitung)
     - [Architektur](#architektur)
         - [Komponenten](#komponenten)
@@ -24,19 +43,6 @@
     - [Lessons Learned](#lessons-learned)
     - [Über den Projektumfang hinausgehende Funktionen](#über-den-projektumfang-hinausgehende-funktionen)
 
-
-# GigTool Dokumentation
-
-Willkommen bei der Dokumentation unserer API-Applikation GigTool.
-
-Ein Herzensprojekt von Robin Harris, Hendrik Lendeckel, Dario Daßler und Max Schelenz für die Inventarisierung und Organisation von Musikequipment.
-
-Wir möchten Musikern dabei helfen ihr Equipment zu verwalten, um sich auf das eigentlich Wichtige - die Musik fokussieren zu können.
-
-<pre> Hinweis: Unser Projekt wurde wie besprochen als Verbesserungsversuch für Java 1 angemeldet. </pre>
-
-Zum Einstieg möchten wir euch erstmal zeigen, wie ihr unsere API-Applikation installieren könnt.
-
 --- 
 
 ## Installationsanleitung
@@ -50,6 +56,7 @@ Die [Postman-App](https://www.postman.com/downloads/) werden wir später in der 
 <pre>git clone https://git.ai.fh-erfurt.de/prgj2-23/gigtool.git
 docker compose up</pre>
 
+---
 
 ## Architektur
 
@@ -137,6 +144,8 @@ Diese Klassen erben nun nicht mehr von Happening. Sie verweisen jedoch auf ihr H
 Diese Klasse wurde entfernt, weil der Sinn und Zweck erhalten bleibt, wenn wir Länge, Breite, Höhe direkt in der Entität
 Equipment speichern.
 
+---
+
 ## Anwenderdokumentation
 
 Wenn alle in der Installationsanleitung beschriebenen Schritte erfolgreich ausgeführt wurden, sollte die ApiApplication, PostgreSQL-Datenbank und pgadmin auf der Docker Engine laufen.
@@ -147,12 +156,8 @@ Nun sind wir endlich soweit die Funktionalität von GigTool zu testen.
 
 ### Intellij
 
-Für den Test der Services und Repositories ermöglicht uns die Intellij-IDE die Ausführung unserer Applikation.
-Über das RUN-menü im oberen Bereich unserer IDE können wir dann die Applikation starten, nachdem wir alle Maven Dependencies erfolgreich installiert haben.
+Für den Test der Services und Repositories können wir in der Intellj-IDE einen Testdurchlauf starten.
 
-![IntellijRunApplication](assets/RunApplicationField.png "Application Startmenü")
-
-Im Anschluss sobald die Applikation läuft, können wir in der storage-Komponente unsere Testklassen starten.
 Mittels Rechtsklick auf den java-Testordner gelangen wir in das Optionsmenü, in dem wir " Run 'All Tests' " ausführen können.
 
 ![IntellijRunAllTests](assets/RunAllTestsMenu.png "Run All Tests")
@@ -195,6 +200,8 @@ und überprüft deren Ergebnisse auf Erfolg oder Fehlschlag.
 
 Im Postman Documentation Bereich haben wir für jeden Endpoint Beschreibungen und Beispiele hinzugefügt, um einen möglichst detaillierten Einblick zu gewährleisten.
 
+---
+
 ## Besonderheiten/Features des Projekts
 
 Im Laufe des Projekts haben sich ein paar coole Features angesammelt, die es in unseren Augen verdienen hier nochmal erwähnt zu werden.
@@ -218,6 +225,8 @@ Folgende Kollisionsprüfungen werden von unserer Application abgedeckt:
 
 //ToDo
 
+---
+
 ## Lessons Learned
 
 > - Aufbau einer API-Applikation in Java
@@ -228,6 +237,8 @@ Folgende Kollisionsprüfungen werden von unserer Application abgedeckt:
 > - Postman Collection + Workspaces
 > - Location, Address und TypeOfLocation sind sehr komplex verschachtelt => hier hatten wir große Ambitionen sind dann aber an einen zu hohen Grad an Komplexität gelangt
 > - bei Happening ist uns der Schritt der Vereinfachung gelungen => hier konnten wir ein einheitliches Zeitformat (Zeit + Datum) für alle Happenings einführen und unsere Datenstrukturen optimieren
+
+---
 
 ## Über den Projektumfang hinausgehende Funktionen
 
