@@ -89,12 +89,17 @@ Die docker-compose.yml ist unsere docker-Komponente im Projekt. Sie sorgt für d
 #### maven
 Die Maven POM enthält alle wichtigen Abhängigkeiten für unser Spring Boot-Projekt und stellt sozusagen den Build-Planer dar.
 
+### Ordnerstruktur
 
-### Interfaces (muss noch überarbeitet werden wenn sich Docker ändert muss der Docker frame um alle 3 gehen nicht nur um DB)
+Unsere Struktur im Hauptordner gigtool ist ähnlich der Komponenten gegliedert: api, DB, Dokumentation, storage, docker und pom.xml.
+
+![Ordnerstruktur](assets/ordnerstruktur.png "Ordnerstruktur Intellj")
+
+### Interfaces 
 
 Im folgenden Schaubild zeigen wir euch, wie unser API-Interface funktioniert und welche Abläufe im backend angestoßen werden, wenn der User beispielsweise ein Equipment anlegen möchte.
 
-![Interface](assets/EquipmentInterface.png "Interface Equipment")
+![Interface](assets/EquipmentInterface.drawio.png "Interface Equipment")
 
 
 
@@ -136,8 +141,9 @@ Equipment speichern.
 
 Wenn alle in der Installationsanleitung beschriebenen Schritte erfolgreich ausgeführt wurden, sollte die ApiApplication, PostgreSQL-Datenbank und pgadmin auf der Docker Engine laufen.
 
-- ToDo Bild noch überarbeiten wenn alles dockerized ist mit Jar und Co kommt noch ein container dazu
 ![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "Docker Container")
+
+Nun sind wir endlich soweit die Funktionalität von GigTool zu testen.
 
 ### Intellij
 
