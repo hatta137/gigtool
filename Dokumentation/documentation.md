@@ -178,7 +178,7 @@ Postman ist eines der beliebtesten Werkzeuge zum Testen von APIs (Application Pr
 
 #### Import der Collection
 
-Die GigTool Postman Collection findet ihr im Java 2 GigTool/gigtool/dokumentation/postman_collection Ordner.
+Die GigTool Postman Collection findet ihr im /gigtool/dokumentation/postman_collection Ordner.
 
 Diese könnt ihr ganz simpel per Drag&Drop in Postman importieren.
 
