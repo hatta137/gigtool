@@ -13,7 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-//TODO @Max Comments
+
+/**
+ * Service class for managing Gigs in the application
+ * @author Dario
+ */
 @Service
 public class GigService {
 
@@ -33,11 +37,26 @@ public class GigService {
         this.happeningRepository = happeningRepository;
     }
 
+    /**
+     * Checks if any gigs overlap within the specified time range.
+     *
+     * @param startTime The start time of the gig to check for overlaps.
+     * @param endTime   The end time of the gig to check for overlaps.
+     * @return True if any overlapping gigs are found, false otherwise.
+     */
     private boolean gigIsOverlapping(LocalDateTime startTime, LocalDateTime endTime) {
         List<Gig> overlappingGigs = gigRepository.findOverlappingGigs(startTime, endTime);
         return !overlappingGigs.isEmpty();
     }
 
+    /**
+     * Checks if any gigs overlap within the specified time range, excluding a given gig.
+     *
+     * @param startTime   The start time of the gig to check for overlaps.
+     * @param endTime     The end time of the gig to check for overlaps.
+     * @param excludedGig The gig to be excluded from the overlap check.
+     * @return True if any overlapping gigs are found, false otherwise.
+     */
     private boolean gigIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Gig excludedGig){
         List<Gig> overlappingGigs = gigRepository.findOverlappingGigs(startTime, endTime);
 
@@ -48,11 +67,27 @@ public class GigService {
         return !(overlappingGigs.size() == 1 && overlappingGigs.contains(excludedGig));
     }
 
+    /**
+     * Checks if any happenings overlap with the specified equipment usage time range.
+     *
+     * @param startTime The start time of the equipment usage.
+     * @param endTime   The end time of the equipment usage.
+     * @param equipment The equipment to be checked for overlapping usage.
+     * @return True if any overlapping happenings are found, false otherwise.
+     */
     private boolean equipmentIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Equipment equipment){
         List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
         return !overlappingHappenings.isEmpty();
     }
 
+    /**
+     * Checks if any happenings overlap with the equipment usage time range of a gig.
+     *
+     * @param startTime The start time of the equipment usage.
+     * @param endTime   The end time of the equipment usage.
+     * @param gig       The gig for which equipment usage is being checked.
+     * @return True if any overlapping happenings are found, false otherwise.
+     */
     private boolean equiptmentlistIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Gig gig) {
         for (Equipment equipment: gig.getEquipmentList()) {
             List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
@@ -65,6 +100,12 @@ public class GigService {
         return false;
     }
 
+    /**
+     * Adds a new gig to the system with provided details and ensures no overlaps.
+     *
+     * @param gigCreate The information for creating the new gig.
+     * @return A response entity indicating the success or failure of the gig addition operation.
+     */
     public ResponseEntity<GigResponse> addGig(GigCreate gigCreate){
         if (gigCreate.getName() == null || gigCreate.getStartTime() == null || gigCreate.getEndTime() == null ||
                 gigCreate.getDescription() == null || gigCreate.getAddress() == null ||
@@ -102,6 +143,11 @@ public class GigService {
         return ResponseEntity.ok(new GigResponse(savedGig));
     }
 
+    /**
+     * Retrieves a list of all gigs in the system.
+     *
+     * @return A response entity containing a list of gig responses.
+     */
     public ResponseEntity<List<GigResponse>> getAllGigs() {
         List<Gig> gigList = gigRepository.findAll();
 
@@ -112,6 +158,12 @@ public class GigService {
         return ResponseEntity.ok(responseList);
     }
 
+    /**
+     * Retrieves detailed information about a gig based on its unique identifier.
+     *
+     * @param gigId The unique identifier of the gig to retrieve information for.
+     * @return A response entity containing the retrieved gig response.
+     */
     public ResponseEntity<GigResponse> getGigById(UUID gigId) {
         Optional<Gig> gigOptional = gigRepository.findById(gigId);
 
@@ -119,6 +171,13 @@ public class GigService {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Updates an existing gig with new information, ensuring no overlaps.
+     *
+     * @param gigId      The unique identifier of the gig to be updated.
+     * @param gigRequest An object containing the gig's updated information.
+     * @return A response entity indicating the success or failure of the gig update operation.
+     */
     public ResponseEntity<GigResponse> updateGig(UUID gigId, GigCreate gigRequest) {
         if (gigId == null) {
             return ResponseEntity.badRequest().build();
@@ -189,7 +248,13 @@ public class GigService {
         return ResponseEntity.ok(new GigResponse(savedGig));
     }
 
-
+    /**
+     * Adds a piece of equipment to a gig's equipment list, checking for conflicts.
+     *
+     * @param gigId       The unique identifier of the gig to which equipment will be added.
+     * @param equipmentId The unique identifier of the equipment to be added.
+     * @return A response entity indicating the success or failure of the equipment addition operation.
+     */
     public ResponseEntity<GigResponse> addEquipmentToGig(UUID gigId, UUID equipmentId) {
 
         if (gigId == null || equipmentId == null) {
@@ -217,6 +282,13 @@ public class GigService {
         return ResponseEntity.ok(new GigResponse(savedGig));
     }
 
+    /**
+     * Removes a specific equipment from a gig's equipment list.
+     *
+     * @param gigId       The unique identifier of the gig from which the equipment will be removed.
+     * @param equipmentId The unique identifier of the equipment to be removed.
+     * @return A response entity indicating the success or failure of the equipment removal operation.
+     */
     public ResponseEntity<GigResponse> deleteEquipmentFromGig(UUID gigId, UUID equipmentId) {
         if (gigId == null || equipmentId == null) {
             return ResponseEntity.badRequest().build();
@@ -243,6 +315,12 @@ public class GigService {
         return ResponseEntity.ok(new GigResponse(savedGig));
     }
 
+    /**
+     * Deletes a gig from the system along with its associated data, given its unique identifier.
+     *
+     * @param gigId The unique identifier of the gig to be deleted.
+     * @return A response entity indicating the success or failure of the gig deletion operation.
+     */
     public ResponseEntity<String> deleteGig(UUID gigId) {
         if (gigId == null) {
             return ResponseEntity.badRequest().body("No ID");
