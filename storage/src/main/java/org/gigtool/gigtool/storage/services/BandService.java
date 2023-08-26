@@ -15,7 +15,7 @@ import java.util.UUID;
 //TODO @Max Comments
 
 /**
- * Service class for managing bands in the application.
+ * Service class for managing band operations in the application.
  * @author Dario
  */
 @Service
@@ -38,10 +38,11 @@ public class BandService {
     }
 
     /**
-     * Checks if equipment is being used at a gig.
-     * @param band
-     * @param equipment
-     * @return boolean
+     * Checks if the specified equipment is used by the band during the same time as its gigs.
+     *
+     * @param band The band for which equipment usage is being checked.
+     * @param equipment The equipment to be checked for simultaneous usage.
+     * @return True if the equipment is used during the same time as any of the band's gigs, false otherwise.
      */
     private boolean equipmentIsUseSameTimeLikeBandGigs(Band band, Equipment equipment){
         List<Gig> bandGigs = gigRepository.findGigsByBand(band);
@@ -58,8 +59,8 @@ public class BandService {
 
     /**
      * Add a new band to the system.
-     * @param bandCreate
-     * @return
+     * @param bandCreate An object containing the details needed to create a new band.
+     * @return A ResponseEntity containing a BandResponse object.
      */
     public ResponseEntity<BandResponse> addBand(BandCreate bandCreate) {
 
@@ -115,7 +116,7 @@ public class BandService {
 
     /**
      * Retrieves a specific band by its unique identifier.
-     * @param bandId
+     * @param bandId The unique identifier of the band to retrieve information for.
      * @return A response entity containing the retrieved band response.
      */
     public ResponseEntity<BandResponse> getBandById(UUID bandId) {
@@ -126,10 +127,10 @@ public class BandService {
     }
 
     /**
-     * Adds equipment to a band
-     * @param bandId
-     * @param equipmentId
-     * @return A response entity indicating the success or failure of the operation.
+     * Adds equipment to a band's equipment list
+     * @param bandId The unique identifier of the band to which equipment will be added.
+     * @param equipmentId The unique identifier of the equipment to be added.
+     * @return A response entity containing a band's response object constructed from the saved band.
      */
     public ResponseEntity<BandResponse> addEquipmentToBand(UUID bandId, UUID equipmentId) {
 
@@ -169,8 +170,8 @@ public class BandService {
 
     /**
      * Updates an existing Band with new information.
-     * @param bandId
-     * @param equipmentId
+     * @param bandId The unique identifier of the band to be updated.
+     * @param bandRequest An object containing the band's updated information.
      * @return A response entity containing the updated band response.
      */
     public ResponseEntity<BandResponse> updateBand(UUID bandId, BandCreate bandRequest) {
@@ -208,10 +209,11 @@ public class BandService {
     }
 
     /**
+     * Removes a specific equipment from a band's equipment list.
      *
-     * @param bandId
-     * @param equipmentId
-     * @return
+     * @param bandId The unique identifier of the band to remove equipment from.
+     * @param equipmentId The unique identifier of the equipment to be removed.
+     * @return A response entity indicating the success of the equipment removal operation.
      */
 
     public ResponseEntity<BandResponse> deleteEquipmentFromBand(UUID bandId, UUID equipmentId) {
@@ -245,8 +247,8 @@ public class BandService {
 
     /**
      * Adds a new role to a existing band.
-     * @param bandId
-     * @param roleId
+     * @param bandId The unique identifier of the band to which the role will be added.
+     * @param roleId The unique identifier of the role to be added.
      * @return A response entity indicating the success or failure of the operation.
      */
     public ResponseEntity<BandResponse> addRoleToBand(UUID bandId, UUID roleId) {
@@ -279,10 +281,11 @@ public class BandService {
     }
 
     /**
-     * deletes an existing role from a band
-     * @param bandId
-     * @param roleId
-     * @return
+     * Removes a specific role from a band's list of roles.
+     *
+     * @param bandId The unique identifier of the band from which the role will be removed.
+     * @param roleId The unique identifier of the role to be removed.
+     * @return A response entity indicating the success of the role removal operation.
      */
     public ResponseEntity<BandResponse> deleteRoleFromBand(UUID bandId, UUID roleId) {
 
