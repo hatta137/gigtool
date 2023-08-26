@@ -218,7 +218,7 @@ Folgende Kollisionsprüfungen werden von unserer Application abgedeckt:
 > - Spring Boot
 > - Maven POM
 > - JPA repos
-> - dockerize/manage PostgreSQL
+> - dockerize Application, PostgreSQL
 > - Postman Collection + Workspaces
 > - Location, Address und TypeOfLocation sind sehr komplex verschachtelt => hier hatten wir große Ambitionen sind dann aber an einen zu hohen Grad an Komplexität gelangt
 > - bei Happening ist uns der Schritt der Vereinfachung gelungen => hier konnten wir ein einheitliches Zeitformat (Zeit + Datum) für alle Happenings einführen und unsere Datenstrukturen optimieren
