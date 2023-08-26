@@ -201,15 +201,23 @@ testutils- randomgenerator
 
 // Todo Umschreiben
 
-Kollisionsprüfung findet in gig, rental udn band statt
-Kolliision das 2 gigs nicht gleichzeitig + equipment nicht doppellt in einem zeitslot buchbar
+Die Kollisionsprüfung prüft Kollisionen, die zwischen Gig, Rental und Band stattfinden.
+Es dürfen also keine Gigs gleichzeitig stattfinden und ein Equipment darf nicht doppelt in einem Zeitslot buchbar sein. 
+Wobei das Verlieren eines Instruments während des Gigs nicht möglich ist.
+Bei Hinzufügen eines Instruments zu einer Band während eines Gigs darf sich dieses nicht in in einem Rental befinden.
+Bei Zeitupdates existierender Gigs und Rentals wird überprüft ob Equipments in dieser Zeit auch frei sind
+
+bandtest testet ob sich hinzugefügtes Equipment zu einem Zeitpunkt in einem Gig befindet.
+
+<!-- Kollisionsprüfung findet in Gig, Rental und Band statt.
+Kollision das 2 gigs nicht gleichzeitig + equipment nicht doppelt in einem Zeitslot buchbar
 instrument verliehen während gig ist nicht möglich
 wenn du instrument einer band hinzufügst darf das instrument während eines gigs nicht in einem rental sein
 bei Updates der zeit wird neuer zeitpunkt mit existieren rentals, etc anderen happenings überprüft dass equipment in der zeit frei ist
 
 bandtest testet ob hinzugeüfgtes equipment in nem gig ist 
 gig equipment list 
-band equipment list in band equipment kollidiert
+band equipment list in band equipment kollidiert -->
 
 ### Timetable
 
