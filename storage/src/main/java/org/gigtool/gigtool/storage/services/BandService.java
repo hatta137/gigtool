@@ -13,6 +13,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 //TODO @Max Comments
+
+/**
+ * Service class for managing bands in the application.
+ * @author Dario
+ */
 @Service
 public class BandService {
 
@@ -32,6 +37,12 @@ public class BandService {
         this.gigRepository = gigRepository;
     }
 
+    /**
+     * Checks if equipment is being used at a gig.
+     * @param band
+     * @param equipment
+     * @return boolean
+     */
     private boolean equipmentIsUseSameTimeLikeBandGigs(Band band, Equipment equipment){
         List<Gig> bandGigs = gigRepository.findGigsByBand(band);
         for (Gig bandGig: bandGigs) {
@@ -45,6 +56,11 @@ public class BandService {
         return false;
     }
 
+    /**
+     * Add a new band to the system.
+     * @param bandCreate
+     * @return
+     */
     public ResponseEntity<BandResponse> addBand(BandCreate bandCreate) {
 
         if (bandCreate.getName() == null || bandCreate.getGenre() == null || bandCreate.getMainRoleInTheBand() == null) {
@@ -82,6 +98,10 @@ public class BandService {
         return ResponseEntity.ok(new BandResponse(savedBand));
     }
 
+    /**
+     * Retieves a list of all bands in the system.
+     * @return A response entity containing a list of band responses
+     */
     public ResponseEntity<List<BandResponse>> getAllBands() {
 
         List<Band> bandList = bandRepository.findAll();
@@ -93,6 +113,11 @@ public class BandService {
         return ResponseEntity.ok(responseList);
     }
 
+    /**
+     * Retrieves a specific band by its unique identifier.
+     * @param bandId
+     * @return A response entity containing the retrieved band response.
+     */
     public ResponseEntity<BandResponse> getBandById(UUID bandId) {
         Optional<Band> bandOptional = bandRepository.findById(bandId);
 
@@ -100,6 +125,12 @@ public class BandService {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Adds equipment to a band
+     * @param bandId
+     * @param equipmentId
+     * @return A response entity indicating the success or failure of the operation.
+     */
     public ResponseEntity<BandResponse> addEquipmentToBand(UUID bandId, UUID equipmentId) {
 
         if ((equipmentId == null) || (bandId == null)) {
@@ -136,6 +167,12 @@ public class BandService {
 
     }
 
+    /**
+     * Updates an existing Band with new information.
+     * @param bandId
+     * @param equipmentId
+     * @return A response entity containing the updated band response.
+     */
     public ResponseEntity<BandResponse> updateBand(UUID bandId, BandCreate bandRequest) {
 
         if ((bandId == null)) {
@@ -170,6 +207,13 @@ public class BandService {
         return ResponseEntity.ok(new BandResponse(savedBand));
     }
 
+    /**
+     *
+     * @param bandId
+     * @param equipmentId
+     * @return
+     */
+
     public ResponseEntity<BandResponse> deleteEquipmentFromBand(UUID bandId, UUID equipmentId) {
 
         if ((equipmentId == null) || (bandId == null)) {
@@ -199,6 +243,12 @@ public class BandService {
 
     }
 
+    /**
+     * Adds a new role to a existing band.
+     * @param bandId
+     * @param roleId
+     * @return A response entity indicating the success or failure of the operation.
+     */
     public ResponseEntity<BandResponse> addRoleToBand(UUID bandId, UUID roleId) {
 
         if ((roleId == null) || (bandId == null)) {
@@ -228,6 +278,12 @@ public class BandService {
 
     }
 
+    /**
+     * deletes an existing role from a band
+     * @param bandId
+     * @param roleId
+     * @return
+     */
     public ResponseEntity<BandResponse> deleteRoleFromBand(UUID bandId, UUID roleId) {
 
         if ((roleId == null) || (bandId == null)) {
@@ -257,7 +313,11 @@ public class BandService {
 
     }
 
-
+    /**
+     * Deletes an existing band from the system.
+     * @param bandId
+     * @return A response entity indicating the success or failure of the deletion operation.
+     */
     public ResponseEntity<String> deleteBand(UUID bandId) {
 
         if (bandId == null) {
