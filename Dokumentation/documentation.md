@@ -43,7 +43,7 @@ Zum Einstieg möchten wir euch erstmal zeigen, wie ihr unsere API-Applikation in
 
 [Docker Desktop](https://www.docker.com/products/docker-desktop/) benötigen wir für die Docker Engine.
 
-Die [Intellj IDE](https://www.jetbrains.com/de-de/idea/download/?section=windows) nutzen wir im späteren Verlauf für die Tests der Services.
+Die [Intellij IDE](https://www.jetbrains.com/de-de/idea/download/?section=windows) nutzen wir im späteren Verlauf für die Tests der Services.
 
 Die [Postman-App](https://www.postman.com/downloads/) werden wir später in der Anwenderdokumentation nutzen, um unsere Routen und Controller zu testen.
 
@@ -134,28 +134,28 @@ Equipment speichern.
 
 ## Anwenderdokumentation
 
-Wenn alle in der Installtionsanleitung beschriebenen Schritte erfolgreich ausgeführt wurden, sollte die ApiApplication, PostgreSQL-Datenbank und pgadmin auf der Docker Engine laufen.
+Wenn alle in der Installationsanleitung beschriebenen Schritte erfolgreich ausgeführt wurden, sollte die ApiApplication, PostgreSQL-Datenbank und pgadmin auf der Docker Engine laufen.
 
 - ToDo Bild noch überarbeiten wenn alles dockerized ist mit Jar und Co kommt noch ein container dazu
 ![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "Docker Container")
 
-### Intellj
+### Intellij
 
-Für den Test der Services und Repositories ermöglicht uns die Intellj-IDE die Ausführung unserer Applikation.
+Für den Test der Services und Repositories ermöglicht uns die Intellij-IDE die Ausführung unserer Applikation.
 Über das RUN-menü im oberen Bereich unserer IDE können wir dann die Applikation starten, nachdem wir alle Maven Dependencies erfolgreich installiert haben.
 
-![IntelljRunApplication](assets/RunApplicationField.png "Application Startmenü")
+![IntellijRunApplication](assets/RunApplicationField.png "Application Startmenü")
 
 Im Anschluss sobald die Applikation läuft, können wir in der storage-Komponente unsere Testklassen starten.
 Mittels Rechtsklick auf den java-Testordner gelangen wir in das Optionsmenü, in dem wir " Run 'All Tests' " ausführen können.
 
-![IntelljRunAllTests](assets/RunAllTestsMenu.png "Run All Tests")
+![IntellijRunAllTests](assets/RunAllTestsMenu.png "Run All Tests")
 
 Nun sollten alle vorhandenen Tests durchgeführt werden und im Konsolenfenster der IDE bekommen wir eine Auskunft über alle erfolgreichen oder auch fehlgeschlagenen Tests.
 
 Zum Beispiel:
 
-![IntelljConsoleTestOutput](assets/TestConsoleOutput.png "Console Output")
+![IntellijConsoleTestOutput](assets/TestConsoleOutput.png "Console Output")
 
 ### Postman
 
@@ -179,7 +179,7 @@ Mittels Rechtsklick auf den Collection_Ordner könnt ihr die komplette Collectio
 
 ![PostmanCollectionRun](assets/Run_Collection.png "Postman Collection Run")
 
-Der GigTool API Run durchläuft dann alle gespeicherten Methoden...
+Das GigTool API Run durchläuft dann alle gespeicherten Methoden...
 
 ![PostmanCollectionRun](assets/Run_GigToolAPI.png "Postman GigTool API Run")
 
@@ -227,6 +227,6 @@ Folgende Kollisionsprüfungen werden von unserer Application abgedeckt:
 
 Responses könnten mit einer response_utils noch weiter verfeinert werden. Beispielsweise zu individuellen Messages bei nicht 2xx-Statuscodes.
 
-Bei dem Hinzufügen von mehreren Equipments zu einer Band könnte man anstelle von mehreren Aufrufen mit path-Paramtern auch eine Liste der hinzuzufügenden Equipments im Body übergeben. Dadurch könnten wir den Traffic noch mehr optimieren und die Usability verbessern.
+Bei dem Hinzufügen von mehreren Equipments zu einer Band könnte man anstelle von mehreren Aufrufen mit path-Parametern auch eine Liste der hinzuzufügenden Equipments im Body übergeben. Dadurch könnten wir den Traffic noch mehr optimieren und die Usability verbessern.
 
 Unsere Applikation könnte durch weitere Get-Requests oder Suchfunktionen nochmals funktionell erweitert werden, z.B. getAllBandsWithGenre oder searchByDescription.
