@@ -31,7 +31,7 @@ Willkommen bei der Dokumentation unserer API-Applikation GigTool.
 
 Ein Herzensprojekt von Robin Harris, Hendrik Lendeckel, Dario Daßler und Max Schelenz für die Inventarisierung und Organisation von Musikequipment.
 
-Wir möchten Musikern dabei helfen ihr Equipment zu verwalten, um sich auf das eigentliche Wichtige - die Musik fokussieren zu können.
+Wir möchten Musikern dabei helfen ihr Equipment zu verwalten, um sich auf das eigentlich Wichtige - die Musik fokussieren zu können.
 
 <pre> Hinweis: Unser Projekt wurde wie besprochen als Verbesserungsversuch für Java 1 angemeldet. </pre>
 
@@ -55,14 +55,14 @@ docker compose up</pre>
 
 Die GigTool Architektur umfasst mehrere strukturelle Bereiche, die wir euch in den kommenden Abschnitten verständlich näher bringen wollen.
 
+### Klassendiagramm
+
+![Klassendiagramm](assets/ClassChart_gigtool23_v1.drawio.svg "Klassendiagramm")
+
 
 ### Komponenten
 
 ![Komponentendiagramm](assets/Komponentendiagramm.drawio.v2.png "Komponentendiagramm GigTool")
-
-### Klassendiagramm
-
-![Klassendiagramm](assets/ClassChart_gigtool23_v1.drawio.svg "Klassendiagramm")
 
 #### api
 Wie im Komponentendiagramm zu erkennen, enthält die api alle wichtigen Controller-Klassen.
@@ -137,7 +137,7 @@ Equipment speichern.
 Wenn alle in der Installtionsanleitung beschriebenen Schritte erfolgreich ausgeführt wurden, sollte die ApiApplication, PostgreSQL-Datenbank und pgadmin auf der Docker Engine laufen.
 
 - ToDo Bild noch überarbeiten wenn alles dockerized ist mit Jar und Co kommt noch ein container dazu
-![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "PostgreSQL Container")
+![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "Docker Container")
 
 ### Intellj
 
@@ -195,25 +195,22 @@ Im Laufe des Projekts haben sich ein paar coole Features angesammelt, die es in 
 
 ### TestUtils
 
-testutils- randomgenerator
+Als Random-Generator für unsere Servicetests nutzen wir unsere test_utils Klasse.
+Das erspart uns beim Erstellen der vielen Testszenarien des Öfteren wertvolle Zeit.
 
 ### Kollisionsprüfungen
 
-// Todo Umschreiben
+GigTool verhindert durch verschiedene Überprüfungen Kollisionen bei der Verwaltung des Equipments.
+Folgende Kollisionsprüfungen werden von unserer Application abgedeckt:
 
-Kollisionsprüfung findet in gig, rental udn band statt
-Kolliision das 2 gigs nicht gleichzeitig + equipment nicht doppellt in einem zeitslot buchbar
-instrument verliehen während gig ist nicht möglich
-wenn du instrument einer band hinzufügst darf das instrument während eines gigs nicht in einem rental sein
-bei Updates der zeit wird neuer zeitpunkt mit existieren rentals, etc anderen happenings überprüft dass equipment in der zeit frei ist
-
-bandtest testet ob hinzugeüfgtes equipment in nem gig ist 
-gig equipment list 
-band equipment list in band equipment kollidiert
+- mehrere Gigs des Musikers können nicht gleichzeitig stattfinden
+- Equipment ist nicht doppelt während eines Zeitslots verbuchbar (Verleihung während eines Gigs, welcher das Equipment benötigt, ist nicht möglich)
+- Instrument, welches einer Band zugeordnet ist, darf automatisch nicht während des Auftritts dieser Band verliehen werden
+- bei Änderungen des Zeitraums eines Happenings, wird der neue Zeitpunkt erneut auf Kollisionen überprüft
 
 ### Timetable
 
-
+//ToDo
 
 ## Lessons Learned
 
