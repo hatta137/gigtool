@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
+ * @author Dario
  * Service class for managing band roles in the application.
  */
 @Service

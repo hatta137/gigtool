@@ -13,8 +13,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Service class for managing genre operations in the application.
  * @author Dario
+ * Service class for managing genre operations in the application.
  */
 @Service
 public class GenreService {

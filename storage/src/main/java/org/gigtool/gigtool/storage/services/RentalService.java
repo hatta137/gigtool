@@ -13,11 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-//TODO @Max Comments
 
 /**
- * Service class for managing rental operations in the application.
  * @author Dario
+ * Service class for managing rental operations in the application.
  */
 @Service
 public class RentalService {
