@@ -131,10 +131,6 @@ Entität Equipment gespeichert wird.
 
 Diese Hilfsklasse wurde entfernt und durch das direkte Verknüpfen von Equipments in Happenings und Band realisiert.
 
-### Happening
-
-Diese Klasse ist nun nicht mehr Abstract, da wir eine PostgresSQL-Datenbank nutzen.
-
 ### Rental und Gig
 
 Diese Klassen erben nun nicht mehr von Happening. Sie verweisen jedoch auf ihr Happening.
