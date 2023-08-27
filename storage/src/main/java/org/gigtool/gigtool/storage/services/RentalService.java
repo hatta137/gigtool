@@ -47,7 +47,6 @@ public class RentalService {
         List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
         return !overlappingHappenings.isEmpty();
     }
-
     /**
      * Checks if any happenings overlap with the equipment usage time range of a rental.
      *
@@ -56,7 +55,7 @@ public class RentalService {
      * @param rental    The rental for which equipment usage is being checked.
      * @return True if any overlapping happenings are found, false otherwise.
      */
-    private boolean equiptmentlistIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Rental rental) {
+    private boolean equipmentlistIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Rental rental) {
         for (Equipment equipment: rental.getEquipmentList()) {
             List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
             System.out.println(equipment);
@@ -160,21 +159,21 @@ public class RentalService {
         }
 
         if (rentalRequest.getStartTime() != null && rentalRequest.getEndTime() == null) {
-            if (equiptmentlistIsOverlapping(rentalRequest.getStartTime(), updatedRental.getEndTime(), updatedRental)){
+            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), updatedRental.getEndTime(), updatedRental)){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedRental.setStartTime(rentalRequest.getStartTime());
         }
 
         if (rentalRequest.getEndTime() != null && rentalRequest.getStartTime() == null) {
-            if (equiptmentlistIsOverlapping(updatedRental.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
+            if (equipmentlistIsOverlapping(updatedRental.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedRental.setEndTime(rentalRequest.getEndTime());
         }
 
         if (rentalRequest.getStartTime() != null && rentalRequest.getEndTime() != null) {
-            if (equiptmentlistIsOverlapping(rentalRequest.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
+            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedRental.setStartTime(rentalRequest.getStartTime());
