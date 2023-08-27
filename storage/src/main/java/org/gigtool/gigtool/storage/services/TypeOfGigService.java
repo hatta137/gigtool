@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-//TODO @Max Comments
+
+/**
+ * Service class for managing gig-related operations in the application
+ */
 @Service
 public class TypeOfGigService {
 
@@ -21,6 +24,12 @@ public class TypeOfGigService {
         this.typeOfGigRepository = typeOfGigRepository;
     }
 
+    /**
+     * Adds a new type of gig to the system.
+     *
+     * @param typeOfGigCreate The details of the new type of gig to be created.
+     * @return A response entity containing the created type of gig or a bad request if input is invalid.
+     */
     public ResponseEntity<TypeOfGigResponse> addTypeOfGig(TypeOfGigCreate typeOfGigCreate) {
         if (typeOfGigCreate.getName() == null || typeOfGigCreate.getDescription() == null) {
             return ResponseEntity.badRequest().build();
@@ -35,6 +44,11 @@ public class TypeOfGigService {
         return ResponseEntity.ok(new TypeOfGigResponse(savedTypeOfGig));
     }
 
+    /**
+     * Retrieves a list of all types of gigs available in the system.
+     *
+     * @return A response entity containing a list of type of gig responses.
+     */
     public ResponseEntity<List<TypeOfGigResponse>> getAllTypesOfGig() {
         List<TypeOfGig> typeOfGigList = typeOfGigRepository.findAll();
 
@@ -45,6 +59,12 @@ public class TypeOfGigService {
         return ResponseEntity.ok(responseList);
     }
 
+    /**
+     * Retrieves a specific type of gig by its unique identifier.
+     *
+     * @param typeId The unique identifier of the type of gig to retrieve.
+     * @return A response entity containing the requested type of gig.
+     */
     public ResponseEntity<TypeOfGigResponse> getTypeOfGigById(UUID typeId) {
         Optional<TypeOfGig> typeOptional = typeOfGigRepository.findById(typeId);
 
@@ -52,6 +72,13 @@ public class TypeOfGigService {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Updates the details of a specific type of gig.
+     *
+     * @param typeId      The unique identifier of the type of gig to be updated.
+     * @param typeRequest The updated details of the type of gig.
+     * @return A response entity containing the updated type of gig response or not found if the type of gig doesn't exist.
+     */
     public ResponseEntity<TypeOfGigResponse> updateTypeOfGig(UUID typeId, TypeOfGigCreate typeRequest) {
 
         if ((typeId == null) || (typeRequest.getName() == null) || (typeRequest.getDescription() == null) ) {
@@ -74,6 +101,12 @@ public class TypeOfGigService {
         return ResponseEntity.ok(new TypeOfGigResponse(savedType));
     }
 
+    /**
+     * Deletes a specific type of gig from the system.
+     *
+     * @param typeId The unique identifier of the type of gig to be deleted.
+     * @return A response entity indicating the success or failure of the deletion or not found if the type of gig doesn't exist.
+     */
     public ResponseEntity<String> deleteTypeOfGig(UUID typeId) {
         if (typeId == null) {
             return ResponseEntity.badRequest().body("No ID");

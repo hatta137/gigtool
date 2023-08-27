@@ -35,6 +35,11 @@ public class TimetableService {
         this.addressRepository = addressRepository;
     }
 
+    /**
+     * Retrieves a list of all happenings in the system for the timetable.
+     *
+     * @return A response entity containing a list of timetable responses.
+     */
     public ResponseEntity<List<TimetableResponse>> getAll() {
         List<Happening> happeningList = happeningRepository.findAll();
 
@@ -49,10 +54,11 @@ public class TimetableService {
     }
 
     /**
-     * Filters a happening by name and description.
-     * @param name
-     * @param description
-     * @return A ResponseEntity containing a list of happening responses.
+     * Retrieves a filtered list of happenings based on name and description for the timetable.
+     *
+     * @param name        The name to filter happenings by.
+     * @param description The description to filter happenings by.
+     * @return A response entity containing a filtered list of timetable responses.
      */
     public ResponseEntity<List<TimetableResponse>> getFilteredHappenings(String name,  String description) {
 
@@ -68,9 +74,10 @@ public class TimetableService {
     }
 
     /**
-     * Sums up the value (each) of weight, volume and costs of a happening by its id.
-     * @param id
-     * @return A ResponseEntity containing list of calc responses if happenings are existing.
+     * Calculates and retrieves the total values (weight, volume, costs) of equipment used in a happening.
+     *
+     * @param id The unique identifier of the happening to calculate total values for.
+     * @return A response entity containing calculated total values for the specified happening.
      */
     public  ResponseEntity<CalcResponse> getTotalValuesOfHappening(UUID id) {
 
@@ -106,9 +113,10 @@ public class TimetableService {
     }
 
     /**
-     * Retrieves the location of equipment by its id
-     * @param id
-     * @return A ResponseEntity containing a list of locations
+     * Retrieves the locations of equipment used in a happening.
+     *
+     * @param id The unique identifier of the happening to retrieve equipment locations from.
+     * @return A response entity containing a list of equipment locations within the specified happening.
      */
     public ResponseEntity<List<whereismyequipmentResponse>> getLocationsOfEquipmentFromHappening(UUID id) {
 
