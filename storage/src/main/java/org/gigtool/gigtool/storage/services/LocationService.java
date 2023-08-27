@@ -147,11 +147,11 @@ public class LocationService {
 
             if (typeOfLocationOptional.isPresent()) {
                 locationToUpdate.setTypeOfLocation(typeOfLocationOptional.get());
+            }
         }
 
         if (locationCreate.getAddressId() != null) {
 
-        }
             Optional<Address> addressOptional = addressRepository.findById(locationCreate.getAddressId());
 
             if (addressOptional.isPresent()) {
