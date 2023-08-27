@@ -50,7 +50,6 @@ public class TimetableService {
                 .toList();
 
         return ResponseEntity.ok(responseList);
-
     }
 
     /**
@@ -76,16 +75,16 @@ public class TimetableService {
     /**
      * Calculates and retrieves the total values (weight, volume, costs) of equipment used in a happening.
      *
-     * @param id The unique identifier of the happening to calculate total values for.
+     * @param happeningId The unique identifier of the happening to calculate total values for.
      * @return A response entity containing calculated total values for the specified happening.
      */
-    public  ResponseEntity<CalcResponse> getTotalValuesOfHappening(UUID id) {
+    public  ResponseEntity<CalcResponse> getTotalValuesOfHappening(UUID happeningId) {
 
         int totalWeight = 0;
         int totalCuboidVolume = 0;
         float totalCosts = 0;
 
-        Optional<Happening> existingHappening = happeningRepository.findById(id);
+        Optional<Happening> existingHappening = happeningRepository.findById(happeningId);
 
         if(existingHappening.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -145,5 +144,4 @@ public class TimetableService {
 
         return ResponseEntity.ok(locationList);
     }
-
 }
