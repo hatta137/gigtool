@@ -1,5 +1,6 @@
 package org.gigtool.gigtool.storage.services;
 
+import org.gigtool.gigtool.storage.model.Gig;
 import org.gigtool.gigtool.storage.model.Happening;
 import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +26,8 @@ public class RentalServiceTest {
     @Autowired
     private RentalService rentalService;
     @Autowired
+    private GigService gigService;
+    @Autowired
     private TestUtils testUtils;
 
     private RentalCreate rentalToSave;
@@ -42,19 +45,37 @@ public class RentalServiceTest {
     @Transactional
     public void testAddRental() {
 
+        //negative starttime after endtime
+        RentalCreate rentalTimeCollapsCreate = testUtils.getRandomRentalCreate();
+        rentalTimeCollapsCreate.setStartTime(LocalDateTime.of(2023, 3, 1, 15, 30, 0));
+        rentalTimeCollapsCreate.setEndTime(LocalDateTime.of(2023, 1, 1, 15, 30, 0));
+        ResponseEntity<RentalResponse> rentalTimeCollaps = rentalService.addRental( rentalTimeCollapsCreate );
 
+
+        assertTrue(rentalTimeCollaps.getStatusCode().is4xxClientError());
+
+        RentalCreate rentalToSaveNoName = testUtils.getRandomRentalCreate();
         //negative name == null
-        rentalToSave.setName( null );
-        ResponseEntity<RentalResponse> rentalNameNull = rentalService.addRental( rentalToSave );
+        rentalToSaveNoName.setName( null );
+        ResponseEntity<RentalResponse> rentalNameNull = rentalService.addRental( rentalToSaveNoName );
 
         assertTrue(rentalNameNull.getStatusCode().is4xxClientError());
 
+
+        RentalCreate rentalToSaveNoValidAddress = testUtils.getRandomRentalCreate();
         //negative  add == not in db
-        rentalToSave.setName( "name" );
-        rentalToSave.setAddress( UUID.randomUUID() );
-        ResponseEntity<RentalResponse> rentalRandAdd = rentalService.addRental( rentalToSave );
+        UUID randomUUID = UUID.randomUUID();
+
+        while (randomUUID == savedRental.getBody().getAddress().getId() ) {
+            randomUUID = UUID.randomUUID();
+        }
+        rentalToSaveNoValidAddress.setName( "name" );
+        rentalToSaveNoValidAddress.setAddress( randomUUID );
+        ResponseEntity<RentalResponse> rentalRandAdd = rentalService.addRental( rentalToSaveNoValidAddress );
 
         assertTrue(rentalRandAdd.getStatusCode().is4xxClientError());
+
+
     }
 
     @Test
@@ -98,14 +119,14 @@ public class RentalServiceTest {
         updateForRental.setName( "update" );
         updateForRental.setDescription( "update" );
         updateForRental.setAddress( testUtils.getRandomAddressResponse().getBody().getId() );
-        updateForRental.setStartTime( LocalDateTime.now() );
+        updateForRental.setStartTime( LocalDateTime.of(2023, 6, 1, 15, 30, 0));
         updateForRental.setEndTime( LocalDateTime.of(2024, 1, 1, 15, 30, 0) );
 
         ResponseEntity<RentalResponse> updatedRental = rentalService.updateRental( savedRentalId, updateForRental);
         assertEquals(updatedRental.getBody().getName(), "update");
         assertEquals(updatedRental.getBody().getDescription(), "update");
 
-        //negative gig not in database
+        //negative rental not in database
         UUID randomUUID = UUID.randomUUID();
 
         while (randomUUID == savedRentalId ) {
@@ -114,17 +135,91 @@ public class RentalServiceTest {
         ResponseEntity<RentalResponse> rentalNotInDb = rentalService.updateRental( randomUUID, updateForRental);
         assertTrue(rentalNotInDb.getStatusCode().is4xxClientError());
 
-        //negative gigId == null
+        //negative rentalId == null
         ResponseEntity<RentalResponse> rentalIdNull = rentalService.updateRental( null, updateForRental);
         assertTrue(rentalIdNull.getStatusCode().is4xxClientError());
 
-        //negative overlapping time
-        rentalToSave.setStartTime( LocalDateTime.now() );
+//overlapping equipment booking
+        GigCreate overlappingGigCreate = new GigCreate();
 
-/*        ResponseEntity<RentalResponse> rentalTime = rentalService.addRental( rentalToSave );
-        ResponseEntity<RentalResponse> rentalTimeUpdate = rentalService.updateRental(rentalTime.getBody().getId(), updateForRental);
+        overlappingGigCreate.setName("overlapping");
+        overlappingGigCreate.setDescription("overlapping");
+        overlappingGigCreate.setAddress(testUtils.getRandomAddressResponse().getBody().getId());
+        overlappingGigCreate.setBand(testUtils.getRandomBandResponse().getBody().getId());
+        overlappingGigCreate.setTypeOfGig(testUtils.getRandomTypeOfGigResponse().getBody().getId());
+        overlappingGigCreate.setStartTime(LocalDateTime.of(2023, 1, 1, 15, 30, 0));
+        overlappingGigCreate.setEndTime(LocalDateTime.of(2023, 3, 1, 15, 30, 0));
 
-        assertTrue(rentalTimeUpdate.getStatusCode().is4xxClientError());*/
+        ResponseEntity<GigResponse> overlappingGig = gigService.addGig(overlappingGigCreate);
+
+        assertTrue(overlappingGig.getStatusCode().is2xxSuccessful());
+
+        ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
+
+        overlappingGig = gigService.addEquipmentToGig(overlappingGig.getBody().getId(), equipment.getBody().getId());
+
+        assertTrue(overlappingGig.getBody().getEquipmentList().stream()
+                .anyMatch(equipmentIterator -> equipmentIterator.getId().equals(equipment.getBody().getId())));
+
+        ResponseEntity<RentalResponse> rentalWithEquipment = rentalService.addEquipmentToRental(savedRentalId, equipment.getBody().getId());
+
+        assertTrue(rentalWithEquipment.getBody().getEquipmentList().stream()
+                .anyMatch(equipmentIterator -> equipmentIterator.getId().equals(equipment.getBody().getId())));
+
+        updateForRental = new RentalCreate();
+
+        updateForRental.setStartTime(LocalDateTime.of(2023, 1, 1, 15, 30, 0));
+        updateForRental.setEndTime(LocalDateTime.of(2023, 3, 1, 15, 30, 0));
+
+        ResponseEntity<RentalResponse> rentalTimeUpdateWithEquipment = rentalService.updateRental(savedRentalId, updateForRental);
+
+        assertTrue(rentalTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
+//update Time test
+        updateForRental = new RentalCreate();
+
+        updateForRental.setStartTime(LocalDateTime.of(2023, 6, 1, 15, 30, 0));
+
+        rentalTimeUpdateWithEquipment = rentalService.updateRental(savedRentalId, updateForRental);
+
+        assertTrue(rentalTimeUpdateWithEquipment.getStatusCode().is2xxSuccessful());
+
+        updateForRental = new RentalCreate();
+
+        updateForRental.setEndTime(LocalDateTime.of(2024, 3, 1, 15, 30, 0));
+
+        rentalTimeUpdateWithEquipment = rentalService.updateRental(savedRentalId, updateForRental);
+
+        assertTrue(rentalTimeUpdateWithEquipment.getStatusCode().is2xxSuccessful());
+
+//negative updateTimetest
+
+
+        updateForRental = new RentalCreate();
+
+        updateForRental.setStartTime(LocalDateTime.of(2023, 1, 1, 15, 30, 0));
+
+        rentalTimeUpdateWithEquipment = rentalService.updateRental(savedRentalId, updateForRental);
+
+        assertTrue(rentalTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
+        updateForRental = new RentalCreate();
+
+        updateForRental.setEndTime(LocalDateTime.of(2023, 3, 1, 15, 30, 0));
+
+        rentalTimeUpdateWithEquipment = rentalService.updateRental(savedRentalId, updateForRental);
+
+        assertTrue(rentalTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
+        //negativ test Address
+        updateForRental = new RentalCreate();
+
+        updateForRental.setAddress(UUID.randomUUID());
+
+        rentalTimeUpdateWithEquipment = rentalService.updateRental(savedRentalId, updateForRental);
+
+        assertTrue(rentalTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
 
         //update Time start and end
         LocalDateTime startTime = LocalDateTime.of(2023, 8, 25, 10, 0);
