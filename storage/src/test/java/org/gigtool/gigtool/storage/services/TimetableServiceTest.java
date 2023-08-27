@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -199,7 +198,7 @@ public class TimetableServiceTest {
         gigService.addEquipmentToGig(savedKirmes.getBody().getId(), savedEquipment2.getBody().getId());
         gigService.addEquipmentToGig(savedKirmes.getBody().getId(), savedEquipment3.getBody().getId());
 
-        ResponseEntity<List<whereismyequipmentResponse>> calc = timetableService.getLocationsOfEquipmentFromHappening(savedKirmes.getBody().getId());
+        ResponseEntity<List<WhereismyequipmentResponse>> calc = timetableService.getLocationsOfEquipmentFromHappening(savedKirmes.getBody().getId());
 
         assertTrue(calc.getStatusCode().is2xxSuccessful());
 
@@ -208,7 +207,7 @@ public class TimetableServiceTest {
         assertEquals(calc.getBody().get(2).getLocationID(), equipmentCreate3.getLocationId());
 
         //negative happening not in db
-        ResponseEntity<List<whereismyequipmentResponse>> calcNoHappening = timetableService.getLocationsOfEquipmentFromHappening(UUID.randomUUID());
+        ResponseEntity<List<WhereismyequipmentResponse>> calcNoHappening = timetableService.getLocationsOfEquipmentFromHappening(UUID.randomUUID());
         assertTrue(calcNoHappening.getStatusCode().is4xxClientError());
 
         //Positive rental
@@ -232,7 +231,7 @@ public class TimetableServiceTest {
         rentalService.addEquipmentToRental(savedRental.getBody().getId(), savedREquipment2.getBody().getId());
         rentalService.addEquipmentToRental(savedRental.getBody().getId(), savedREquipment3.getBody().getId());
 
-        ResponseEntity<List<whereismyequipmentResponse>> calcRental = timetableService.getLocationsOfEquipmentFromHappening(savedRental.getBody().getId());
+        ResponseEntity<List<WhereismyequipmentResponse>> calcRental = timetableService.getLocationsOfEquipmentFromHappening(savedRental.getBody().getId());
 
         assertTrue(calcRental.getStatusCode().is2xxSuccessful());
     }
