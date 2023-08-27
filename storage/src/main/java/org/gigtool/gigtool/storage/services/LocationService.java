@@ -130,7 +130,7 @@ public class LocationService {
      */
     public ResponseEntity<LocationResponse> updateLocation( UUID id, LocationCreate locationCreate ) {
 
-        if (locationCreate.getAddressId() == null || locationCreate.getTypeOfLocationId() == null) {
+        if (locationCreate.getAddressId() == null && locationCreate.getTypeOfLocationId() == null) {
             return ResponseEntity.badRequest().build();
         }
 
