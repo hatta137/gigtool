@@ -1,6 +1,5 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.services.model.AddressResponse;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentCreate;
 import org.gigtool.gigtool.storage.services.model.TypeOfEquipmentResponse;
 import org.junit.jupiter.api.BeforeEach;

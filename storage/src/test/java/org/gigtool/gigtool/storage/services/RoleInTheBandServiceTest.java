@@ -35,7 +35,7 @@ public class RoleInTheBandServiceTest {
     private UUID savedRoleInTheBandId;
 
     @BeforeEach
-    private void setup() {
+    public void setup() {
         roleInTheBandToSave = testUtils.getRandomRoleInTheBandCreate();
         savedRoleInTheBand = roleInTheBandService.addRoleInTheBand( roleInTheBandToSave );
         savedRoleInTheBandId = Objects.requireNonNull(savedRoleInTheBand.getBody().getId());

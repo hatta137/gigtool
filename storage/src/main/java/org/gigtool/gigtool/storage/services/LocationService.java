@@ -1,13 +1,11 @@
 package org.gigtool.gigtool.storage.services;
 
 import org.gigtool.gigtool.storage.model.Address;
-import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Location;
 import org.gigtool.gigtool.storage.model.TypeOfLocation;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
 import org.gigtool.gigtool.storage.repositories.LocationRepository;
 import org.gigtool.gigtool.storage.repositories.TypeOfLocationRepository;
-import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
 import org.gigtool.gigtool.storage.services.model.LocationCreate;
 import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.springframework.http.ResponseEntity;

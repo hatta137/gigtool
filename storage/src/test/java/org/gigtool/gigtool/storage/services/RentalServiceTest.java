@@ -1,7 +1,5 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.model.Gig;
-import org.gigtool.gigtool.storage.model.Happening;
 import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,13 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.mockito.Mockito.when;
+
 
 @SpringBootTest
 @Transactional
@@ -113,7 +109,6 @@ public class RentalServiceTest {
     }
 
     @Test
-    @Transactional
     public void testUpdateRental() {
         RentalCreate updateForRental = new RentalCreate();
         updateForRental.setName( "update" );
@@ -315,6 +310,7 @@ public class RentalServiceTest {
     }
 
     @Test
+    @Transactional
     public void testEquipmentIsOverlapping() {
         LocalDateTime startTime = LocalDateTime.of(2023, 8, 25, 10, 0);
         LocalDateTime endTime = LocalDateTime.of(2023, 8, 25, 12, 0);

@@ -3,11 +3,9 @@ package org.gigtool.gigtool.storage.services.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Gig;
 import org.gigtool.gigtool.storage.model.Happening;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter

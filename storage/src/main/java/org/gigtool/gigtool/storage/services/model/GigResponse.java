@@ -1,11 +1,8 @@
 package org.gigtool.gigtool.storage.services.model;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.gigtool.gigtool.storage.model.Band;
 import org.gigtool.gigtool.storage.model.Gig;
-import org.gigtool.gigtool.storage.model.TypeOfGig;
 
 @Getter
 @Setter

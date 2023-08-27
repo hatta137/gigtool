@@ -34,7 +34,7 @@ public class GenreServiceTest {
     private UUID savedGenreId;
 
     @BeforeEach
-    private void setup() {
+    public void setup() {
         genreToSave = testUtils.getRandomGenreCreate();
         savedGenre = genreService.addGenre(genreToSave);
         savedGenreId = Objects.requireNonNull(savedGenre.getBody().getId());

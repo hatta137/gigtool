@@ -1,6 +1,5 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.apache.coyote.Response;
 import org.gigtool.gigtool.storage.repositories.BandRepository;
 import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;

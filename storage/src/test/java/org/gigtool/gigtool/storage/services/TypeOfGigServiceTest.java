@@ -38,7 +38,7 @@ public class TypeOfGigServiceTest {
     private UUID savedTypeOfGigId;
 
     @BeforeEach
-    private void setup() {
+    public void setup() {
         typeOfGigToSave = testUtils.getRandomTypeOfGigCreate();
         savedTypeOfGig = typeOfGigService.addTypeOfGig(typeOfGigToSave);
         savedTypeOfGigId = Objects.requireNonNull(savedTypeOfGig.getBody().getId());

@@ -22,10 +22,10 @@ import java.util.UUID;
 @Service
 public class TimetableService {
 
-    private final HappeningRepository happeningRepository;
-    private final EquipmentRepository equipmentRepository;
+    private HappeningRepository happeningRepository;
+    private EquipmentRepository equipmentRepository;
 
-    private final AddressRepository addressRepository;
+    private AddressRepository addressRepository;
 
     public TimetableService(HappeningRepository happeningRepository, EquipmentRepository equipmentRepository, AddressRepository addressRepository) {
         this.happeningRepository = happeningRepository;

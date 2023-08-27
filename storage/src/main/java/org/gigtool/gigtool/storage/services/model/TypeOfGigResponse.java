@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.gigtool.gigtool.storage.model.Genre;
 import org.gigtool.gigtool.storage.model.TypeOfGig;
 
 import java.util.UUID;
@@ -20,7 +19,7 @@ public class TypeOfGigResponse {
 
     public TypeOfGigResponse(TypeOfGig typeOfGig){
         this.id = typeOfGig.getId();
-        this.name = typeOfGig.getName();;
+        this.name = typeOfGig.getName();
         this.description = typeOfGig.getDescription();
     }
 }

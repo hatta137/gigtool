@@ -164,7 +164,6 @@ public class BandService {
         Band savedBand = bandRepository.saveAndFlush(band);
 
         return ResponseEntity.ok(new BandResponse(savedBand));
-
     }
 
     /**
@@ -245,7 +244,7 @@ public class BandService {
     }
 
     /**
-     * Adds a new role to a existing band.
+     * Adds a new role to an existing band.
      * @param bandId The unique identifier of the band to which the role will be added.
      * @param roleId The unique identifier of the role to be added.
      * @return A response entity indicating the success or failure of the operation.
@@ -317,7 +316,6 @@ public class BandService {
 
     /**
      * Deletes an existing band from the system.
-     * @param bandId
      * @return A response entity indicating the success or failure of the deletion operation.
      */
     public ResponseEntity<String> deleteBand(UUID bandId) {

@@ -19,7 +19,7 @@ public class GenreResponse {
 
     public GenreResponse(Genre genre){
         this.id = genre.getId();
-        this.name = genre.getName();;
+        this.name = genre.getName();
         this.description = genre.getDescription();
     }
 }

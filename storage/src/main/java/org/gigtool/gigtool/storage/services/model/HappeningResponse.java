@@ -3,11 +3,8 @@ package org.gigtool.gigtool.storage.services.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.gigtool.gigtool.storage.model.Address;
-import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Happening;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;

@@ -5,11 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.gigtool.gigtool.storage.model.Band;
-import org.gigtool.gigtool.storage.model.Equipment;
-import org.gigtool.gigtool.storage.model.Genre;
-import org.gigtool.gigtool.storage.model.RoleInTheBand;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
