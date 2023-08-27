@@ -15,13 +15,13 @@ public class RoleInTheBandController {
 
     public final RoleInTheBandService roleInTheBandService;
 
-    public RoleInTheBandController(RoleInTheBandService roleInTheBandService){
+    public RoleInTheBandController( RoleInTheBandService roleInTheBandService ){
         this.roleInTheBandService = roleInTheBandService;
     }
 
     @PostMapping
-    public ResponseEntity<RoleInTheBandResponse> addRoleInTheBand(@RequestBody RoleInTheBandCreate roleInTheBandCreate) {
-        return roleInTheBandService.addRoleInTheBand(roleInTheBandCreate);
+    public ResponseEntity<RoleInTheBandResponse> addRoleInTheBand( @RequestBody RoleInTheBandCreate roleInTheBandCreate ) {
+        return roleInTheBandService.addRoleInTheBand( roleInTheBandCreate );
     }
 
     @GetMapping
@@ -30,17 +30,17 @@ public class RoleInTheBandController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoleInTheBandResponse> getRoleInTheBandByID(@PathVariable UUID id){
-        return this.roleInTheBandService.getRoleInTheBandById(id);
+    public ResponseEntity<RoleInTheBandResponse> getRoleInTheBandByID( @PathVariable UUID id ){
+        return this.roleInTheBandService.getRoleInTheBandById( id );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoleInTheBandResponse> updateRoleInTheBand(@PathVariable UUID id, @RequestBody RoleInTheBandCreate roleRequest) {
-        return this.roleInTheBandService.updateRoleInTheBand(id, roleRequest);
+    public ResponseEntity<RoleInTheBandResponse> updateRoleInTheBand( @PathVariable UUID id, @RequestBody RoleInTheBandCreate roleRequest ) {
+        return this.roleInTheBandService.updateRoleInTheBand( id, roleRequest );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteRoleInTheBand(@PathVariable UUID id) {
-        return this.roleInTheBandService.deleteRoleInTheBand(id);
+    public ResponseEntity<String> deleteRoleInTheBand( @PathVariable UUID id ) {
+        return this.roleInTheBandService.deleteRoleInTheBand( id );
     }
 }

@@ -15,12 +15,12 @@ public class BandController {
 
     private final BandService bandService;
 
-    public BandController (BandService bandService){
+    public BandController( BandService bandService ){
         this.bandService = bandService;
     }
 
     @PostMapping
-    public ResponseEntity<BandResponse> addBand(@RequestBody BandCreate bandCreate){
+    public ResponseEntity<BandResponse> addBand( @RequestBody BandCreate bandCreate ){
         return this.bandService.addBand(bandCreate);
     }
 
@@ -30,37 +30,37 @@ public class BandController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BandResponse> getBandById(@PathVariable UUID id) {
+    public ResponseEntity<BandResponse> getBandById( @PathVariable UUID id ) {
         return bandService.getBandById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BandResponse> updateBand(@PathVariable UUID id, @RequestBody BandCreate bandRequest) {
+    public ResponseEntity<BandResponse> updateBand( @PathVariable UUID id, @RequestBody BandCreate bandRequest ) {
         return bandService.updateBand(id, bandRequest);
     }
 
     @PutMapping("/{id}/equipment/{eqID}")
-    public ResponseEntity<BandResponse> addEquipment(@PathVariable UUID id, @PathVariable UUID eqID) {
+    public ResponseEntity<BandResponse> addEquipment( @PathVariable UUID id, @PathVariable UUID eqID ) {
         return bandService.addEquipmentToBand(id, eqID);
     }
 
     @DeleteMapping("/{id}/equipment/{eqID}")
-    public ResponseEntity<BandResponse> deleteEquipment(@PathVariable UUID id, @PathVariable UUID eqID) {
+    public ResponseEntity<BandResponse> deleteEquipment( @PathVariable UUID id, @PathVariable UUID eqID ) {
         return bandService.deleteEquipmentFromBand(id, eqID);
     }
 
     @PutMapping("/{id}/roleintheband/{roleId}")
-    public ResponseEntity<BandResponse> addRole(@PathVariable UUID id, @PathVariable UUID roleId) {
+    public ResponseEntity<BandResponse> addRole( @PathVariable UUID id, @PathVariable UUID roleId ) {
         return bandService.addRoleToBand(id, roleId);
     }
 
     @DeleteMapping("/{id}/roleintheband/{roleId}")
-    public ResponseEntity<BandResponse> deleteRole(@PathVariable UUID id, @PathVariable UUID roleId) {
+    public ResponseEntity<BandResponse> deleteRole( @PathVariable UUID id, @PathVariable UUID roleId ) {
         return bandService.deleteRoleFromBand(id, roleId);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteBand(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteBand( @PathVariable UUID id ) {
         return bandService.deleteBand(id);
     }
 }

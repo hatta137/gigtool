@@ -14,11 +14,12 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LocationResponse {
+
     private UUID id;
     private AddressResponse addressResponse;
     private TypeOfLocationResponse typeOfLocationResponse;
 
-    public LocationResponse(Location location) {
+    public LocationResponse( Location location ) {
         id = location.getId();
         addressResponse = new AddressResponse( location.getAddress() );
         typeOfLocationResponse = new TypeOfLocationResponse( location.getTypeOfLocation() );

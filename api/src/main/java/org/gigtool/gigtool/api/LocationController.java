@@ -17,7 +17,7 @@ import java.util.UUID;
 public class LocationController {
 
     public final LocationService locationService;
-    public LocationController( LocationService locationService) {
+    public LocationController( LocationService locationService ) {
         this.locationService = locationService;
     }
 

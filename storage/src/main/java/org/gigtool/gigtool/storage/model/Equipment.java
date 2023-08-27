@@ -65,12 +65,4 @@ public class Equipment {
         this.location = location;
         this.price = price;
     }
-
-
-
-
-    // TODO @Hendrik To Happening Service getTotalVolume
-    public int getCuboidVolume(){
-        return this.height * this.length * this.width;
-    }
 }

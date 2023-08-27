@@ -18,7 +18,7 @@ public class TypeOfEquipmentController {
 
     public final TypeOfEquipmentService typeOfEquipmentService;
 
-    public TypeOfEquipmentController( TypeOfEquipmentService typeOfEquipmentService) {
+    public TypeOfEquipmentController( TypeOfEquipmentService typeOfEquipmentService ) {
         this.typeOfEquipmentService = typeOfEquipmentService;
     }
 

@@ -13,11 +13,12 @@ import java.util.UUID;
 @Getter
 @Setter
 public class RoleInTheBandResponse {
+
     private UUID id;
     private String name;
     private String description;
 
-    public RoleInTheBandResponse(RoleInTheBand roleInTheBand){
+    public RoleInTheBandResponse( RoleInTheBand roleInTheBand ){
         this.id = roleInTheBand.getId();
         this.name = roleInTheBand.getName();
         this.description = roleInTheBand.getDescription();

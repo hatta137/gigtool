@@ -15,6 +15,4 @@ public abstract class HappeningCreate {
     private LocalDateTime endTime;
     private String description;
     private UUID  address;
-
-
 }

@@ -14,18 +14,18 @@ import java.util.UUID;
 @Getter
 @Setter
 public class BandResponse {
+
     private UUID id;
     private String name;
     private GenreResponse genre;
     private List<RoleInTheBandResponse> listOfRole;
     private List<EquipmentResponse> equipmentList;
 
-    public BandResponse (Band band) {
+    public BandResponse( Band band ) {
         this.id = band.getId();
         this.name = band.getName();
-        this.genre = new GenreResponse(band.getGenre());
-        this.listOfRole = band.getListOfRole().stream().map(RoleInTheBandResponse::new).toList();
-        this.equipmentList = band.getEquipmentList().stream().map(EquipmentResponse::new).toList();
+        this.genre = new GenreResponse( band.getGenre() );
+        this.listOfRole = band.getListOfRole().stream().map( RoleInTheBandResponse::new ).toList();
+        this.equipmentList = band.getEquipmentList().stream().map( EquipmentResponse::new ).toList();
     }
-
 }

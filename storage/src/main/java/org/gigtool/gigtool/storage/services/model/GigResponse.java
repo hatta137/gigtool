@@ -7,12 +7,13 @@ import org.gigtool.gigtool.storage.model.Gig;
 @Getter
 @Setter
 public class GigResponse extends HappeningResponse {
+
     private TypeOfGigResponse typeOfGig;
     private BandResponse band;
 
-    public GigResponse(Gig gig){
+    public GigResponse( Gig gig ){
         super(gig);
-        this.typeOfGig = new TypeOfGigResponse(gig.getTypeOfGig());
-        this.band = new BandResponse(gig.getBand());
+        this.typeOfGig = new TypeOfGigResponse( gig.getTypeOfGig() );
+        this.band = new BandResponse( gig.getBand() );
     }
 }

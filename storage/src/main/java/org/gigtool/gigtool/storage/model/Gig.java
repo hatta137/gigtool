@@ -22,6 +22,4 @@ public class Gig extends Happening {
     private TypeOfGig typeOfGig;
     @ManyToOne
     private Band band;
-
-
 }

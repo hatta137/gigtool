@@ -13,11 +13,12 @@ import java.util.UUID;
 @Getter
 @Setter
 public class TypeOfGigResponse {
+
     private UUID id;
     private String name;
     private String description;
 
-    public TypeOfGigResponse(TypeOfGig typeOfGig){
+    public TypeOfGigResponse( TypeOfGig typeOfGig ){
         this.id = typeOfGig.getId();
         this.name = typeOfGig.getName();
         this.description = typeOfGig.getDescription();

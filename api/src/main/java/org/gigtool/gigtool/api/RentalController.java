@@ -20,8 +20,8 @@ public class RentalController {
     }
 
     @PostMapping
-    public ResponseEntity<RentalResponse> addRental(@RequestBody RentalCreate rentalCreate) {
-        return this.rentalService.addRental(rentalCreate);
+    public ResponseEntity<RentalResponse> addRental( @RequestBody RentalCreate rentalCreate ) {
+        return this.rentalService.addRental( rentalCreate );
     }
 
     @GetMapping
@@ -30,27 +30,27 @@ public class RentalController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RentalResponse> getRentalById(@PathVariable UUID id) {
-        return rentalService.getRentalById(id);
+    public ResponseEntity<RentalResponse> getRentalById( @PathVariable UUID id ) {
+        return rentalService.getRentalById( id );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RentalResponse> updateRental(@PathVariable UUID id, @RequestBody RentalCreate rentalRequest) {
-        return rentalService.updateRental(id, rentalRequest);
+    public ResponseEntity<RentalResponse> updateRental( @PathVariable UUID id, @RequestBody RentalCreate rentalRequest ) {
+        return rentalService.updateRental( id, rentalRequest );
     }
 
     @PutMapping("/{id}/equipment/{eqID}")
-    public ResponseEntity<RentalResponse> addEquipmentToRental(@PathVariable UUID id, @PathVariable UUID eqID) {
-        return rentalService.addEquipmentToRental(id, eqID);
+    public ResponseEntity<RentalResponse> addEquipmentToRental( @PathVariable UUID id, @PathVariable UUID eqID ) {
+        return rentalService.addEquipmentToRental( id, eqID );
     }
 
     @DeleteMapping("/{id}/equipment/{eqID}")
-    public ResponseEntity<RentalResponse> deleteEquipmentFromRental(@PathVariable UUID id, @PathVariable UUID eqID) {
-        return rentalService.deleteEquipmentFromRental(id, eqID);
+    public ResponseEntity<RentalResponse> deleteEquipmentFromRental( @PathVariable UUID id, @PathVariable UUID eqID ) {
+        return rentalService.deleteEquipmentFromRental( id, eqID );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteRental(@PathVariable UUID id) {
-        return rentalService.deleteRental(id);
+    public ResponseEntity<String> deleteRental( @PathVariable UUID id ) {
+        return rentalService.deleteRental( id );
     }
 }

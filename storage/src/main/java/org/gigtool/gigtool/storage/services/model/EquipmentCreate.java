@@ -14,6 +14,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EquipmentCreate {
+
     private String name;
     private String description;
     private UUID typeOfEquipmentId;
@@ -25,17 +26,15 @@ public class EquipmentCreate {
     private UUID locationId;
     private float price;
 
-    public EquipmentCreate(String name) {
+    public EquipmentCreate( String name ) {
         this.name = name;
     }
 
-    public EquipmentCreate(UUID typeOfEquipmentId) {
+    public EquipmentCreate( UUID typeOfEquipmentId ) {
         this.typeOfEquipmentId = typeOfEquipmentId;
     }
 
-
-
-    public EquipmentCreate(int width) {
+    public EquipmentCreate( int width ) {
         this.width = width;
     }
 }

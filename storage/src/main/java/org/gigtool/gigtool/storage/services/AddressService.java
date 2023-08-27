@@ -73,7 +73,7 @@ public class AddressService {
 
         List<AddressResponse> responseList = addressesList
                 .stream()
-                .map(AddressResponse::new)
+                .map( AddressResponse::new )
                 .collect(Collectors.toList());
 
         return ResponseEntity.status(200).body( responseList );
@@ -156,7 +156,7 @@ public class AddressService {
 
         Address addressToDelete = foundAddress.get();
 
-        addressRepository.delete(addressToDelete);
+        addressRepository.delete( addressToDelete );
 
         return ResponseEntity.accepted().build();
     }

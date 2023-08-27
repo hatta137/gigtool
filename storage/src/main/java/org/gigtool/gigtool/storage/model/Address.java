@@ -20,8 +20,6 @@ public class Address {
     private String zipCode;
     private String country;
     private int houseNumber;
-    /*@OneToMany
-    private List<Happening> happenings;*/
 
     public Address(String street, String city, String zipCode, String country, int houseNumber) {
         this.street = street;
