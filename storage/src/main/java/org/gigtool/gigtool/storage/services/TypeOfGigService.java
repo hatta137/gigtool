@@ -14,6 +14,7 @@ import java.util.UUID;
 
 /**
  * Service class for managing gig-related operations in the application
+ * @author Dario
  */
 @Service
 public class TypeOfGigService {
