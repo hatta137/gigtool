@@ -5,14 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class whereismyequipmentResponse {
+public class WhereismyequipmentResponse {
     private UUID equipmentID;
     private UUID locationID;
 }
