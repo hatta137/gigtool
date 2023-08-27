@@ -1,8 +1,6 @@
 package org.gigtool.gigtool.storage.services;
 
-import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
-import org.gigtool.gigtool.storage.services.model.GigCreate;
-import org.gigtool.gigtool.storage.services.model.GigResponse;
+import org.gigtool.gigtool.storage.services.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +22,8 @@ public class GigServiceTest {
     private GigService gigService;
     @Autowired
     private EquipmentService equipmentService;
+    @Autowired
+    private RentalService rentalService;
     @Autowired
     private TestUtils testUtils;
 
@@ -120,7 +120,7 @@ public class GigServiceTest {
         updateForGig.setAddress( testUtils.getRandomAddressResponse().getBody().getId() );
         updateForGig.setTypeOfGig( testUtils.getRandomTypeOfGigResponse().getBody().getId() );
         updateForGig.setBand( testUtils.getRandomBandResponse().getBody().getId() );
-        updateForGig.setStartTime( LocalDateTime.now() );
+        updateForGig.setStartTime( LocalDateTime.of(2023, 6, 1, 15, 30, 0) );
         updateForGig.setEndTime( LocalDateTime.of(2024, 1, 1, 15, 30, 0) );
 
         ResponseEntity<GigResponse> updatedGig = gigService.updateGig( savedGigId, updateForGig);
@@ -141,12 +141,121 @@ public class GigServiceTest {
         assertTrue(gigIdNull.getStatusCode().is4xxClientError());
 
         //negative overlapping time
-        gigToSave.setStartTime( LocalDateTime.now() );
+        gigToSave.setStartTime( LocalDateTime.of(2023, 4, 1, 15, 30, 0) );
+        gigToSave.setEndTime( LocalDateTime.of(2023, 5, 1, 15, 30, 0) );
 
         ResponseEntity<GigResponse> gigTime = gigService.addGig( gigToSave );
+
+        assertTrue(gigTime.getStatusCode().is2xxSuccessful());
         ResponseEntity<GigResponse> gigTimeUpdate = gigService.updateGig(gigTime.getBody().getId(), updateForGig);
 
         assertTrue(gigTimeUpdate.getStatusCode().is4xxClientError());
+
+
+        //overlapping equipment booking
+        RentalCreate overlappingRentalCreate = new RentalCreate();
+
+
+        overlappingRentalCreate.setName("overlapping");
+        overlappingRentalCreate.setDescription("overlapping");
+        overlappingRentalCreate.setAddress( testUtils.getRandomAddressResponse().getBody().getId() );
+        overlappingRentalCreate.setResponsiblePerson("overlappingPerson");
+        overlappingRentalCreate.setStartTime( LocalDateTime.of(2023, 1, 1, 15, 30, 0) );
+        overlappingRentalCreate.setEndTime( LocalDateTime.of(2023, 3, 1, 15, 30, 0) );
+
+        ResponseEntity<RentalResponse> overlappingRental = rentalService.addRental(overlappingRentalCreate);
+
+        assertTrue(overlappingRental.getStatusCode().is2xxSuccessful());
+
+        ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
+
+        overlappingRental = rentalService.addEquipmentToRental(overlappingRental.getBody().getId(), equipment.getBody().getId());
+
+
+        assertTrue(overlappingRental.getBody().getEquipmentList().stream()
+                .anyMatch(equipmentIterator -> equipmentIterator.getId().equals(equipment.getBody().getId())));
+
+        ResponseEntity<GigResponse> gigWithEquipment = gigService.addEquipmentToGig(savedGigId, equipment.getBody().getId());
+
+        assertTrue(gigWithEquipment.getBody().getEquipmentList().stream()
+                .anyMatch(equipmentIterator -> equipmentIterator.getId().equals(equipment.getBody().getId())));
+
+        updateForGig = new GigCreate();
+
+        updateForGig.setStartTime( LocalDateTime.of(2023, 1, 1, 15, 30, 0) );
+        updateForGig.setEndTime( LocalDateTime.of(2023, 3, 1, 15, 30, 0) );
+
+        ResponseEntity<GigResponse> gigTimeUpdateWithEquipment = gigService.updateGig(savedGigId, updateForGig);
+
+        assertTrue(gigTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
+        //update Time test
+        updateForGig = new GigCreate();
+
+        updateForGig.setStartTime( LocalDateTime.of(2023, 6, 1, 15, 30, 0) );
+
+        gigTimeUpdateWithEquipment = gigService.updateGig(savedGigId, updateForGig);
+
+        assertTrue(gigTimeUpdateWithEquipment.getStatusCode().is2xxSuccessful());
+
+        updateForGig = new GigCreate();
+
+        updateForGig.setEndTime( LocalDateTime.of(2024, 3, 1, 15, 30, 0) );
+
+        gigTimeUpdateWithEquipment = gigService.updateGig(savedGigId, updateForGig);
+
+        assertTrue(gigTimeUpdateWithEquipment.getStatusCode().is2xxSuccessful());
+
+        //negative updateTimetest
+        updateForGig = new GigCreate();
+
+        updateForGig.setStartTime( LocalDateTime.of(2023, 1, 1, 15, 30, 0) );
+
+        gigTimeUpdateWithEquipment = gigService.updateGig(savedGigId, updateForGig);
+
+        assertTrue(gigTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
+        updateForGig = new GigCreate();
+
+        updateForGig.setEndTime( LocalDateTime.of(2023, 3, 1, 15, 30, 0) );
+
+        gigTimeUpdateWithEquipment = gigService.updateGig(savedGigId, updateForGig);
+
+        assertTrue(gigTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
+        //negativ test typeOfGig / Band / Address
+
+        //typeOfGig
+        updateForGig = new GigCreate();
+
+        updateForGig.setTypeOfGig(UUID.randomUUID());
+
+        gigTimeUpdateWithEquipment = gigService.updateGig(savedGigId, updateForGig);
+
+        assertTrue(gigTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
+        //Band
+        updateForGig = new GigCreate();
+
+        updateForGig.setBand(UUID.randomUUID());
+
+        gigTimeUpdateWithEquipment = gigService.updateGig(savedGigId, updateForGig);
+
+        assertTrue(gigTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
+        //Address
+        updateForGig = new GigCreate();
+
+        updateForGig.setAddress(UUID.randomUUID());
+
+        gigTimeUpdateWithEquipment = gigService.updateGig(savedGigId, updateForGig);
+
+        assertTrue(gigTimeUpdateWithEquipment.getStatusCode().is4xxClientError());
+
+
+
+
+
 
         //negative attributes not found in db
 /*        GigCreate noAddressInDb = updateForGig;

@@ -5,13 +5,11 @@ import org.gigtool.gigtool.storage.repositories.AddressRepository;
 import org.gigtool.gigtool.storage.repositories.EquipmentRepository;
 import org.gigtool.gigtool.storage.repositories.HappeningRepository;
 import org.gigtool.gigtool.storage.services.model.CalcResponse;
-import org.gigtool.gigtool.storage.services.model.LocationResponse;
 import org.gigtool.gigtool.storage.services.model.TimetableResponse;
-import org.gigtool.gigtool.storage.services.model.whereismyequipmentResponse;
+import org.gigtool.gigtool.storage.services.model.WhereismyequipmentResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -117,7 +115,7 @@ public class TimetableService {
      * @param id The unique identifier of the happening to retrieve equipment locations from.
      * @return A response entity containing a list of equipment locations within the specified happening.
      */
-    public ResponseEntity<List<whereismyequipmentResponse>> getLocationsOfEquipmentFromHappening(UUID id) {
+    public ResponseEntity<List<WhereismyequipmentResponse>> getLocationsOfEquipmentFromHappening(UUID id) {
 
         Optional<Happening> existingHappening = happeningRepository.findById(id);
 
@@ -136,10 +134,10 @@ public class TimetableService {
             equipmentList = happening.getEquipmentList();
         }
 
-        List<whereismyequipmentResponse> locationList = new ArrayList<>();
+        List<WhereismyequipmentResponse> locationList = new ArrayList<>();
 
         for (Equipment equipment: equipmentList) {
-            locationList.add(new whereismyequipmentResponse(equipment.getId(), equipment.getLocation().getId()));
+            locationList.add(new WhereismyequipmentResponse(equipment.getId(), equipment.getLocation().getId()));
         }
 
         return ResponseEntity.ok(locationList);

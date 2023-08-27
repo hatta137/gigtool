@@ -81,6 +81,8 @@ public class RentalService {
             return ResponseEntity.badRequest().build();
         }
 
+        if (rentalCreate.getStartTime().isAfter(rentalCreate.getEndTime()) )
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         Rental rental = new Rental();
 
@@ -158,21 +160,21 @@ public class RentalService {
         }
 
         if (rentalRequest.getStartTime() != null && rentalRequest.getEndTime() == null) {
-            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), updatedRental.getEndTime(), updatedRental)){
+            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), updatedRental.getEndTime(), updatedRental) || rentalRequest.getStartTime().isAfter(updatedRental.getEndTime())){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedRental.setStartTime(rentalRequest.getStartTime());
         }
 
         if (rentalRequest.getEndTime() != null && rentalRequest.getStartTime() == null) {
-            if (equipmentlistIsOverlapping(updatedRental.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
+            if (equipmentlistIsOverlapping(updatedRental.getStartTime(), rentalRequest.getEndTime(), updatedRental) || updatedRental.getStartTime().isAfter(rentalRequest.getEndTime())){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedRental.setEndTime(rentalRequest.getEndTime());
         }
 
         if (rentalRequest.getStartTime() != null && rentalRequest.getEndTime() != null) {
-            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), rentalRequest.getEndTime(), updatedRental)){
+            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), rentalRequest.getEndTime(), updatedRental) || rentalRequest.getStartTime().isAfter(rentalRequest.getEndTime())){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedRental.setStartTime(rentalRequest.getStartTime());
