@@ -1,5 +1,5 @@
 package org.gigtool.gigtool.storage.services;
-//TODO Comments überarbeiten (Darius!)
+
 import org.gigtool.gigtool.storage.model.*;
 import org.gigtool.gigtool.storage.repositories.AddressRepository;
 import org.gigtool.gigtool.storage.repositories.EquipmentRepository;

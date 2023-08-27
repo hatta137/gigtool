@@ -14,6 +14,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 //TODO @Max Comments
+
+/**
+ * Service class for managing rental operations in the application.
+ * @author Dario
+ */
 @Service
 public class RentalService {
 
@@ -30,12 +35,27 @@ public class RentalService {
     }
 
 
-
+    /**
+     * Checks if any happenings overlap with the specified equipment usage time range.
+     *
+     * @param startTime The start time of the equipment usage.
+     * @param endTime   The end time of the equipment usage.
+     * @param equipment The equipment to be checked for overlapping usage.
+     * @return True if any overlapping happenings are found, false otherwise.
+     */
     private boolean equipmentIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Equipment equipment) {
         List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
         return !overlappingHappenings.isEmpty();
     }
-    
+
+    /**
+     * Checks if any happenings overlap with the equipment usage time range of a rental.
+     *
+     * @param startTime The start time of the equipment usage.
+     * @param endTime   The end time of the equipment usage.
+     * @param rental    The rental for which equipment usage is being checked.
+     * @return True if any overlapping happenings are found, false otherwise.
+     */
     private boolean equiptmentlistIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Rental rental) {
         for (Equipment equipment: rental.getEquipmentList()) {
             List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
@@ -50,6 +70,12 @@ public class RentalService {
         return false;
     }
 
+    /**
+     * Adds a new rental to the system with provided details and ensures no overlaps.
+     *
+     * @param rentalCreate The information for creating the new rental.
+     * @return A response entity indicating the success or failure of the rental addition operation.
+     */
     public ResponseEntity<RentalResponse> addRental(RentalCreate rentalCreate) {
         if (rentalCreate.getName() == null || rentalCreate.getStartTime() == null || rentalCreate.getEndTime() == null ||
                 rentalCreate.getDescription() == null || rentalCreate.getAddress() == null ||
@@ -81,6 +107,11 @@ public class RentalService {
         return ResponseEntity.ok(new RentalResponse(savedRental));
     }
 
+    /**
+     * Retrieves a list of all rentals in the system.
+     *
+     * @return A response entity containing a list of rental responses.
+     */
     public ResponseEntity<List<RentalResponse>> getAllRentals() {
         List<Rental> rentalList = rentalRepository.findAll();
 
@@ -91,6 +122,12 @@ public class RentalService {
         return ResponseEntity.ok(responseList);
     }
 
+    /**
+     * Retrieves detailed information about a rental based on its unique identifier.
+     *
+     * @param rentalId The unique identifier of the rental to retrieve information for.
+     * @return A response entity containing the retrieved rental response.
+     */
     public ResponseEntity<RentalResponse> getRentalById(UUID rentalId) {
         Optional<Rental> rentalOptional = rentalRepository.findById(rentalId);
 
@@ -98,6 +135,13 @@ public class RentalService {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Updates an existing rental with new information, ensuring no overlaps.
+     *
+     * @param rentalId      The unique identifier of the rental to be updated.
+     * @param rentalRequest An object containing the rental's updated information.
+     * @return A response entity indicating the success or failure of the rental update operation.
+     */
     public ResponseEntity<RentalResponse> updateRental(UUID rentalId, RentalCreate rentalRequest) {
         if (rentalId == null) {
             return ResponseEntity.badRequest().build();
@@ -158,6 +202,13 @@ public class RentalService {
         return ResponseEntity.ok(new RentalResponse(savedRental));
     }
 
+    /**
+     * Adds a piece of equipment to a rental's equipment list, checking for conflicts.
+     *
+     * @param rentalId     The unique identifier of the rental to which equipment will be added.
+     * @param equipmentId  The unique identifier of the equipment to be added.
+     * @return A response entity indicating the success or failure of the equipment addition operation.
+     */
     public ResponseEntity<RentalResponse> addEquipmentToRental(UUID rentalId, UUID equipmentId) {
         if (rentalId == null || equipmentId == null) {
             return ResponseEntity.badRequest().build();
@@ -184,6 +235,13 @@ public class RentalService {
         return ResponseEntity.ok(new RentalResponse(savedRental));
     }
 
+    /**
+     * Removes a specific equipment from a rental's equipment list.
+     *
+     * @param rentalId     The unique identifier of the rental from which the equipment will be removed.
+     * @param equipmentId  The unique identifier of the equipment to be removed.
+     * @return A response entity indicating the success or failure of the equipment removal operation.
+     */
     public ResponseEntity<RentalResponse> deleteEquipmentFromRental(UUID rentalId, UUID equipmentId) {
         if (rentalId == null || equipmentId == null) {
             return ResponseEntity.badRequest().build();
@@ -210,6 +268,12 @@ public class RentalService {
         return ResponseEntity.ok(new RentalResponse(savedRental));
     }
 
+    /**
+     * Deletes a rental from the system along with its associated data, given its unique identifier.
+     *
+     * @param rentalId The unique identifier of the rental to be deleted.
+     * @return A response entity indicating the success or failure of the rental deletion operation.
+     */
     public ResponseEntity<String> deleteRental(UUID rentalId) {
         if (rentalId == null) {
             return ResponseEntity.badRequest().body("No ID");

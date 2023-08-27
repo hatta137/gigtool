@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-//TODO @Max Comments
 
 /**
  * Service class for managing band operations in the application.
@@ -100,7 +99,7 @@ public class BandService {
     }
 
     /**
-     * Retieves a list of all bands in the system.
+     * Retrieves a list of all bands in the system.
      * @return A response entity containing a list of band responses
      */
     public ResponseEntity<List<BandResponse>> getAllBands() {
