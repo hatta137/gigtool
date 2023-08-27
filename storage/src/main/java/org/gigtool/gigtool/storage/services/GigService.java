@@ -113,7 +113,7 @@ public class GigService {
             return ResponseEntity.badRequest().build();
         }
 
-        if (gigIsOverlapping(gigCreate.getStartTime(), gigCreate.getEndTime()))
+        if (gigIsOverlapping(gigCreate.getStartTime(), gigCreate.getEndTime()) || gigCreate.getStartTime().isAfter(gigCreate.getEndTime()) )
            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         Gig gig = new Gig();
@@ -194,21 +194,21 @@ public class GigService {
             updatedGig.setName(gigRequest.getName());
 
         if (gigRequest.getStartTime() != null && gigRequest.getEndTime() == null) {
-            if (gigIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig)){
+            if (gigIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig) || gigRequest.getStartTime().isAfter(updatedGig.getEndTime())){
                 return ResponseEntity.badRequest().build();
             }
             updatedGig.setStartTime(gigRequest.getStartTime());
         }
 
         if (gigRequest.getEndTime() != null && gigRequest.getStartTime() == null) {
-            if (gigIsOverlapping(updatedGig.getStartTime(), gigRequest.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(updatedGig.getStartTime(), gigRequest.getEndTime(), updatedGig)){
+            if (gigIsOverlapping(updatedGig.getStartTime(), gigRequest.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(updatedGig.getStartTime(), gigRequest.getEndTime(), updatedGig) || updatedGig.getStartTime().isAfter(gigRequest.getEndTime())){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedGig.setEndTime(gigRequest.getEndTime());
         }
 
         if (gigRequest.getStartTime() != null && gigRequest.getEndTime() != null) {
-            if (gigIsOverlapping(gigRequest.getStartTime(), gigRequest.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(gigRequest.getStartTime(), gigRequest.getEndTime(), updatedGig)){
+            if (gigIsOverlapping(gigRequest.getStartTime(), gigRequest.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(gigRequest.getStartTime(), gigRequest.getEndTime(), updatedGig) || gigRequest.getStartTime().isAfter(gigRequest.getEndTime())){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
             updatedGig.setStartTime(gigRequest.getStartTime());
