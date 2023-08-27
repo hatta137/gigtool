@@ -219,7 +219,15 @@ Folgende Kollisionsprüfungen werden von unserer Application abgedeckt:
 
 ### Timetable
 
-//ToDo
+Diese Klasse stellt in unseren komplexen Datenstrukturen eine Art allmächtige Gottklasse dar.
+Sie enthält die Funktionalitäten, welche unseren Kalender abbilden sollen.
+Dazu gehört:
+- das Auflisten aller Happenings
+- eine Filterfunktion für Happenings
+- eine Suchfunktion für Equipments
+
+
+
 
 ---
 
