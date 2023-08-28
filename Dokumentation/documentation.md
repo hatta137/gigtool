@@ -54,6 +54,7 @@ Die [Intellij IDE](https://www.jetbrains.com/de-de/idea/download/?section=window
 Die [Postman-App](https://www.postman.com/downloads/) werden wir später in der Anwenderdokumentation nutzen, um unsere Routen und Controller zu testen.
 
 <pre>git clone https://git.ai.fh-erfurt.de/prgj2-23/gigtool.git
+cd .\gigtool\
 docker compose up</pre>
 
 ---
@@ -69,7 +70,7 @@ Die GigTool Architektur umfasst mehrere strukturelle Bereiche, die wir euch in d
 
 ### Komponenten
 
-![Komponentendiagramm](assets/Komponentendiagramm.drawio.v2.png "Komponentendiagramm GigTool")
+![Komponentendiagramm](assets/Komponentendiagramm.drawio.png "Komponentendiagramm GigTool")
 
 #### api
 Wie im Komponentendiagramm zu erkennen, enthält die api alle wichtigen Controller-Klassen.
@@ -220,14 +221,12 @@ Folgende Kollisionsprüfungen werden von unserer Application abgedeckt:
 ### Timetable
 
 Diese Klasse stellt in unseren komplexen Datenstrukturen eine Art allmächtige Gottklasse dar.
+Ebenso führt sie klassenübergeifende Requests aus wie: WhereIsMyEquipment und Calculate.
 Sie enthält die Funktionalitäten, welche unseren Kalender abbilden sollen.
 Dazu gehört:
 - das Auflisten aller Happenings
 - eine Filterfunktion für Happenings
 - eine Suchfunktion für Equipments
-
-
-
 
 ---
 
@@ -241,6 +240,7 @@ Dazu gehört:
 > - Postman Collection + Workspaces
 > - Location, Address und TypeOfLocation sind sehr komplex verschachtelt => hier hatten wir große Ambitionen sind dann aber an einen zu hohen Grad an Komplexität gelangt
 > - bei Happening ist uns der Schritt der Vereinfachung gelungen => hier konnten wir ein einheitliches Zeitformat (Zeit + Datum) für alle Happenings einführen und unsere Datenstrukturen optimieren
+> - schreiben von JavaTest-Klassen mithilfe von test_utils
 
 ---
 
@@ -251,3 +251,19 @@ Responses könnten mit einer response_utils noch weiter verfeinert werden. Beisp
 Bei dem Hinzufügen von mehreren Equipments zu einer Band könnte man anstelle von mehreren Aufrufen mit path-Parametern auch eine Liste der hinzuzufügenden Equipments im Body übergeben. Dadurch könnten wir den Traffic noch mehr optimieren und die Usability verbessern.
 
 Unsere Applikation könnte durch weitere Get-Requests oder Suchfunktionen nochmals funktionell erweitert werden, z.B. getAllBandsWithGenre oder searchByDescription.
+
+---
+
+## Fazit
+
+Das Projekt GigTool hat uns sehr viel Spaß gemacht, aber auch aufgrund der Komplexität und dem ersten Kontakt mit SpringBoot einiges abverlangt.
+
+Trotz allem sind wir nun sehr zufrieden mit dem Endergebnis.
+
+Danke hier nochmal speziell für die mithilfe beim Aufbau des Projekts an Xander und den Verlängerungen der Projektabgaben. 
+
+
+BeOne
+
+-Over and Out-
+
