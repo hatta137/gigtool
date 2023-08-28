@@ -255,12 +255,13 @@ Bei dem Hinzufügen von mehreren Equipments zu einer Band könnte man anstelle v
 
 Unsere Applikation könnte durch weitere Get-Requests oder Suchfunktionen nochmals funktionell erweitert werden, z.B. getAllBandsWithGenre oder searchByDescription.
 
+---
 
 ## Troubleshooting and Known Bug´s
 
 Die Unittests müssen manchmal mehrmals komplett ausgeführt werden. Ab und an schlagen Tests fehl.
-Wir vermuten diesen Fehler am zusammenspiel der TestUtils und der Transactional-Notation bei einigen tests. 
-Diesen Bug konnten wir bislang noch nicht fixen. Deshalb müssen die Test manchmal mehrmals ausgeführt werden, bevor alle grün sind.
+Wir vermuten, dass dieser Fehler im Zusammenspiel der TestUtils und der Transactional-Notation bei einigen Tests Fehlverhaslten oder Inkonsistenz hervorruft. 
+Diesen Bug konnten wir bislang noch nicht fixen. Deshalb bedarf es manchmal der mehrmaligen Ausführung der Tests, bis alle "grün" und erfolgreich Durchlaufen sind.
 
 ---
 
