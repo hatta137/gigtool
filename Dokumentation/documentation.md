@@ -205,7 +205,7 @@ Im Laufe des Projekts haben sich ein paar coole Features angesammelt, die es in 
 
 ### TestUtils
 
-Als Random-Generator für unsere Servicetests nutzen wir unsere test_utils Klasse.
+Als Random-Generator für unsere Servicetests nutzen wir unsere TestUtils Klasse.
 Das erspart uns beim Erstellen der vielen Testszenarien des Öfteren wertvolle Zeit.
 
 ### Kollisionsprüfungen
@@ -227,6 +227,9 @@ Dazu gehört:
 - das Auflisten aller Happenings
 - eine Filterfunktion für Happenings
 - eine Suchfunktion für Equipments
+
+
+
 
 ---
 
@@ -251,6 +254,13 @@ Responses könnten mit einer response_utils noch weiter verfeinert werden. Beisp
 Bei dem Hinzufügen von mehreren Equipments zu einer Band könnte man anstelle von mehreren Aufrufen mit path-Parametern auch eine Liste der hinzuzufügenden Equipments im Body übergeben. Dadurch könnten wir den Traffic noch mehr optimieren und die Usability verbessern.
 
 Unsere Applikation könnte durch weitere Get-Requests oder Suchfunktionen nochmals funktionell erweitert werden, z.B. getAllBandsWithGenre oder searchByDescription.
+
+
+## Troubleshooting and Known Bug´s
+
+Die Unittests müssen manchmal mehrmals komplett ausgeführt werden. Ab und an schlagen Tests fehl.
+Wir vermuten diesen Fehler am zusammenspiel der TestUtils und der Transactional-Notation bei einigen tests. 
+Diesen Bug konnten wir bislang noch nicht fixen. Deshalb müssen die Test manchmal mehrmals ausgeführt werden, bevor alle grün sind.
 
 ---
 

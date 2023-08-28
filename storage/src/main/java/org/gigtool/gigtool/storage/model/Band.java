@@ -26,6 +26,4 @@ public class Band {
     private List<RoleInTheBand> listOfRole;
     @ManyToMany
     private List<Equipment> equipmentList;
-
-
 }

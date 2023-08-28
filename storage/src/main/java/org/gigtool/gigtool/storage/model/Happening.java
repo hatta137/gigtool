@@ -30,5 +30,4 @@ public abstract class Happening {
     private Address address;
     @ManyToMany
     private List<Equipment> equipmentList;
-
 }

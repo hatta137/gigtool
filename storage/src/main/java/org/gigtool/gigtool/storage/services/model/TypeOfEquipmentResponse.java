@@ -18,7 +18,7 @@ public class TypeOfEquipmentResponse {
     private String name;
     private String description;
 
-    public TypeOfEquipmentResponse(TypeOfEquipment typeOfEquipment) {
+    public TypeOfEquipmentResponse( TypeOfEquipment typeOfEquipment ) {
         id = typeOfEquipment.getId();
         name = typeOfEquipment.getName();
         description =  typeOfEquipment.getDescription();

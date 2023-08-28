@@ -82,7 +82,6 @@ public class TypeOfLocationService {
             return ResponseEntity.notFound().build();
 
         return ResponseEntity.accepted().body( new TypeOfLocationResponse( foundTypeOfLocation.get() ));
-
     }
 
     /**

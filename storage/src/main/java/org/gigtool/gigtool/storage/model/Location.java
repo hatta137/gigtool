@@ -27,7 +27,6 @@ public class Location {
     @ManyToOne
     private TypeOfLocation typeOfLocation;
 
-
     public Location(Address address, TypeOfLocation typeOfLocation) {
         this.address = address;
         this.typeOfLocation = typeOfLocation;

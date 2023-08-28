@@ -16,7 +16,7 @@ public class TimetableController {
 
     private final TimetableService timetableService;
 
-    public TimetableController(TimetableService timetableService) {
+    public TimetableController( TimetableService timetableService ) {
         this.timetableService = timetableService;
     }
 
@@ -29,17 +29,17 @@ public class TimetableController {
     public ResponseEntity<List<TimetableResponse>> getFilteredHappenings(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description) {
-        return this.timetableService.getFilteredHappenings(name, description);
+        return this.timetableService.getFilteredHappenings( name, description );
     }
 
     @GetMapping("/{id}/calc")
-    public ResponseEntity<CalcResponse> getTotalValuesOfHappening(@PathVariable UUID id) {
-        return this.timetableService.getTotalValuesOfHappening(id);
+    public ResponseEntity<CalcResponse> getTotalValuesOfHappening( @PathVariable UUID id ) {
+        return this.timetableService.getTotalValuesOfHappening( id );
     }
 
     @GetMapping("/{id}/whereismyequipment")
-    public ResponseEntity<List<WhereismyequipmentResponse>> whereIsMyEquipment(@PathVariable UUID id) {
-        return this.timetableService.getLocationsOfEquipmentFromHappening(id);
+    public ResponseEntity<List<WhereismyequipmentResponse>> whereIsMyEquipment( @PathVariable UUID id ) {
+        return this.timetableService.getLocationsOfEquipmentFromHappening( id );
     }
 
 }

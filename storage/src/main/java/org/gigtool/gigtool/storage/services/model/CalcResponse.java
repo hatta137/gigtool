@@ -3,17 +3,16 @@ package org.gigtool.gigtool.storage.services.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.gigtool.gigtool.storage.model.Equipment;
 import org.gigtool.gigtool.storage.model.Gig;
 import org.gigtool.gigtool.storage.model.Happening;
 
-import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class CalcResponse {
+
     private UUID id;
     private String type;
     private String name;
@@ -21,7 +20,7 @@ public class CalcResponse {
     private int totalCuboidVolume;
     private float totalCosts;
 
-    public CalcResponse(Happening happening, int totalWeight, int totalVolume, float totalCosts) {
+    public CalcResponse( Happening happening, int totalWeight, int totalVolume, float totalCosts ) {
         this.id = happening.getId();
         this.name = happening.getName();
         this.totalWeight = totalWeight;

@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 import java.util.UUID;
 
 
@@ -22,8 +20,6 @@ public class Address {
     private String zipCode;
     private String country;
     private int houseNumber;
-    /*@OneToMany
-    private List<Happening> happenings;*/
 
     public Address(String street, String city, String zipCode, String country, int houseNumber) {
         this.street = street;

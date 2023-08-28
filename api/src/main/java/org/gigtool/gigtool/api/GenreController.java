@@ -15,13 +15,13 @@ public class GenreController {
 
     private final GenreService genreService;
 
-    public GenreController(GenreService genreService) {
+    public GenreController( GenreService genreService ) {
         this.genreService = genreService;
     }
 
     @PostMapping
-    public ResponseEntity<GenreResponse> addGenre(@RequestBody GenreCreate genreCreate) {
-        return genreService.addGenre(genreCreate);
+    public ResponseEntity<GenreResponse> addGenre( @RequestBody GenreCreate genreCreate ) {
+        return genreService.addGenre( genreCreate );
     }
 
     @GetMapping
@@ -30,17 +30,17 @@ public class GenreController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GenreResponse> getGenreByID(@PathVariable UUID id) {
-        return genreService.getGenreById(id);
+    public ResponseEntity<GenreResponse> getGenreByID( @PathVariable UUID id ) {
+        return genreService.getGenreById( id );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<GenreResponse> updateGenre(@PathVariable UUID id, @RequestBody GenreCreate genreRequest) {
-        return genreService.updateGenre(id, genreRequest);
+    public ResponseEntity<GenreResponse> updateGenre( @PathVariable UUID id, @RequestBody GenreCreate genreRequest ) {
+        return genreService.updateGenre( id, genreRequest );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteGenre(@PathVariable UUID id) {
-        return genreService.deleteGenre(id);
+    public ResponseEntity<String> deleteGenre( @PathVariable UUID id ) {
+        return genreService.deleteGenre( id );
     }
 }

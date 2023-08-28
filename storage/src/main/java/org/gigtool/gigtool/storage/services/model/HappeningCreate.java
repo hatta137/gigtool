@@ -3,7 +3,6 @@ package org.gigtool.gigtool.storage.services.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -16,6 +15,4 @@ public abstract class HappeningCreate {
     private LocalDateTime endTime;
     private String description;
     private UUID  address;
-
-
 }

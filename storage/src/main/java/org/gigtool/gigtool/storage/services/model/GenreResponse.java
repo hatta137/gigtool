@@ -13,13 +13,14 @@ import java.util.UUID;
 @Getter
 @Setter
 public class GenreResponse {
+
     private UUID id;
     private String name;
     private String description;
 
-    public GenreResponse(Genre genre){
+    public GenreResponse( Genre genre ){
         this.id = genre.getId();
-        this.name = genre.getName();;
+        this.name = genre.getName();
         this.description = genre.getDescription();
     }
 }

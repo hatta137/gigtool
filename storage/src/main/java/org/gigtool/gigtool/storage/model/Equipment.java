@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.gigtool.gigtool.storage.services.model.EquipmentResponse;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -65,13 +64,5 @@ public class Equipment {
         this.dateOfPurchase = dateOfPurchase;
         this.location = location;
         this.price = price;
-    }
-
-
-
-
-    // TODO @Hendrik To Happening Service getTotalVolume
-    public int getCuboidVolume(){
-        return this.height * this.length * this.width;
     }
 }

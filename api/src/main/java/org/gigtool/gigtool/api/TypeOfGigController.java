@@ -15,13 +15,13 @@ public class TypeOfGigController {
 
     private final TypeOfGigService typeOfGigService;
 
-    public TypeOfGigController(TypeOfGigService typeOfGigService) {
+    public TypeOfGigController( TypeOfGigService typeOfGigService ) {
         this.typeOfGigService = typeOfGigService;
     }
 
     @PostMapping
-    public ResponseEntity<TypeOfGigResponse> addTypeOfGig(@RequestBody TypeOfGigCreate typeOfGigCreate) {
-        return typeOfGigService.addTypeOfGig(typeOfGigCreate);
+    public ResponseEntity<TypeOfGigResponse> addTypeOfGig( @RequestBody TypeOfGigCreate typeOfGigCreate ) {
+        return typeOfGigService.addTypeOfGig( typeOfGigCreate );
     }
 
     @GetMapping
@@ -30,17 +30,17 @@ public class TypeOfGigController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TypeOfGigResponse> getTypeOfGigByID(@PathVariable UUID id) {
-        return typeOfGigService.getTypeOfGigById(id);
+    public ResponseEntity<TypeOfGigResponse> getTypeOfGigByID( @PathVariable UUID id ) {
+        return typeOfGigService.getTypeOfGigById( id );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TypeOfGigResponse> updateTypeOfGig(@PathVariable UUID id, @RequestBody TypeOfGigCreate typeRequest) {
-        return typeOfGigService.updateTypeOfGig(id, typeRequest);
+    public ResponseEntity<TypeOfGigResponse> updateTypeOfGig( @PathVariable UUID id, @RequestBody TypeOfGigCreate typeRequest ) {
+        return typeOfGigService.updateTypeOfGig( id, typeRequest );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTypeOfGig(@PathVariable UUID id) {
-        return typeOfGigService.deleteTypeOfGig(id);
+    public ResponseEntity<String> deleteTypeOfGig( @PathVariable UUID id ) {
+        return typeOfGigService.deleteTypeOfGig( id );
     }
 }

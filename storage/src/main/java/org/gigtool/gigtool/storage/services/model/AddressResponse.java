@@ -21,7 +21,7 @@ public class AddressResponse {
     private String country;
     private String city;
 
-    public AddressResponse(Address address) {
+    public AddressResponse( Address address ) {
         id = address.getId();
         houseNumber = address.getHouseNumber();
         street = address.getStreet();

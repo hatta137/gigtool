@@ -186,9 +186,9 @@ public class EquipmentService {
      */
     public ResponseEntity<EquipmentResponse> deleteEquipment( UUID id ) {
 
-        Optional<Equipment> foundEquiupment = equipmentRepository.findById( id );
+        Optional<Equipment> foundEquipment = equipmentRepository.findById( id );
 
-        if (foundEquiupment.isEmpty()) {
+        if (foundEquipment.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
@@ -198,7 +198,7 @@ public class EquipmentService {
         if (!happeningWithEquipment.isEmpty() || !bandWithEquipment.isEmpty())
             return ResponseEntity.badRequest().build();
 
-        Equipment equipmentToDelete = foundEquiupment.get();
+        Equipment equipmentToDelete = foundEquipment.get();
 
         equipmentRepository.delete(equipmentToDelete);
 

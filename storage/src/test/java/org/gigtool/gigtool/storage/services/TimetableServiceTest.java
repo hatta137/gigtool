@@ -29,11 +29,6 @@ public class TimetableServiceTest {
     private TestUtils testUtils;
 
 
-
-    @BeforeEach
-    public void setup() {
-    }
-
     @Test
     @Transactional
     public void testGetAll() {

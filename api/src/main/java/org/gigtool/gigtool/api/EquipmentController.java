@@ -20,7 +20,7 @@ public class EquipmentController {
     public final EquipmentService equipmentService;
     public final TypeOfEquipmentService typeOfEquipmentService;
 
-    public EquipmentController(EquipmentService equipmentService, TypeOfEquipmentService typeOfEquipmentService) {
+    public EquipmentController( EquipmentService equipmentService, TypeOfEquipmentService typeOfEquipmentService ) {
         this.equipmentService = equipmentService;
         this.typeOfEquipmentService = typeOfEquipmentService;
     }
@@ -87,7 +87,7 @@ public class EquipmentController {
      * @return A ResponseEntity containing a list of equipment responses.
      */
     @GetMapping("/byType/{typeOfEquipmentId}")
-    public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByTypeOfEquipment( @PathVariable UUID typeOfEquipmentId)  {
+    public ResponseEntity<List<EquipmentResponse>> getAllEquipmentByTypeOfEquipment( @PathVariable UUID typeOfEquipmentId )  {
         return this.equipmentService.getAllEquipmentByTypeOfEquipment( typeOfEquipmentId );
     }
 
