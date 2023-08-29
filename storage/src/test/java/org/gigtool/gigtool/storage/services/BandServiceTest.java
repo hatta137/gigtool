@@ -162,11 +162,7 @@ public class BandServiceTest {
 
         assertTrue(bandWithEquipment.getStatusCode().is4xxClientError());
 
-
-
         assertTrue(gigService.deleteGig(gig.getBody().getId()).getStatusCode().is2xxSuccessful());
-
-
     }
 
     @Test
@@ -186,6 +182,11 @@ public class BandServiceTest {
         bandWithRole = bandService.addRoleToBand(UUID.randomUUID(), role.getBody().getId());
 
         assertTrue(bandWithRole.getStatusCode().is4xxClientError());
+
+        //negative role is already part of the band
+        ResponseEntity<BandResponse> deleteBand = bandService.addRoleToBand( savedBandId, role.getBody().getId() );
+
+        assertTrue(deleteBand.getStatusCode().is4xxClientError());
     }
 
     @Test
@@ -251,6 +252,69 @@ public class BandServiceTest {
     }
 
     @Test
+    public void testDeleteEquipmentFromBand() {
+
+        ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
+        ResponseEntity<EquipmentResponse> equipment2 = testUtils.getRandomEquipmentResponse();
+        ResponseEntity<BandResponse> band = testUtils.getRandomBandResponse();
+
+        ResponseEntity<BandResponse> updatedBand = bandService.addEquipmentToBand( band.getBody().getId(), equipment.getBody().getId() );
+
+        assertTrue(updatedBand.getStatusCode().is2xxSuccessful());
+
+        ResponseEntity<BandResponse> deleteBand = bandService.deleteEquipmentFromBand( band.getBody().getId(), equipment.getBody().getId() );
+
+        assertTrue(deleteBand.getStatusCode().is2xxSuccessful());
+
+        //negative equipmentId = null
+        ResponseEntity<BandResponse> deleteBand2 = bandService.deleteEquipmentFromBand( band.getBody().getId(), null );
+
+        assertTrue(deleteBand2.getStatusCode().is4xxClientError());
+
+        //negative equipmentId not in db
+        ResponseEntity<BandResponse> deleteBand3 = bandService.deleteEquipmentFromBand( band.getBody().getId(), UUID.randomUUID() );
+
+        assertTrue(deleteBand3.getStatusCode().is4xxClientError());
+
+        //negative equipment exists but is not part of band equipmentList
+        ResponseEntity<BandResponse> deleteBand4 = bandService.deleteEquipmentFromBand( band.getBody().getId(), equipment2.getBody().getId() );
+
+        assertTrue(deleteBand4.getStatusCode().is4xxClientError());
+    }
+
+    @Test
+    public void testDeleteRoleFromBand() {
+
+        ResponseEntity<RoleInTheBandResponse> role = testUtils.getRandomRoleInTheBandResponse();
+        ResponseEntity<RoleInTheBandResponse> role2 = testUtils.getRandomRoleInTheBandResponse();
+
+        ResponseEntity<BandResponse> band = testUtils.getRandomBandResponse();
+
+        ResponseEntity<BandResponse> updatedBand = bandService.addRoleToBand( band.getBody().getId(), role.getBody().getId() );
+
+        assertTrue(updatedBand.getStatusCode().is2xxSuccessful());
+
+        ResponseEntity<BandResponse> deleteBand = bandService.deleteRoleFromBand( band.getBody().getId(), role.getBody().getId() );
+
+        assertTrue(deleteBand.getStatusCode().is2xxSuccessful());
+
+        //negative role = null
+        ResponseEntity<BandResponse> deleteBand2 = bandService.deleteRoleFromBand( band.getBody().getId(), null );
+
+        assertTrue(deleteBand2.getStatusCode().is4xxClientError());
+
+        //negative role not in db
+        ResponseEntity<BandResponse> deleteBand3 = bandService.deleteRoleFromBand( band.getBody().getId(), UUID.randomUUID() );
+
+        assertTrue(deleteBand3.getStatusCode().is4xxClientError());
+
+        //negative role in db but not part of list of roles
+        ResponseEntity<BandResponse> deleteBand4 = bandService.deleteRoleFromBand( band.getBody().getId(), role2.getBody().getId() );
+
+        assertTrue(deleteBand4.getStatusCode().is4xxClientError());
+    }
+
+    @Test
     public void testDeleteBand() {
 
         UUID randomUUID = UUID.randomUUID();
@@ -277,8 +341,12 @@ public class BandServiceTest {
 
         assertTrue(deletedBand.getStatusCode().is2xxSuccessful());
 
+        //negative bandId = null
+        ResponseEntity<String> deleteBand2 = bandService.deleteBand( null );
+        assertTrue(deleteBand2.getStatusCode().is4xxClientError());
 
-
-
+        //negative band not in db
+        ResponseEntity<String> deleteBand3 = bandService.deleteBand( UUID.randomUUID() );
+        assertTrue(deleteBand3.getStatusCode().is4xxClientError());
     }
 }

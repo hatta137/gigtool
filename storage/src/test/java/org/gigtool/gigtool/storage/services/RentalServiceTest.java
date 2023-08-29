@@ -255,7 +255,6 @@ public class RentalServiceTest {
     }
 
     @Test
-    @Transactional
     public void testDeleteEquipmentFromRental() {
 
         ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
@@ -309,7 +308,6 @@ public class RentalServiceTest {
     }
 
     @Test
-    @Transactional
     public void testEquipmentIsOverlapping() {
         LocalDateTime startTime = LocalDateTime.of(2023, 8, 25, 10, 0);
         LocalDateTime endTime = LocalDateTime.of(2023, 8, 25, 12, 0);

@@ -49,13 +49,18 @@ public class BandService {
      * @return True if the equipment is used during the same time as any of the band's gigs, false otherwise.
      */
     private boolean equipmentIsUseSameTimeLikeBandGigs( Band band, Equipment equipment ){
+
         List<Gig> bandGigs = gigRepository.findGigsByBand( band );
+
         for (Gig bandGig: bandGigs) {
+
             List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment( bandGig.getStartTime(), bandGig.getEndTime(), equipment );
+
             if(!overlappingHappenings.isEmpty()){
-                if(!(overlappingHappenings.size() == 1 && overlappingHappenings.contains( bandGig ))){
+
+                if(!(overlappingHappenings.size() == 1 && overlappingHappenings.contains( bandGig )))
                     return true;
-                }
+
             }
         }
         return false;
@@ -68,29 +73,27 @@ public class BandService {
      */
     public ResponseEntity<BandResponse> addBand( BandCreate bandCreate ) {
 
-        if (bandCreate.getName() == null || bandCreate.getGenre() == null || bandCreate.getMainRoleInTheBand() == null) {
+        if (bandCreate.getName() == null ||
+                bandCreate.getGenre() == null ||
+                bandCreate.getMainRoleInTheBand() == null) {
             return ResponseEntity.badRequest().build();
         }
 
         Band band = new Band();
 
         Optional<Genre> genre = genreRepository.findById(bandCreate.getGenre());
-
-        if(genre.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        Genre existingGenre = genre.get();
-
         Optional<RoleInTheBand> role = roleInTheBandRepository.findById( bandCreate.getMainRoleInTheBand() );
 
-        if(role.isEmpty()) {
+        if(genre.isEmpty() || role.isEmpty())
             return ResponseEntity.notFound().build();
-        }
+
+
+        Genre existingGenre = genre.get();
 
         RoleInTheBand existingRole = role.get();
 
         List<RoleInTheBand> roleInTheBandList = new ArrayList<>();
+
         roleInTheBandList.add( existingRole );
 
         band.setGenre( existingGenre );
@@ -112,7 +115,7 @@ public class BandService {
         List<Band> bandList = bandRepository.findAll();
 
         List<BandResponse> responseList = bandList.stream()
-                .map(BandResponse::new )
+                .map( BandResponse::new )
                 .toList();
 
         return ResponseEntity.ok( responseList );
@@ -124,6 +127,7 @@ public class BandService {
      * @return A response entity containing the retrieved band response.
      */
     public ResponseEntity<BandResponse> getBandById( UUID bandId ) {
+
         Optional<Band> bandOptional = bandRepository.findById( bandId );
 
         return bandOptional.map(band -> ResponseEntity.ok(new BandResponse( band )))
@@ -138,30 +142,31 @@ public class BandService {
      */
     public ResponseEntity<BandResponse> addEquipmentToBand( UUID bandId, UUID equipmentId ) {
 
-        if ((equipmentId == null) || (bandId == null)) {
+        if ((equipmentId == null) || (bandId == null))
             return ResponseEntity.badRequest().build();
-        }
 
         Optional<Band> existingBand = bandRepository.findById( bandId );
         Optional<Equipment> existingEquipment = equipmentRepository.findById( equipmentId );
 
-        if(existingEquipment.isEmpty() || existingBand.isEmpty()){
+        if(existingEquipment.isEmpty() || existingBand.isEmpty())
             return ResponseEntity.notFound().build();
-        }
+
 
         Band band = existingBand.get();
         Equipment equipment = existingEquipment.get();
 
-        if (band.getEquipmentList().contains(equipment) || this.equipmentIsUseSameTimeLikeBandGigs(band, equipment)) {
+        if (band.getEquipmentList().contains(equipment) ||
+                this.equipmentIsUseSameTimeLikeBandGigs(band, equipment)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         List<Gig> bandGigs = gigRepository.findGigsByBand( band );
 
         for (Gig bandGig: bandGigs) {
-            if(bandGig.getEquipmentList().contains( equipment )) {
+
+            if(bandGig.getEquipmentList().contains( equipment ))
                 bandGig.getEquipmentList().remove( equipment );
-            }
+
         }
 
         band.getEquipmentList().add( equipment );
@@ -179,29 +184,26 @@ public class BandService {
      */
     public ResponseEntity<BandResponse> updateBand( UUID bandId, BandCreate bandRequest ) {
 
-        if ((bandId == null)) {
+        if ((bandId == null))
             return ResponseEntity.badRequest().build();
-        }
 
         Optional<Band> existingBand = bandRepository.findById( bandId );
 
-        if (existingBand.isEmpty()) {
+        if (existingBand.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
         Band updatedBand = existingBand.get();
 
-        if (bandRequest.getName() != null) {
+        if (bandRequest.getName() != null)
             updatedBand.setName(bandRequest.getName());
-        }
+
 
         if (bandRequest.getGenre() != null) {
 
             Optional<Genre> existingGenre = genreRepository.findById( bandRequest.getGenre() );
 
-            if (existingGenre.isEmpty()) {
+            if (existingGenre.isEmpty())
                 return ResponseEntity.notFound().build();
-            }
 
             updatedBand.setGenre( existingGenre.get() );
         }
@@ -221,31 +223,28 @@ public class BandService {
 
     public ResponseEntity<BandResponse> deleteEquipmentFromBand( UUID bandId, UUID equipmentId ) {
 
-        if ((equipmentId == null) || (bandId == null)) {
+        if ((equipmentId == null) || (bandId == null))
             return ResponseEntity.badRequest().build();
-        }
 
         Optional<Band> existingBand = bandRepository.findById( bandId );
 
         Optional<Equipment> existingEquipment = equipmentRepository.findById( equipmentId );
 
-        if(existingEquipment.isEmpty() || existingBand.isEmpty()){
+        if(existingEquipment.isEmpty() || existingBand.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
         Band band = existingBand.get();
+
         Equipment equipment = existingEquipment.get();
 
-        if (!band.getEquipmentList().contains(equipment)) {
+        if (!band.getEquipmentList().contains(equipment))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
         band.getEquipmentList().remove( equipment );
 
         Band savedBand = bandRepository.saveAndFlush( band );
 
         return ResponseEntity.ok(new BandResponse( savedBand ));
-
     }
 
     /**
@@ -256,31 +255,27 @@ public class BandService {
      */
     public ResponseEntity<BandResponse> addRoleToBand( UUID bandId, UUID roleId ) {
 
-        if ((roleId == null) || (bandId == null)) {
+        if ((roleId == null) || (bandId == null))
             return ResponseEntity.badRequest().build();
-        }
 
         Optional<Band> existingBand = bandRepository.findById( bandId );
 
         Optional<RoleInTheBand> existingRole = roleInTheBandRepository.findById( roleId );
 
-        if(existingRole.isEmpty() || existingBand.isEmpty()){
+        if(existingRole.isEmpty() || existingBand.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
         Band band = existingBand.get();
         RoleInTheBand role = existingRole.get();
 
-        if (band.getListOfRole().contains( role )) {
+        if (band.getListOfRole().contains( role ))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
         band.getListOfRole().add( role );
 
         Band savedBand = bandRepository.saveAndFlush( band );
 
         return ResponseEntity.ok(new BandResponse( savedBand ));
-
     }
 
     /**
@@ -292,31 +287,28 @@ public class BandService {
      */
     public ResponseEntity<BandResponse> deleteRoleFromBand( UUID bandId, UUID roleId ) {
 
-        if ((roleId == null) || (bandId == null)) {
+        if ((roleId == null) || (bandId == null))
             return ResponseEntity.badRequest().build();
-        }
 
         Optional<Band> existingBand = bandRepository.findById( bandId );
 
         Optional<RoleInTheBand> existingRole = roleInTheBandRepository.findById( roleId );
 
-        if(existingRole.isEmpty() || existingBand.isEmpty()){
+        if(existingRole.isEmpty() || existingBand.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
         Band band = existingBand.get();
+
         RoleInTheBand role = existingRole.get();
 
-        if (!band.getListOfRole().contains( role )) {
+        if (!band.getListOfRole().contains( role ))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
         band.getListOfRole().remove( role );
 
         Band savedBand = bandRepository.saveAndFlush( band );
 
         return ResponseEntity.ok( new BandResponse( savedBand ) );
-
     }
 
     /**
@@ -325,23 +317,20 @@ public class BandService {
      */
     public ResponseEntity<String> deleteBand( UUID bandId ) {
 
-        if (bandId == null) {
+        if (bandId == null)
             return ResponseEntity.badRequest().body("No ID");
-        }
 
         Optional<Band> existingBand = bandRepository.findById( bandId );
 
-        if (existingBand.isEmpty()) {
+        if (existingBand.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
         int gigsForBand = bandRepository.countGigsForBand( bandId );
 
-        if (gigsForBand > 0) {
+        if (gigsForBand > 0)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Band has a relation to Gigs. You cannot delete this Band!");
-        }
 
-        bandRepository.delete(existingBand.get());
+        bandRepository.delete( existingBand.get() );
 
         return ResponseEntity.ok("Band is deleted");
     }
