@@ -9,8 +9,10 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-//TODO comments @Max
-/* Author: Dario Daßler*/
+/**
+ * Author: Dario Daßler
+ * The genre class represents a bands music style, including its name and description
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
