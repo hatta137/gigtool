@@ -73,7 +73,7 @@ public class TypeOfLocationController {
      * @return A ResponseEntity containing the deleted type of location response.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<TypeOfLocationResponse> deleteTypeOfLocation( @PathVariable UUID id ) {
+    public ResponseEntity<String> deleteTypeOfLocation( @PathVariable UUID id ) {
         return this.typeOfLocationService.deleteTypeOfLocation( id );
     }
 }

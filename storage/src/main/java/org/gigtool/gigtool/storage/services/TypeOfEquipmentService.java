@@ -115,7 +115,10 @@ public class TypeOfEquipmentService {
      * @param id The ID of the type of equipment to delete.
      * @return A ResponseEntity indicating the success of the deletion or not found if the type of equipment doesn't exist.
      */
-    public ResponseEntity<TypeOfEquipmentResponse> deleteTypeOfEquipment( UUID id ) {
+    public ResponseEntity<String> deleteTypeOfEquipment( UUID id ) {
+
+        if (id == null)
+            return ResponseEntity.badRequest().body("No ID");
 
         Optional<TypeOfEquipment> foundTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 
@@ -126,6 +129,6 @@ public class TypeOfEquipmentService {
 
         typeOfEquipmentRepository.delete(typeOfEquipmentToDelete);
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.ok("Type of Location deleted");
     }
 }

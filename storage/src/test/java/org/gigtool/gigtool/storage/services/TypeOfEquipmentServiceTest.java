@@ -138,17 +138,22 @@ public class TypeOfEquipmentServiceTest {
     @Test
     public void testDeleteTypeOfEquipment() {
 
-        ResponseEntity<TypeOfEquipmentResponse> deletedTypeOfEquipment = typeOfEquipmentService.deleteTypeOfEquipment( savedTypeOfEquipmentId );
+        ResponseEntity<String> deletedTypeOfEquipment = typeOfEquipmentService.deleteTypeOfEquipment( savedTypeOfEquipmentId );
 
-        assertNull(deletedTypeOfEquipment.getBody());
+        assertTrue(deletedTypeOfEquipment.getStatusCode().is2xxSuccessful());
 
         UUID randomUUID = UUID.randomUUID();
         while (randomUUID.equals(savedTypeOfEquipmentId)) {
             randomUUID = UUID.randomUUID();
         }
 
-        ResponseEntity<TypeOfEquipmentResponse> existingTypeOfEquipmentFalse = typeOfEquipmentService.deleteTypeOfEquipment( randomUUID );
+        ResponseEntity<String> existingTypeOfEquipmentFalse = typeOfEquipmentService.deleteTypeOfEquipment( randomUUID );
 
         assertTrue(existingTypeOfEquipmentFalse.getStatusCode().is4xxClientError());
+
+        //negative TypeOfEquipmentId = null
+        ResponseEntity<String> existingTypeOfEquipmentFalse2 = typeOfEquipmentService.deleteTypeOfEquipment( null );
+
+        assertTrue(existingTypeOfEquipmentFalse2.getStatusCode().is4xxClientError());
     }
 }

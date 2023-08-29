@@ -141,9 +141,9 @@ public class TypeOfLocationServiceTest {
     public void testDeleteTypeOfLocation() {
 
         //positive
-        ResponseEntity<TypeOfLocationResponse> deletedTypeOfLocation = typeOfLocationService.deleteTypeOfLocation( savedTypeOfLocationId );
+        ResponseEntity<String> deletedTypeOfLocation = typeOfLocationService.deleteTypeOfLocation( savedTypeOfLocationId );
 
-        assertNull(deletedTypeOfLocation.getBody());
+        assertTrue(deletedTypeOfLocation.getStatusCode().is2xxSuccessful());
 
         //negative
         UUID randomUUID = UUID.randomUUID();
@@ -151,14 +151,19 @@ public class TypeOfLocationServiceTest {
             randomUUID = UUID.randomUUID();
         }
 
-        ResponseEntity<TypeOfLocationResponse> deletedTypeOfLocationFalse = typeOfLocationService.deleteTypeOfLocation( randomUUID );
+        ResponseEntity<String> deletedTypeOfLocationFalse = typeOfLocationService.deleteTypeOfLocation( randomUUID );
 
         assertTrue(deletedTypeOfLocationFalse.getStatusCode().is4xxClientError());
 
         ResponseEntity<LocationResponse> locationResponse = testUtils.getRandomLocationResponse();
         TypeOfLocationResponse typeOfLocationResponse  = locationResponse.getBody().getTypeOfLocationResponse();
 
-        ResponseEntity<TypeOfLocationResponse> deletedTypeOfLocationFalse2 = typeOfLocationService.deleteTypeOfLocation( typeOfLocationResponse.getId() );
+        ResponseEntity<String> deletedTypeOfLocationFalse2 = typeOfLocationService.deleteTypeOfLocation( typeOfLocationResponse.getId() );
+
+        assertTrue(deletedTypeOfLocationFalse2.getStatusCode().is4xxClientError());
+
+        //negative TypeOfLocationId = null
+        ResponseEntity<String> deletedTypeOfLocationFalse3 = typeOfLocationService.deleteTypeOfLocation( null );
 
         assertTrue(deletedTypeOfLocationFalse2.getStatusCode().is4xxClientError());
     }

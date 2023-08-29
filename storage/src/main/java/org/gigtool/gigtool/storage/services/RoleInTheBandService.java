@@ -139,6 +139,4 @@ public class RoleInTheBandService {
 
         return ResponseEntity.ok("RoleInTheBand is deleted");
     }
-
-
 }

@@ -120,7 +120,10 @@ public class TypeOfLocationService {
      * @param id The ID of the type of location to delete.
      * @return A ResponseEntity indicating the success of the deletion or not found if the type of location doesn't exist.
      */
-    public ResponseEntity<TypeOfLocationResponse> deleteTypeOfLocation( UUID id ) {
+    public ResponseEntity<String> deleteTypeOfLocation( UUID id ) {
+
+        if (id == null)
+            return ResponseEntity.badRequest().body("No ID");
 
         Optional<TypeOfLocation> foundTypeOfLocation = typeOfLocationRepository.findById( id );
 
@@ -134,8 +137,8 @@ public class TypeOfLocationService {
 
         TypeOfLocation typeOfLocationToDelete = foundTypeOfLocation.get();
 
-        typeOfLocationRepository.delete(typeOfLocationToDelete);
+        typeOfLocationRepository.delete( typeOfLocationToDelete );
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.ok("Type Of Location deleted");
     }
 }

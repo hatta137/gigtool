@@ -166,9 +166,9 @@ public class AddressServiceTest {
     public void testDeleteAddress() {
 
         //positive
-        ResponseEntity<AddressResponse> deletedAddress = addressService.deleteAddress( savedAddressId );
+        ResponseEntity<String> deletedAddress = addressService.deleteAddress( savedAddressId );
 
-        assertNull(deletedAddress.getBody());
+        assertTrue(deletedAddress.getStatusCode().is2xxSuccessful());
 
         //negative
         UUID randomUUID = UUID.randomUUID();
@@ -176,15 +176,20 @@ public class AddressServiceTest {
             randomUUID = UUID.randomUUID();
         }
 
-        ResponseEntity<AddressResponse> deletedAddressFalse = addressService.deleteAddress( randomUUID );
+        ResponseEntity<String> deletedAddressFalse = addressService.deleteAddress( randomUUID );
 
         assertTrue(deletedAddressFalse.getStatusCode().is4xxClientError());
 
         ResponseEntity<LocationResponse> locationResponse = testUtils.getRandomLocationResponse();
         AddressResponse addressResponse = locationResponse.getBody().getAddressResponse();
 
-        ResponseEntity<AddressResponse> deletedAddressFalse2 = addressService.deleteAddress( addressResponse.getId() );
+        ResponseEntity<String> deletedAddressFalse2 = addressService.deleteAddress( addressResponse.getId() );
 
         assertTrue(deletedAddressFalse2.getStatusCode().is4xxClientError());
+
+        //negative addressId =  null
+        ResponseEntity<String> deletedAddressFalse3 = addressService.deleteAddress( null );
+
+        assertTrue(deletedAddressFalse3.getStatusCode().is4xxClientError());
     }
 }

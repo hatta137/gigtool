@@ -147,9 +147,9 @@ public class LocationServiceTest {
     @Test
     public void testDeleteLocation() {
 
-        ResponseEntity<LocationResponse> deletedLocation = locationService.deleteLocation( savedLocationId );
+        ResponseEntity<String> deletedLocation = locationService.deleteLocation( savedLocationId );
 
-        assertNull(deletedLocation.getBody());
+        assertTrue(deletedLocation.getStatusCode().is2xxSuccessful());
 
         //negative
         UUID randomUUID = UUID.randomUUID();
@@ -157,8 +157,13 @@ public class LocationServiceTest {
             randomUUID = UUID.randomUUID();
         }
 
-        ResponseEntity<LocationResponse> negativeResult = locationService.deleteLocation( randomUUID );
+        ResponseEntity<String> negativeResult = locationService.deleteLocation( randomUUID );
 
         assertTrue(negativeResult.getStatusCode().is4xxClientError());
+
+        //negative LocationId = null
+        ResponseEntity<String> negativeResult2 = locationService.deleteLocation( null );
+
+        assertTrue(negativeResult2.getStatusCode().is4xxClientError());
     }
 }

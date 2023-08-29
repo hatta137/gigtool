@@ -219,9 +219,9 @@ public class EquipmentServiceTest {
     @Test
     public void testDeleteEquipment() {
 
-        ResponseEntity<EquipmentResponse> deletedEquipment = equipmentService.deleteEquipment( savedEquipmentId );
+        ResponseEntity<String> deletedEquipment = equipmentService.deleteEquipment( savedEquipmentId );
 
-        assertNull(deletedEquipment.getBody());
+        assertTrue(deletedEquipment.getStatusCode().is2xxSuccessful());
 
         assertTrue(deletedEquipment.getStatusCode().is2xxSuccessful());
 
@@ -230,7 +230,7 @@ public class EquipmentServiceTest {
             randomUUID = UUID.randomUUID();
         }
 
-        ResponseEntity<EquipmentResponse> negativeResult = equipmentService.deleteEquipment( randomUUID );
+        ResponseEntity<String> negativeResult = equipmentService.deleteEquipment( randomUUID );
 
         assertTrue(negativeResult.getStatusCode().is4xxClientError());
 
@@ -241,9 +241,14 @@ public class EquipmentServiceTest {
 
         bandService.addEquipmentToBand( band.getBody().getId(), savedEquipment2.getBody().getId() );
 
-        ResponseEntity<EquipmentResponse> deletedEquipmentFalse = equipmentService.deleteEquipment( savedEquipment2.getBody().getId() );
+        ResponseEntity<String> deletedEquipmentFalse = equipmentService.deleteEquipment( savedEquipment2.getBody().getId() );
 
         assertTrue(deletedEquipmentFalse.getStatusCode().is4xxClientError());
+
+        //negative EquipmentId = null
+        ResponseEntity<String> deletedEquipmentFalse2 = equipmentService.deleteEquipment( null );
+
+        assertTrue(deletedEquipmentFalse2.getStatusCode().is4xxClientError());
     }
 
     @Test

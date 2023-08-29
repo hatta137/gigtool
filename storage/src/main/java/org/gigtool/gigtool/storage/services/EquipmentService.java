@@ -184,7 +184,10 @@ public class EquipmentService {
      * @param id The ID of the equipment to delete.
      * @return A ResponseEntity indicating the success of the deletion or not found if the equipment doesn't exist.
      */
-    public ResponseEntity<EquipmentResponse> deleteEquipment( UUID id ) {
+    public ResponseEntity<String> deleteEquipment( UUID id ) {
+
+        if (id == null )
+            return ResponseEntity.badRequest().body("No ID");
 
         Optional<Equipment> foundEquipment = equipmentRepository.findById( id );
 
@@ -200,9 +203,9 @@ public class EquipmentService {
 
         Equipment equipmentToDelete = foundEquipment.get();
 
-        equipmentRepository.delete(equipmentToDelete);
+        equipmentRepository.delete (equipmentToDelete );
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.ok("Equipment deleted");
     }
 
     /**

@@ -76,7 +76,7 @@ public class EquipmentController {
      * @return A ResponseEntity containing the result of the equipment deletion.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<EquipmentResponse> deleteEquipment( @PathVariable UUID id ) {
+    public ResponseEntity<String> deleteEquipment( @PathVariable UUID id ) {
         return this.equipmentService.deleteEquipment( id );
     }
 

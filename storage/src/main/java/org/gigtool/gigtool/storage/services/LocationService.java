@@ -170,19 +170,21 @@ public class LocationService {
      * @param id The ID of the location to delete.
      * @return A ResponseEntity indicating the success of the deletion or not found if the location doesn't exist.
      */
-    public ResponseEntity<LocationResponse> deleteLocation( UUID id ) {
+    public ResponseEntity<String> deleteLocation( UUID id ) {
+
+        if (id == null)
+            return ResponseEntity.badRequest().body("No ID");
 
         Optional<Location> foundLocation = locationRepository.findById( id );
 
         if (foundLocation.isEmpty())
             return ResponseEntity.notFound().build();
 
-
         Location locationToDelete = foundLocation.get();
 
         locationRepository.delete(locationToDelete);
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.ok("Equipment deleted");
     }
 }
 

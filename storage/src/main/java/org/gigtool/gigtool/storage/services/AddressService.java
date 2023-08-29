@@ -113,21 +113,20 @@ public class AddressService {
 
         Address addressToUpdate = existingAddress.get();
 
-        if ( addressCreate.getHouseNumber() >= 0) {
+        if ( addressCreate.getHouseNumber() >= 0)
             addressToUpdate.setHouseNumber( addressCreate.getHouseNumber() );
-        }
-        if ( addressCreate.getStreet() != null ) {
+
+        if ( addressCreate.getStreet() != null )
             addressToUpdate.setStreet( addressCreate.getStreet() );
-        }
-        if ( addressCreate.getZipCode() != null ) {
+
+        if ( addressCreate.getZipCode() != null )
             addressToUpdate.setZipCode( addressCreate.getZipCode() );
-        }
-        if ( addressCreate.getCity() != null ) {
+
+        if ( addressCreate.getCity() != null )
             addressToUpdate.setCity( addressCreate.getCity() );
-        }
-        if ( addressCreate.getCountry() != null ) {
+
+        if ( addressCreate.getCountry() != null )
             addressToUpdate.setCountry( addressCreate.getCountry() );
-        }
 
         Address savedAddress = addressRepository.saveAndFlush( addressToUpdate );
 
@@ -141,7 +140,10 @@ public class AddressService {
      * @return A response entity indicating the success or failure of the deletion operation.
      */
     @Transactional
-    public ResponseEntity<AddressResponse> deleteAddress( UUID id ) {
+    public ResponseEntity<String> deleteAddress( UUID id ) {
+
+        if (id == null)
+            return ResponseEntity.badRequest().body("No ID");
 
         Optional<Address> foundAddress = addressRepository.findById( id );
 
@@ -158,7 +160,7 @@ public class AddressService {
 
         addressRepository.delete( addressToDelete );
 
-        return ResponseEntity.accepted().build();
+        return ResponseEntity.ok("Address deleted");
     }
 }
 

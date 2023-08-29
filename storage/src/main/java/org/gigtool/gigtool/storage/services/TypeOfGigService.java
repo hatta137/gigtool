@@ -117,7 +117,6 @@ public class TypeOfGigService {
         if (typeId == null)
             return ResponseEntity.badRequest().body("No ID");
 
-
         Optional<TypeOfGig> existingType = typeOfGigRepository.findById( typeId );
 
         if (existingType.isEmpty())
@@ -128,7 +127,6 @@ public class TypeOfGigService {
 
         if(gigsWithTypeOfGig > 0)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("TypeOfGig has a relation to a Gig. You cannot delete this TypeOfGig!");
-
 
         typeOfGigRepository.delete(existingType.get());
 

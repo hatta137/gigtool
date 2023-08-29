@@ -73,7 +73,7 @@ public class TypeOfEquipmentController {
      * @return A ResponseEntity containing the deleted type of equipment response.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<TypeOfEquipmentResponse> deleteTypeOfEquipment( @PathVariable UUID id ) {
+    public ResponseEntity<String> deleteTypeOfEquipment( @PathVariable UUID id ) {
         return this.typeOfEquipmentService.deleteTypeOfEquipment( id );
     }
 }

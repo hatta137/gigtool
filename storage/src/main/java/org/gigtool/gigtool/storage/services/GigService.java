@@ -360,12 +360,10 @@ public class GigService {
         if (gigId == null)
             return ResponseEntity.badRequest().body("No ID");
 
-
         Optional<Gig> existingGig = gigRepository.findById( gigId );
 
         if (existingGig.isEmpty())
             return ResponseEntity.notFound().build();
-
 
         gigRepository.delete(existingGig.get());
 

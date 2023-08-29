@@ -73,7 +73,7 @@ public class AddressController {
      * @return A ResponseEntity containing the deleted address response.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<AddressResponse> deleteAddress( @PathVariable UUID id ) {
+    public ResponseEntity<String> deleteAddress( @PathVariable UUID id ) {
         return this.addressService.deleteAddress( id );
     }
 }
