@@ -32,9 +32,9 @@ public class TypeOfEquipmentService {
      */
     public ResponseEntity<TypeOfEquipmentResponse> addTypeOfEquipment( TypeOfEquipmentCreate typeOfEquipmentCreate ) {
 
-        if (typeOfEquipmentCreate.getName() == null || typeOfEquipmentCreate.getDescription() == null) {
+        if (typeOfEquipmentCreate.getName() == null || typeOfEquipmentCreate.getDescription() == null)
             return ResponseEntity.badRequest().build();
-        }
+
 
         TypeOfEquipment typeOfEquipment = new TypeOfEquipment(
                 typeOfEquipmentCreate.getName(),
@@ -88,9 +88,9 @@ public class TypeOfEquipmentService {
      */
     public ResponseEntity<TypeOfEquipmentResponse> updateTypeOfEquipment( UUID id, TypeOfEquipmentCreate typeOfEquipmentCreate ) {
 
-        if (typeOfEquipmentCreate.getName() == null || typeOfEquipmentCreate.getDescription() == null) {
+        if (typeOfEquipmentCreate.getName() == null || typeOfEquipmentCreate.getDescription() == null)
             return ResponseEntity.badRequest().build();
-        }
+
 
         Optional<TypeOfEquipment> existingTypeOfEquipment = typeOfEquipmentRepository.findById( id );
 

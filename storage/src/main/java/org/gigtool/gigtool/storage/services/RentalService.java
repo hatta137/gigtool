@@ -26,7 +26,10 @@ public class RentalService {
     private final EquipmentRepository equipmentRepository;
     private final HappeningRepository happeningRepository;
 
-    public RentalService(RentalRepository rentalRepository, AddressRepository addressRepository, EquipmentRepository equipmentRepository, HappeningRepository happeningRepository) {
+    public RentalService(RentalRepository rentalRepository,
+                         AddressRepository addressRepository,
+                         EquipmentRepository equipmentRepository,
+                         HappeningRepository happeningRepository) {
         this.rentalRepository = rentalRepository;
         this.addressRepository = addressRepository;
         this.equipmentRepository = equipmentRepository;
@@ -42,8 +45,10 @@ public class RentalService {
      * @param equipment The equipment to be checked for overlapping usage.
      * @return True if any overlapping happenings are found, false otherwise.
      */
-    private boolean equipmentIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Equipment equipment) {
-        List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
+    private boolean equipmentIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Equipment equipment ) {
+
+        List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment( startTime, endTime, equipment );
+
         return !overlappingHappenings.isEmpty();
     }
     /**
@@ -54,15 +59,21 @@ public class RentalService {
      * @param rental    The rental for which equipment usage is being checked.
      * @return True if any overlapping happenings are found, false otherwise.
      */
-    private boolean equipmentlistIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Rental rental) {
+    private boolean equipmentlistIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Rental rental ) {
+
         for (Equipment equipment: rental.getEquipmentList()) {
-            List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
+
+            List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment( startTime, endTime, equipment );
+
             System.out.println(equipment);
+
             if(!overlappingHappenings.isEmpty()){
+
                 System.out.println(overlappingHappenings);
-                if(!(overlappingHappenings.size() == 1 && overlappingHappenings.contains(rental))){
+
+                if(!(overlappingHappenings.size() == 1 && overlappingHappenings.contains(rental)))
                     return true;
-                }
+
             }
         }
         return false;
@@ -74,9 +85,13 @@ public class RentalService {
      * @param rentalCreate The information for creating the new rental.
      * @return A response entity indicating the success or failure of the rental addition operation.
      */
-    public ResponseEntity<RentalResponse> addRental(RentalCreate rentalCreate) {
-        if (rentalCreate.getName() == null || rentalCreate.getStartTime() == null || rentalCreate.getEndTime() == null ||
-                rentalCreate.getDescription() == null || rentalCreate.getAddress() == null ||
+    public ResponseEntity<RentalResponse> addRental( RentalCreate rentalCreate ) {
+
+        if (rentalCreate.getName() == null ||
+                rentalCreate.getStartTime() == null ||
+                rentalCreate.getEndTime() == null ||
+                rentalCreate.getDescription() == null ||
+                rentalCreate.getAddress() == null ||
                 rentalCreate.getResponsiblePerson() == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -88,9 +103,9 @@ public class RentalService {
 
         Optional<Address> addressOptional = addressRepository.findById(rentalCreate.getAddress());
 
-        if (addressOptional.isEmpty()) {
+        if (addressOptional.isEmpty())
             return ResponseEntity.notFound().build();
-        }
+
 
         Address address = addressOptional.get();
 
@@ -102,9 +117,9 @@ public class RentalService {
         rental.setResponsiblePerson(rentalCreate.getResponsiblePerson());
         rental.setEquipmentList(new ArrayList<>());
 
-        Rental savedRental = rentalRepository.saveAndFlush(rental);
+        Rental savedRental = rentalRepository.saveAndFlush( rental );
 
-        return ResponseEntity.ok(new RentalResponse(savedRental));
+        return ResponseEntity.ok( new RentalResponse( savedRental ) );
     }
 
     /**
@@ -113,13 +128,14 @@ public class RentalService {
      * @return A response entity containing a list of rental responses.
      */
     public ResponseEntity<List<RentalResponse>> getAllRentals() {
+
         List<Rental> rentalList = rentalRepository.findAll();
 
         List<RentalResponse> responseList = rentalList.stream()
-                .map(RentalResponse::new)
+                .map( RentalResponse::new )
                 .toList();
 
-        return ResponseEntity.ok(responseList);
+        return ResponseEntity.ok( responseList );
     }
 
     /**
@@ -128,10 +144,11 @@ public class RentalService {
      * @param rentalId The unique identifier of the rental to retrieve information for.
      * @return A response entity containing the retrieved rental response.
      */
-    public ResponseEntity<RentalResponse> getRentalById(UUID rentalId) {
-        Optional<Rental> rentalOptional = rentalRepository.findById(rentalId);
+    public ResponseEntity<RentalResponse> getRentalById( UUID rentalId ) {
 
-        return rentalOptional.map(rental -> ResponseEntity.ok(new RentalResponse(rental)))
+        Optional<Rental> rentalOptional = rentalRepository.findById( rentalId );
+
+        return rentalOptional.map(rental -> ResponseEntity.ok( new RentalResponse( rental ) ))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -142,64 +159,79 @@ public class RentalService {
      * @param rentalRequest An object containing the rental's updated information.
      * @return A response entity indicating the success or failure of the rental update operation.
      */
-    public ResponseEntity<RentalResponse> updateRental(UUID rentalId, RentalCreate rentalRequest) {
-        if (rentalId == null) {
+    public ResponseEntity<RentalResponse> updateRental( UUID rentalId, RentalCreate rentalRequest ) {
+
+        if (rentalId == null)
             return ResponseEntity.badRequest().build();
-        }
 
-        Optional<Rental> existingRental = rentalRepository.findById(rentalId);
 
-        if (existingRental.isEmpty()) {
+        Optional<Rental> existingRental = rentalRepository.findById( rentalId );
+
+        if (existingRental.isEmpty())
             return ResponseEntity.notFound().build();
-        }
+
 
         Rental updatedRental = existingRental.get();
 
-        if (rentalRequest.getName() != null) {
+        if (rentalRequest.getName() != null)
             updatedRental.setName(rentalRequest.getName());
-        }
+
 
         if (rentalRequest.getStartTime() != null && rentalRequest.getEndTime() == null) {
-            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), updatedRental.getEndTime(), updatedRental) || rentalRequest.getStartTime().isAfter(updatedRental.getEndTime())){
+
+            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), updatedRental.getEndTime(), updatedRental) ||
+                    rentalRequest.getStartTime().isAfter(updatedRental.getEndTime())){
+
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
+
             updatedRental.setStartTime(rentalRequest.getStartTime());
         }
 
         if (rentalRequest.getEndTime() != null && rentalRequest.getStartTime() == null) {
-            if (equipmentlistIsOverlapping(updatedRental.getStartTime(), rentalRequest.getEndTime(), updatedRental) || updatedRental.getStartTime().isAfter(rentalRequest.getEndTime())){
+
+            if (equipmentlistIsOverlapping(updatedRental.getStartTime(), rentalRequest.getEndTime(), updatedRental) ||
+                    updatedRental.getStartTime().isAfter(rentalRequest.getEndTime())){
+
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
+
             updatedRental.setEndTime(rentalRequest.getEndTime());
         }
 
         if (rentalRequest.getStartTime() != null && rentalRequest.getEndTime() != null) {
-            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), rentalRequest.getEndTime(), updatedRental) || rentalRequest.getStartTime().isAfter(rentalRequest.getEndTime())){
+
+            if (equipmentlistIsOverlapping(rentalRequest.getStartTime(), rentalRequest.getEndTime(), updatedRental) ||
+                    rentalRequest.getStartTime().isAfter(rentalRequest.getEndTime())){
+
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
+
             updatedRental.setStartTime(rentalRequest.getStartTime());
             updatedRental.setEndTime(rentalRequest.getEndTime());
         }
 
-        if (rentalRequest.getDescription() != null) {
+        if (rentalRequest.getDescription() != null)
             updatedRental.setDescription(rentalRequest.getDescription());
-        }
+
 
         if (rentalRequest.getAddress() != null) {
-            Optional<Address> existingAddress = addressRepository.findById(rentalRequest.getAddress());
-            if (existingAddress.isEmpty()) {
+
+            Optional<Address> existingAddress = addressRepository.findById( rentalRequest.getAddress() );
+
+            if (existingAddress.isEmpty())
                 return ResponseEntity.notFound().build();
-            }
-            updatedRental.setAddress(existingAddress.get());
+
+            updatedRental.setAddress( existingAddress.get() );
         }
 
-        if (rentalRequest.getResponsiblePerson() != null) {
+        if (rentalRequest.getResponsiblePerson() != null)
             updatedRental.setResponsiblePerson(rentalRequest.getResponsiblePerson());
-        }
 
-        Rental savedRental = rentalRepository.saveAndFlush(updatedRental);
 
-        return ResponseEntity.ok(new RentalResponse(savedRental));
+        Rental savedRental = rentalRepository.saveAndFlush( updatedRental );
+
+        return ResponseEntity.ok( new RentalResponse( savedRental ) );
     }
 
     /**
@@ -209,30 +241,33 @@ public class RentalService {
      * @param equipmentId  The unique identifier of the equipment to be added.
      * @return A response entity indicating the success or failure of the equipment addition operation.
      */
-    public ResponseEntity<RentalResponse> addEquipmentToRental(UUID rentalId, UUID equipmentId) {
-        if (rentalId == null || equipmentId == null) {
+    public ResponseEntity<RentalResponse> addEquipmentToRental( UUID rentalId, UUID equipmentId ) {
+
+        if (rentalId == null || equipmentId == null)
             return ResponseEntity.badRequest().build();
-        }
 
-        Optional<Rental> existingRental = rentalRepository.findById(rentalId);
-        Optional<Equipment> existingEquipment = equipmentRepository.findById(equipmentId);
 
-        if (existingRental.isEmpty() || existingEquipment.isEmpty()) {
+        Optional<Rental> existingRental = rentalRepository.findById( rentalId );
+        Optional<Equipment> existingEquipment = equipmentRepository.findById( equipmentId );
+
+        if (existingRental.isEmpty() || existingEquipment.isEmpty())
             return ResponseEntity.notFound().build();
-        }
+
 
         Rental rental = existingRental.get();
         Equipment equipment = existingEquipment.get();
 
-        if (rental.getEquipmentList().contains(equipment) || equipmentIsOverlapping(rental.getStartTime(), rental.getEndTime(), equipment)) {
+        if (rental.getEquipmentList().contains(equipment) ||
+                equipmentIsOverlapping(rental.getStartTime(), rental.getEndTime(), equipment)) {
+
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
         rental.getEquipmentList().add(equipment);
 
-        Rental savedRental = rentalRepository.saveAndFlush(rental);
+        Rental savedRental = rentalRepository.saveAndFlush( rental );
 
-        return ResponseEntity.ok(new RentalResponse(savedRental));
+        return ResponseEntity.ok( new RentalResponse( savedRental ) );
     }
 
     /**
@@ -242,30 +277,30 @@ public class RentalService {
      * @param equipmentId  The unique identifier of the equipment to be removed.
      * @return A response entity indicating the success or failure of the equipment removal operation.
      */
-    public ResponseEntity<RentalResponse> deleteEquipmentFromRental(UUID rentalId, UUID equipmentId) {
-        if (rentalId == null || equipmentId == null) {
+    public ResponseEntity<RentalResponse> deleteEquipmentFromRental( UUID rentalId, UUID equipmentId ) {
+
+        if (rentalId == null || equipmentId == null)
             return ResponseEntity.badRequest().build();
-        }
 
-        Optional<Rental> existingRental = rentalRepository.findById(rentalId);
-        Optional<Equipment> existingEquipment = equipmentRepository.findById(equipmentId);
+        Optional<Rental> existingRental = rentalRepository.findById( rentalId );
+        Optional<Equipment> existingEquipment = equipmentRepository.findById( equipmentId );
 
-        if (existingRental.isEmpty() || existingEquipment.isEmpty()) {
+        if (existingRental.isEmpty() || existingEquipment.isEmpty())
             return ResponseEntity.notFound().build();
-        }
+
 
         Rental rental = existingRental.get();
         Equipment equipment = existingEquipment.get();
 
-        if (!rental.getEquipmentList().contains(equipment)) {
+        if (!rental.getEquipmentList().contains(equipment))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
+
 
         rental.getEquipmentList().remove(equipment);
 
-        Rental savedRental = rentalRepository.saveAndFlush(rental);
+        Rental savedRental = rentalRepository.saveAndFlush( rental );
 
-        return ResponseEntity.ok(new RentalResponse(savedRental));
+        return ResponseEntity.ok(new RentalResponse( savedRental ));
     }
 
     /**
@@ -274,18 +309,19 @@ public class RentalService {
      * @param rentalId The unique identifier of the rental to be deleted.
      * @return A response entity indicating the success or failure of the rental deletion operation.
      */
-    public ResponseEntity<String> deleteRental(UUID rentalId) {
-        if (rentalId == null) {
+    public ResponseEntity<String> deleteRental( UUID rentalId ) {
+
+        if (rentalId == null)
             return ResponseEntity.badRequest().body("No ID");
-        }
 
-        Optional<Rental> existingRental = rentalRepository.findById(rentalId);
 
-        if (existingRental.isEmpty()) {
+        Optional<Rental> existingRental = rentalRepository.findById( rentalId );
+
+        if (existingRental.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
-        rentalRepository.delete(existingRental.get());
+
+        rentalRepository.delete( existingRental.get() );
 
         return ResponseEntity.ok("Rental is deleted");
     }

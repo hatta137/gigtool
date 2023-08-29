@@ -28,7 +28,12 @@ public class GigService {
     private final EquipmentRepository equipmentRepository;
     private final HappeningRepository happeningRepository;
 
-    public GigService (GigRepository gigRepository, AddressRepository addressRepository, TypeOfGigRepository typeOfGigRepository, BandRepository bandRepository, EquipmentRepository equipmentRepository, HappeningRepository happeningRepository) {
+    public GigService ( GigRepository gigRepository,
+                        AddressRepository addressRepository,
+                        TypeOfGigRepository typeOfGigRepository,
+                        BandRepository bandRepository,
+                        EquipmentRepository equipmentRepository,
+                        HappeningRepository happeningRepository ) {
         this.gigRepository = gigRepository;
         this.addressRepository = addressRepository;
         this.typeOfGigRepository = typeOfGigRepository;
@@ -44,8 +49,8 @@ public class GigService {
      * @param endTime   The end time of the gig to check for overlaps.
      * @return True if any overlapping gigs are found, false otherwise.
      */
-    private boolean gigIsOverlapping(LocalDateTime startTime, LocalDateTime endTime) {
-        List<Gig> overlappingGigs = gigRepository.findOverlappingGigs(startTime, endTime);
+    private boolean gigIsOverlapping( LocalDateTime startTime, LocalDateTime endTime ) {
+        List<Gig> overlappingGigs = gigRepository.findOverlappingGigs( startTime, endTime );
         return !overlappingGigs.isEmpty();
     }
 
@@ -57,14 +62,14 @@ public class GigService {
      * @param excludedGig The gig to be excluded from the overlap check.
      * @return True if any overlapping gigs are found, false otherwise.
      */
-    private boolean gigIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Gig excludedGig){
-        List<Gig> overlappingGigs = gigRepository.findOverlappingGigs(startTime, endTime);
+    private boolean gigIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Gig excludedGig ){
+        List<Gig> overlappingGigs = gigRepository.findOverlappingGigs( startTime, endTime );
 
         if (overlappingGigs.isEmpty()) {
             return false;
         }
 
-        return !(overlappingGigs.size() == 1 && overlappingGigs.contains(excludedGig));
+        return !(overlappingGigs.size() == 1 && overlappingGigs.contains( excludedGig ));
     }
 
     /**
@@ -75,8 +80,12 @@ public class GigService {
      * @param equipment The equipment to be checked for overlapping usage.
      * @return True if any overlapping happenings are found, false otherwise.
      */
-    private boolean equipmentIsOverlapping(LocalDateTime startTime, LocalDateTime endTime, Equipment equipment){
-        List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
+    private boolean equipmentIsOverlapping( LocalDateTime startTime,
+                                            LocalDateTime endTime,
+                                            Equipment equipment ){
+
+        List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment( startTime, endTime, equipment );
+
         return !overlappingHappenings.isEmpty();
     }
 
@@ -88,11 +97,15 @@ public class GigService {
      * @param gig       The gig for which equipment usage is being checked.
      * @return True if any overlapping happenings are found, false otherwise.
      */
-    private boolean equiptmentlistIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Gig gig) {
+    private boolean equiptmentlistIsOverlapping( LocalDateTime startTime, LocalDateTime endTime, Gig gig ) {
+
         for (Equipment equipment: gig.getEquipmentList()) {
-            List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment(startTime, endTime, equipment);
+
+            List<Happening> overlappingHappenings = happeningRepository.findOverlappingHappeningsWithEquipment( startTime, endTime, equipment );
+
             if(!overlappingHappenings.isEmpty()){
-                if(!(overlappingHappenings.size() == 1 && overlappingHappenings.contains(gig))){
+
+                if(!(overlappingHappenings.size() == 1 && overlappingHappenings.contains( gig ))){
                     return true;
                 }
             }
@@ -106,14 +119,20 @@ public class GigService {
      * @param gigCreate The information for creating the new gig.
      * @return A response entity indicating the success or failure of the gig addition operation.
      */
-    public ResponseEntity<GigResponse> addGig(GigCreate gigCreate){
-        if (gigCreate.getName() == null || gigCreate.getStartTime() == null || gigCreate.getEndTime() == null ||
-                gigCreate.getDescription() == null || gigCreate.getAddress() == null ||
-                gigCreate.getTypeOfGig() == null || gigCreate.getBand() == null) {
+    public ResponseEntity<GigResponse> addGig( GigCreate gigCreate ){
+
+        if (gigCreate.getName() == null ||
+                gigCreate.getStartTime() == null ||
+                gigCreate.getEndTime() == null ||
+                gigCreate.getDescription() == null ||
+                gigCreate.getAddress() == null ||
+                gigCreate.getTypeOfGig() == null ||
+                gigCreate.getBand() == null) {
+
             return ResponseEntity.badRequest().build();
         }
 
-        if (gigIsOverlapping(gigCreate.getStartTime(), gigCreate.getEndTime()) || gigCreate.getStartTime().isAfter(gigCreate.getEndTime()) )
+        if (gigIsOverlapping( gigCreate.getStartTime(), gigCreate.getEndTime()) || gigCreate.getStartTime().isAfter(gigCreate.getEndTime()) )
            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 
         Gig gig = new Gig();
@@ -138,9 +157,9 @@ public class GigService {
         gig.setDescription(gigCreate.getDescription());
         gig.setEquipmentList(new ArrayList<>());
 
-        Gig savedGig = gigRepository.saveAndFlush(gig);
+        Gig savedGig = gigRepository.saveAndFlush( gig );
 
-        return ResponseEntity.ok(new GigResponse(savedGig));
+        return ResponseEntity.ok(new GigResponse( savedGig ));
     }
 
     /**
@@ -155,7 +174,7 @@ public class GigService {
                 .map(GigResponse::new)
                 .toList();
 
-        return ResponseEntity.ok(responseList);
+        return ResponseEntity.ok( responseList );
     }
 
     /**
@@ -164,10 +183,11 @@ public class GigService {
      * @param gigId The unique identifier of the gig to retrieve information for.
      * @return A response entity containing the retrieved gig response.
      */
-    public ResponseEntity<GigResponse> getGigById(UUID gigId) {
-        Optional<Gig> gigOptional = gigRepository.findById(gigId);
+    public ResponseEntity<GigResponse> getGigById( UUID gigId ) {
 
-        return gigOptional.map(gig -> ResponseEntity.ok(new GigResponse(gig)))
+        Optional<Gig> gigOptional = gigRepository.findById( gigId );
+
+        return gigOptional.map(gig -> ResponseEntity.ok( new GigResponse( gig ) ))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -178,7 +198,8 @@ public class GigService {
      * @param gigRequest An object containing the gig's updated information.
      * @return A response entity indicating the success or failure of the gig update operation.
      */
-    public ResponseEntity<GigResponse> updateGig(UUID gigId, GigCreate gigRequest) {
+    public ResponseEntity<GigResponse> updateGig( UUID gigId, GigCreate gigRequest ) {
+
         if (gigId == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -194,23 +215,29 @@ public class GigService {
             updatedGig.setName(gigRequest.getName());
 
         if (gigRequest.getStartTime() != null && gigRequest.getEndTime() == null) {
+
             if (gigIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(gigRequest.getStartTime(), updatedGig.getEndTime(), updatedGig) || gigRequest.getStartTime().isAfter(updatedGig.getEndTime())){
                 return ResponseEntity.badRequest().build();
             }
+
             updatedGig.setStartTime(gigRequest.getStartTime());
         }
 
         if (gigRequest.getEndTime() != null && gigRequest.getStartTime() == null) {
+
             if (gigIsOverlapping(updatedGig.getStartTime(), gigRequest.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(updatedGig.getStartTime(), gigRequest.getEndTime(), updatedGig) || updatedGig.getStartTime().isAfter(gigRequest.getEndTime())){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
+
             updatedGig.setEndTime(gigRequest.getEndTime());
         }
 
         if (gigRequest.getStartTime() != null && gigRequest.getEndTime() != null) {
+
             if (gigIsOverlapping(gigRequest.getStartTime(), gigRequest.getEndTime(), updatedGig) || equiptmentlistIsOverlapping(gigRequest.getStartTime(), gigRequest.getEndTime(), updatedGig) || gigRequest.getStartTime().isAfter(gigRequest.getEndTime())){
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
+
             updatedGig.setStartTime(gigRequest.getStartTime());
             updatedGig.setEndTime(gigRequest.getEndTime());
         }
@@ -218,34 +245,40 @@ public class GigService {
         if (gigRequest.getDescription() != null)
             updatedGig.setDescription(gigRequest.getDescription());
 
-
         if (gigRequest.getAddress() != null) {
+
             Optional<Address> existingAddress = addressRepository.findById(gigRequest.getAddress());
-            if (existingAddress.isEmpty()) {
+
+            if (existingAddress.isEmpty())
                 return ResponseEntity.notFound().build();
-            }
+
+
             updatedGig.setAddress(existingAddress.get());
         }
 
         if (gigRequest.getTypeOfGig() != null) {
+
             Optional<TypeOfGig> existingTypeOfGig = typeOfGigRepository.findById(gigRequest.getTypeOfGig());
-            if (existingTypeOfGig.isEmpty()) {
+
+            if (existingTypeOfGig.isEmpty())
                 return ResponseEntity.notFound().build();
-            }
+
             updatedGig.setTypeOfGig(existingTypeOfGig.get());
         }
 
         if (gigRequest.getBand() != null) {
+
             Optional<Band> existingBand = bandRepository.findById(gigRequest.getBand());
-            if (existingBand.isEmpty()) {
+
+            if (existingBand.isEmpty())
                 return ResponseEntity.notFound().build();
-            }
+
             updatedGig.setBand(existingBand.get());
         }
 
-        Gig savedGig = gigRepository.saveAndFlush(updatedGig);
+        Gig savedGig = gigRepository.saveAndFlush( updatedGig );
 
-        return ResponseEntity.ok(new GigResponse(savedGig));
+        return ResponseEntity.ok(new GigResponse( savedGig ));
     }
 
     /**
@@ -255,31 +288,32 @@ public class GigService {
      * @param equipmentId The unique identifier of the equipment to be added.
      * @return A response entity indicating the success or failure of the equipment addition operation.
      */
-    public ResponseEntity<GigResponse> addEquipmentToGig(UUID gigId, UUID equipmentId) {
+    public ResponseEntity<GigResponse> addEquipmentToGig( UUID gigId, UUID equipmentId ) {
 
-        if (gigId == null || equipmentId == null) {
+        if (gigId == null || equipmentId == null)
             return ResponseEntity.badRequest().build();
-        }
 
-        Optional<Gig> existingGig = gigRepository.findById(gigId);
-        Optional<Equipment> existingEquipment = equipmentRepository.findById(equipmentId);
 
-        if (existingGig.isEmpty() || existingEquipment.isEmpty()) {
+        Optional<Gig> existingGig = gigRepository.findById( gigId );
+        Optional<Equipment> existingEquipment = equipmentRepository.findById( equipmentId );
+
+        if (existingGig.isEmpty() || existingEquipment.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
         Gig gig = existingGig.get();
+
         Equipment equipment = existingEquipment.get();
 
-        if (gig.getEquipmentList().contains(equipment) || gig.getBand().getEquipmentList().contains(equipment) || equipmentIsOverlapping(gig.getStartTime(), gig.getEndTime(), equipment)) {
+        if (gig.getEquipmentList().contains(equipment) ||
+                gig.getBand().getEquipmentList().contains(equipment) ||
+                equipmentIsOverlapping(gig.getStartTime(), gig.getEndTime(), equipment))
             return ResponseEntity.badRequest().build();
-        }
 
-        gig.getEquipmentList().add(equipment);
+        gig.getEquipmentList().add( equipment );
 
-        Gig savedGig = gigRepository.saveAndFlush(gig);
+        Gig savedGig = gigRepository.saveAndFlush( gig );
 
-        return ResponseEntity.ok(new GigResponse(savedGig));
+        return ResponseEntity.ok( new GigResponse( savedGig ) );
     }
 
     /**
@@ -289,30 +323,30 @@ public class GigService {
      * @param equipmentId The unique identifier of the equipment to be removed.
      * @return A response entity indicating the success or failure of the equipment removal operation.
      */
-    public ResponseEntity<GigResponse> deleteEquipmentFromGig(UUID gigId, UUID equipmentId) {
-        if (gigId == null || equipmentId == null) {
+    public ResponseEntity<GigResponse> deleteEquipmentFromGig( UUID gigId, UUID equipmentId ) {
+
+        if (gigId == null || equipmentId == null)
             return ResponseEntity.badRequest().build();
-        }
 
-        Optional<Gig> existingGig = gigRepository.findById(gigId);
-        Optional<Equipment> existingEquipment = equipmentRepository.findById(equipmentId);
 
-        if (existingGig.isEmpty() || existingEquipment.isEmpty()) {
+        Optional<Gig> existingGig = gigRepository.findById( gigId );
+        Optional<Equipment> existingEquipment = equipmentRepository.findById( equipmentId );
+
+        if (existingGig.isEmpty() || existingEquipment.isEmpty())
             return ResponseEntity.notFound().build();
-        }
 
         Gig gig = existingGig.get();
+
         Equipment equipment = existingEquipment.get();
 
-        if (!gig.getEquipmentList().contains(equipment)) {
+        if (!gig.getEquipmentList().contains( equipment ))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-        }
 
-        gig.getEquipmentList().remove(equipment);
+        gig.getEquipmentList().remove( equipment );
 
-        Gig savedGig = gigRepository.saveAndFlush(gig);
+        Gig savedGig = gigRepository.saveAndFlush( gig );
 
-        return ResponseEntity.ok(new GigResponse(savedGig));
+        return ResponseEntity.ok( new GigResponse( savedGig ) );
     }
 
     /**
@@ -321,16 +355,17 @@ public class GigService {
      * @param gigId The unique identifier of the gig to be deleted.
      * @return A response entity indicating the success or failure of the gig deletion operation.
      */
-    public ResponseEntity<String> deleteGig(UUID gigId) {
-        if (gigId == null) {
+    public ResponseEntity<String> deleteGig( UUID gigId ) {
+
+        if (gigId == null)
             return ResponseEntity.badRequest().body("No ID");
-        }
 
-        Optional<Gig> existingGig = gigRepository.findById(gigId);
 
-        if (existingGig.isEmpty()) {
+        Optional<Gig> existingGig = gigRepository.findById( gigId );
+
+        if (existingGig.isEmpty())
             return ResponseEntity.notFound().build();
-        }
+
 
         gigRepository.delete(existingGig.get());
 

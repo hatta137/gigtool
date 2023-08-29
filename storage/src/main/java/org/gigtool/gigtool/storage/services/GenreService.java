@@ -21,7 +21,7 @@ public class GenreService {
 
     private final GenreRepository genreRepository;
 
-    public GenreService(GenreRepository genreRepository) {
+    public GenreService( GenreRepository genreRepository ) {
         this.genreRepository = genreRepository;
     }
 
@@ -31,7 +31,7 @@ public class GenreService {
      * @param genreCreate An object containing the details needed to create a new genre.
      * @return A response entity indicating the outcome of the genre addition operation.
      */
-    public ResponseEntity<GenreResponse> addGenre(GenreCreate genreCreate) {
+    public ResponseEntity<GenreResponse> addGenre( GenreCreate genreCreate ) {
 
         if (genreCreate.getName() == null || genreCreate.getDescription() == null) {
             return ResponseEntity.badRequest().build();
@@ -42,9 +42,9 @@ public class GenreService {
         newGenre.setName(genreCreate.getName());
         newGenre.setDescription(genreCreate.getDescription());
 
-        Genre savedGenre = genreRepository.saveAndFlush(newGenre);
+        Genre savedGenre = genreRepository.saveAndFlush( newGenre );
 
-        return ResponseEntity.ok(new GenreResponse(savedGenre));
+        return ResponseEntity.ok( new GenreResponse( savedGenre ) );
     }
 
     /**
@@ -57,10 +57,10 @@ public class GenreService {
         List<Genre> genreList = genreRepository.findAll();
 
         List<GenreResponse> responseList = genreList.stream()
-                .map(GenreResponse::new)
+                .map( GenreResponse::new )
                 .toList();
 
-        return ResponseEntity.ok(responseList);
+        return ResponseEntity.ok( responseList );
     }
 
     /**
@@ -69,10 +69,10 @@ public class GenreService {
      * @param genreId The unique identifier of the genre to retrieve information for.
      * @return A response entity containing the genre's detailed information if found, or a not found response.
      */
-    public ResponseEntity<GenreResponse> getGenreById(UUID genreId) {
-        Optional<Genre> genreOptional = genreRepository.findById(genreId);
+    public ResponseEntity<GenreResponse> getGenreById( UUID genreId ) {
+        Optional<Genre> genreOptional = genreRepository.findById( genreId );
 
-        return genreOptional.map(genre -> ResponseEntity.ok(new GenreResponse(genre)))
+        return genreOptional.map(genre -> ResponseEntity.ok( new GenreResponse( genre ) ))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -83,13 +83,13 @@ public class GenreService {
      * @param genreRequest An object containing the genre's updated information.
      * @return A response entity indicating the outcome of the genre update operation.
      */
-    public ResponseEntity<GenreResponse> updateGenre(UUID genreId, GenreCreate genreRequest) {
+    public ResponseEntity<GenreResponse> updateGenre( UUID genreId, GenreCreate genreRequest ) {
 
         if ((genreId == null) || (genreRequest.getName() == null) || (genreRequest.getDescription() == null) ) {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<Genre> existingGenre = genreRepository.findById(genreId);
+        Optional<Genre> existingGenre = genreRepository.findById( genreId );
 
         if (existingGenre.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -100,9 +100,9 @@ public class GenreService {
         updatedGenre.setName(genreRequest.getName());
         updatedGenre.setDescription(genreRequest.getDescription());
 
-        Genre savedGenre = genreRepository.saveAndFlush(updatedGenre);
+        Genre savedGenre = genreRepository.saveAndFlush( updatedGenre );
 
-        return ResponseEntity.ok(new GenreResponse(savedGenre));
+        return ResponseEntity.ok( new GenreResponse( savedGenre ) );
     }
 
     /**
@@ -111,19 +111,19 @@ public class GenreService {
      * @param genreId The unique identifier of the genre to be deleted.
      * @return A response entity indicating the outcome of the genre deletion operation.
      */
-    public ResponseEntity<String> deleteGenre(UUID genreId) {
+    public ResponseEntity<String> deleteGenre( UUID genreId ) {
 
         if (genreId == null) {
             return ResponseEntity.badRequest().body("No ID");
         }
 
-        Optional<Genre> existingGenre = genreRepository.findById(genreId);
+        Optional<Genre> existingGenre = genreRepository.findById( genreId );
 
         if (existingGenre.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
-        int bandsWithGenre = genreRepository.countBandsWithGenre(genreId);
+        int bandsWithGenre = genreRepository.countBandsWithGenre( genreId );
 
         if(bandsWithGenre > 0){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Genre has a relation to a Band. You cannot delete this Genre!");

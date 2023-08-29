@@ -29,7 +29,9 @@ public class LocationService {
     private final TypeOfLocationRepository typeOfLocationRepository;
 
 
-    public LocationService(LocationRepository locationRepository, AddressRepository addressRepository, TypeOfLocationRepository typeOfLocationRepository) {
+    public LocationService(LocationRepository locationRepository,
+                           AddressRepository addressRepository,
+                           TypeOfLocationRepository typeOfLocationRepository) {
         this.locationRepository = locationRepository;
         this.addressRepository = addressRepository;
         this.typeOfLocationRepository = typeOfLocationRepository;
@@ -42,11 +44,11 @@ public class LocationService {
      * @return A ResponseEntity containing the added location response or a bad request if input is invalid.
      */
     @Transactional
-    public ResponseEntity<LocationResponse> addLocation(LocationCreate locationCreate) {
+    public ResponseEntity<LocationResponse> addLocation( LocationCreate locationCreate ) {
 
-        if (locationCreate.getAddressId() == null || locationCreate.getTypeOfLocationId() == null) {
+        if (locationCreate.getAddressId() == null || locationCreate.getTypeOfLocationId() == null)
             return ResponseEntity.badRequest().build();
-        }
+
 
         Address address = addressRepository.findById(locationCreate.getAddressId())
                 .orElseThrow(() -> new IllegalArgumentException("Address not found with id: " + locationCreate.getAddressId()));
@@ -56,9 +58,9 @@ public class LocationService {
 
         Location location = new Location(address, typeOfLocation);
 
-        Location savedLocation = locationRepository.saveAndFlush(location);
+        Location savedLocation = locationRepository.saveAndFlush( location );
 
-        return ResponseEntity.accepted().body(new LocationResponse(savedLocation));
+        return ResponseEntity.accepted().body( new LocationResponse( savedLocation ) );
     }
 
     /**
@@ -128,9 +130,9 @@ public class LocationService {
      */
     public ResponseEntity<LocationResponse> updateLocation( UUID id, LocationCreate locationCreate ) {
 
-        if (locationCreate.getAddressId() == null && locationCreate.getTypeOfLocationId() == null) {
+        if (locationCreate.getAddressId() == null && locationCreate.getTypeOfLocationId() == null)
             return ResponseEntity.badRequest().build();
-        }
+
 
         Optional<Location> existingLocation = locationRepository.findById( id );
 
@@ -143,18 +145,18 @@ public class LocationService {
 
             Optional<TypeOfLocation> typeOfLocationOptional = typeOfLocationRepository.findById(locationCreate.getTypeOfLocationId());
 
-            if (typeOfLocationOptional.isPresent()) {
+            if (typeOfLocationOptional.isPresent())
                 locationToUpdate.setTypeOfLocation(typeOfLocationOptional.get());
-            }
+
         }
 
         if (locationCreate.getAddressId() != null) {
 
             Optional<Address> addressOptional = addressRepository.findById(locationCreate.getAddressId());
 
-            if (addressOptional.isPresent()) {
+            if (addressOptional.isPresent())
                 locationToUpdate.setAddress(addressOptional.get());
-            }
+
         }
 
         Location savedLocation = locationRepository.saveAndFlush( locationToUpdate );

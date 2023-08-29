@@ -23,7 +23,8 @@ public class TypeOfLocationService {
     private final TypeOfLocationRepository typeOfLocationRepository;
     private final LocationRepository locationRepository;
 
-    public TypeOfLocationService(TypeOfLocationRepository typeOfLocationRepository, LocationRepository locationRepository) {
+    public TypeOfLocationService( TypeOfLocationRepository typeOfLocationRepository,
+                                  LocationRepository locationRepository ) {
         this.typeOfLocationRepository = typeOfLocationRepository;
         this.locationRepository = locationRepository;
     }
@@ -37,9 +38,9 @@ public class TypeOfLocationService {
     @Transactional
     public ResponseEntity<TypeOfLocationResponse> addTypeOfLocation( TypeOfLocationCreate typeOfLocationCreate ) {
 
-        if (typeOfLocationCreate.getName() == null || typeOfLocationCreate.getDescription() == null) {
+        if (typeOfLocationCreate.getName() == null || typeOfLocationCreate.getDescription() == null)
             return ResponseEntity.badRequest().build();
-        }
+
 
         TypeOfLocation typeOfLocation = new TypeOfLocation(
                 typeOfLocationCreate.getName(),
@@ -62,7 +63,7 @@ public class TypeOfLocationService {
 
         List<TypeOfLocationResponse> responseList = typeOfLocationList
                 .stream()
-                .map(TypeOfLocationResponse::new)
+                .map( TypeOfLocationResponse::new )
                 .toList();
 
         return ResponseEntity.status(200).body( responseList );
@@ -93,9 +94,9 @@ public class TypeOfLocationService {
      */
     public ResponseEntity<TypeOfLocationResponse> updateTypeOfLocation( UUID id, TypeOfLocationCreate typeOfLocationCreate ) {
 
-        if (typeOfLocationCreate.getName() == null || typeOfLocationCreate.getDescription() == null) {
+        if (typeOfLocationCreate.getName() == null || typeOfLocationCreate.getDescription() == null)
             return ResponseEntity.badRequest().build();
-        }
+
 
         Optional<TypeOfLocation> existingTypeOfLocation = typeOfLocationRepository.findById( id );
 

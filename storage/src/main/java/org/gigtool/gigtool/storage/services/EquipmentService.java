@@ -60,7 +60,7 @@ public class EquipmentService {
 
         Optional<TypeOfEquipment> typeOfEquipment = typeOfEquipmentRepository.findById( equipmentCreate.getTypeOfEquipmentId() );
 
-        Optional<Location> location = locationRepository.findById(equipmentCreate.getLocationId());
+        Optional<Location> location = locationRepository.findById( equipmentCreate.getLocationId() );
 
         if (typeOfEquipment.isEmpty() || location.isEmpty())
             return ResponseEntity.notFound().build();
@@ -94,7 +94,7 @@ public class EquipmentService {
 
         List<EquipmentResponse> responseList = equipmentList
                 .stream()
-                .map(EquipmentResponse::new)
+                .map( EquipmentResponse::new )
                 .toList();
 
         return ResponseEntity.status(200).body( responseList );
@@ -136,10 +136,10 @@ public class EquipmentService {
         UUID locationId = equipmentCreate.getLocationId();
 
 
-        if ( equipmentCreate.getName() != null ) {
+        if (equipmentCreate.getName() != null) {
             equipmentToUpdate.setName(equipmentCreate.getName());
         }
-        if ( equipmentCreate.getDescription() != null ) {
+        if (equipmentCreate.getDescription() != null) {
             equipmentToUpdate.setDescription(equipmentCreate.getDescription());
         }
         if (typeOfEquipmentId != null) {
@@ -148,29 +148,29 @@ public class EquipmentService {
                 equipmentToUpdate.setTypeOfEquipment(typeOfEquipment.get());
             }
         }
-        if ( equipmentCreate.getWeight() > 0 ) {
-            equipmentToUpdate.setWeight(equipmentCreate.getWeight());
+        if (equipmentCreate.getWeight() > 0) {
+            equipmentToUpdate.setWeight( equipmentCreate.getWeight() );
         }
-        if ( equipmentCreate.getLength() > 0 ) {
-            equipmentToUpdate.setLength(equipmentCreate.getLength());
+        if (equipmentCreate.getLength() > 0) {
+            equipmentToUpdate.setLength( equipmentCreate.getLength() );
         }
-        if ( equipmentCreate.getWidth() > 0 ) {
-            equipmentToUpdate.setWidth(equipmentCreate.getWidth());
+        if (equipmentCreate.getWidth() > 0) {
+            equipmentToUpdate.setWidth( equipmentCreate.getWidth() );
         }
-        if ( equipmentCreate.getHeight() > 0 ) {
-            equipmentToUpdate.setHeight(equipmentCreate.getHeight());
+        if (equipmentCreate.getHeight() > 0) {
+            equipmentToUpdate.setHeight( equipmentCreate.getHeight() );
         }
-        if ( equipmentCreate.getDateOfPurchase() != null ) {
-            equipmentToUpdate.setDateOfPurchase(equipmentCreate.getDateOfPurchase());
+        if (equipmentCreate.getDateOfPurchase() != null) {
+            equipmentToUpdate.setDateOfPurchase( equipmentCreate.getDateOfPurchase() );
         }
         if (locationId != null) {
-            Optional<Location> location = locationRepository.findById(locationId);
+            Optional<Location> location = locationRepository.findById( locationId );
             if (location.isPresent()) {
-                equipmentToUpdate.setLocation(location.get());
+                equipmentToUpdate.setLocation( location.get() );
             }
         }
-        if ( equipmentCreate.getPrice() > 0.0f ) {
-            equipmentToUpdate.setPrice(equipmentCreate.getPrice());
+        if (equipmentCreate.getPrice() > 0.0f) {
+            equipmentToUpdate.setPrice( equipmentCreate.getPrice() );
         }
 
         Equipment savedEquipment = equipmentRepository.saveAndFlush( equipmentToUpdate );
@@ -219,7 +219,7 @@ public class EquipmentService {
             return ResponseEntity.notFound().build();
 
         List<EquipmentResponse> responseList = equipmentList
-                .stream().map(EquipmentResponse::new).toList();
+                .stream().map( EquipmentResponse::new ).toList();
 
         return ResponseEntity.status(200).body( responseList );
     }
@@ -238,7 +238,7 @@ public class EquipmentService {
             return ResponseEntity.notFound().build();
 
         List<EquipmentResponse> responseList = equipmentList
-                .stream().map(EquipmentResponse::new).toList();
+                .stream().map( EquipmentResponse::new ).toList();
 
         return ResponseEntity.status(200).body( responseList );
     }
