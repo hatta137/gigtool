@@ -65,4 +65,7 @@ public class Equipment {
         this.location = location;
         this.price = price;
     }
+    public int getCuboidVolume(){
+        return this.height * this.length * this.width;
+    }
 }

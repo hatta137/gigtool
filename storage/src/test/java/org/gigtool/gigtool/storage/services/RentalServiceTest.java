@@ -233,7 +233,6 @@ public class RentalServiceTest {
     }
 
     @Test
-    @Transactional
     public void testAddEquipmentToRental() {
         ResponseEntity<EquipmentResponse> equipment = testUtils.getRandomEquipmentResponse();
         ResponseEntity<RentalResponse> rentalWithEquipment = rentalService.addEquipmentToRental( savedRentalId, equipment.getBody().getId());
