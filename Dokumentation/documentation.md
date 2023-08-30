@@ -216,12 +216,12 @@ Folgende Kollisionsprüfungen werden von unserer Application abgedeckt:
 - mehrere Gigs des Musikers können nicht gleichzeitig stattfinden
 - Equipment ist nicht doppelt während eines Zeitslots verbuchbar (Verleihung während eines Gigs, welcher das Equipment benötigt, ist nicht möglich)
 - Instrument, welches einer Band zugeordnet ist, darf automatisch nicht während des Auftritts dieser Band verliehen werden
-- bei Änderungen des Zeitraums eines Happenings, wird der neue Zeitpunkt erneut auf Kollisionen überprüft
+- bei Änderungen des Zeitraums eines Happenings wird der neue Zeitpunkt erneut auf Kollisionen überprüft
 
 ### Timetable
 
 Diese Klasse stellt in unseren komplexen Datenstrukturen eine Art allmächtige Gottklasse dar.
-Ebenso führt sie klassenübergeifende Requests aus wie: WhereIsMyEquipment und Calculate.
+Ebenso führt sie klassenübergreifende Requests aus wie: WhereIsMyEquipment und Calculate.
 Sie enthält die Funktionalitäten, welche unseren Kalender abbilden sollen.
 Dazu gehört:
 - das Auflisten aller Happenings
@@ -260,8 +260,8 @@ Unsere Applikation könnte durch weitere Get-Requests oder Suchfunktionen nochma
 ## Troubleshooting and Known Bug´s
 
 Die Unittests müssen manchmal mehrmals komplett ausgeführt werden. Ab und an schlagen Tests fehl.
-Wir vermuten, dass dieser Fehler im Zusammenspiel der TestUtils und der Transactional-Notation bei einigen Tests Fehlverhaslten oder Inkonsistenz hervorruft. 
-Diesen Bug konnten wir bislang noch nicht fixen. Deshalb bedarf es manchmal der mehrmaligen Ausführung der Tests, bis alle "grün" und erfolgreich Durchlaufen sind.
+Wir vermuten, dass dieser Fehler im Zusammenspiel der TestUtils und der Transactional-Notation bei einigen Tests Fehlverhalten oder Inkonsistenz hervorruft. 
+Diesen Bug konnten wir bislang noch nicht beheben. Deshalb bedarf es manchmal der mehrmaligen Ausführung der Tests, bis alle "grün" und erfolgreich Durchlaufen sind.
 
 ---
 
