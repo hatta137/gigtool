@@ -65,12 +65,12 @@ Die GigTool Architektur umfasst mehrere strukturelle Bereiche, die wir euch in d
 
 ### Klassendiagramm
 
-![Klassendiagramm](assets/ClassChart_gigtool23_v1.drawio.svg "Klassendiagramm")
+![Klassendiagramm](Dokumentation/assets/ClassChart_gigtool23_v1.drawio.svg "Klassendiagramm")
 
 
 ### Komponenten
 
-![Komponentendiagramm](assets/Komponentendiagramm.drawio.png "Komponentendiagramm GigTool")
+![Komponentendiagramm](Dokumentation/assets/Komponentendiagramm.drawio.png "Komponentendiagramm GigTool")
 
 #### api
 Wie im Komponentendiagramm zu erkennen, enthält die api alle wichtigen Controller-Klassen.
@@ -101,13 +101,13 @@ Die Maven POM enthält alle wichtigen Abhängigkeiten für unser Spring Boot-Pro
 
 Unsere Struktur im Hauptordner gigtool ist ähnlich der Komponenten gegliedert: api, DB, Dokumentation, storage, docker und pom.xml.
 
-![Ordnerstruktur](assets/ordnerstruktur.png "Ordnerstruktur Intellj")
+![Ordnerstruktur](Dokumentation/assets/ordnerstruktur.png "Ordnerstruktur Intellj")
 
 ### Interfaces 
 
 Im folgenden Schaubild zeigen wir euch, wie unser API-Interface funktioniert und welche Abläufe im backend angestoßen werden, wenn der User beispielsweise ein Equipment anlegen möchte.
 
-![Interface](assets/EquipmentInterface.drawio.png "Interface Equipment")
+![Interface](Dokumentation/assets/EquipmentInterface.drawio.png "Interface Equipment")
 
 
 
@@ -147,7 +147,7 @@ Equipment speichern.
 
 Wenn alle in der Installationsanleitung beschriebenen Schritte erfolgreich ausgeführt wurden, sollte die ApiApplication, PostgreSQL-Datenbank und pgadmin auf der Docker Engine laufen.
 
-![DockerContainerDB](assets/CreatedContainersPostgreSQL.png "Docker Container")
+![DockerContainerDB](Dokumentation/assets/CreatedContainersPostgreSQL.png "Docker Container")
 
 Nun sind wir endlich soweit die Funktionalität von GigTool zu testen.
 
@@ -157,13 +157,13 @@ Für den Test der Services und Repositories können wir in der Intellj-IDE einen
 
 Mittels Rechtsklick auf den java-Testordner gelangen wir in das Optionsmenü, in dem wir " Run 'All Tests' " ausführen können.
 
-![IntellijRunAllTests](assets/RunAllTestsMenu.png "Run All Tests")
+![IntellijRunAllTests](Dokumentation/assets/RunAllTestsMenu.png "Run All Tests")
 
 Nun sollten alle vorhandenen Tests durchgeführt werden und im Konsolenfenster der IDE bekommen wir eine Auskunft über alle erfolgreichen oder auch fehlgeschlagenen Tests.
 
 Zum Beispiel:
 
-![IntellijConsoleTestOutput](assets/TestConsoleOutput.png "Console Output")
+![IntellijConsoleTestOutput](Dokumentation/assets/TestConsoleOutput.png "Console Output")
 
 ### Postman
 
@@ -171,7 +171,7 @@ Postman ist eines der beliebtesten Werkzeuge zum Testen von APIs (Application Pr
 
 #### Auflistung Endpoints
 
-![ApiApplication_Endpoints](assets/ListOfAllEndpoints.png "List of all Endpoints")
+![ApiApplication_Endpoints](Dokumentation/assets/ListOfAllEndpoints.png "List of all Endpoints")
 
 #### Import der Collection
 
@@ -179,21 +179,21 @@ Die GigTool Postman Collection findet ihr im /gigtool/dokumentation/postman_coll
 
 Diese könnt ihr ganz simpel per Drag&Drop in Postman importieren.
 
-![PostmanCollection](assets/collection_import_postman.png "Postman Collection Import")
+![PostmanCollection](Dokumentation/assets/collection_import_postman.png "Postman Collection Import")
 
 #### Ausführung der Collection
 
 Mittels Rechtsklick auf den Collection_Ordner könnt ihr die komplette Collection ausführen. 
 
-![PostmanCollectionRun](assets/Run_Collection.png "Postman Collection Run")
+![PostmanCollectionRun](Dokumentation/assets/Run_Collection.png "Postman Collection Run")
 
 Das GigTool API Run durchläuft dann alle gespeicherten Methoden...
 
-![PostmanCollectionRun](assets/Run_GigToolAPI.png "Postman GigTool API Run")
+![PostmanCollectionRun](Dokumentation/assets/Run_GigToolAPI.png "Postman GigTool API Run")
 
 und überprüft deren Ergebnisse auf Erfolg oder Fehlschlag.
 
-![PostmanCollectionResults](assets/postman_results.png "Postman GigTool API Results")
+![PostmanCollectionResults](Dokumentation/assets/postman_results.png "Postman GigTool API Results")
 
 Im Postman Documentation Bereich haben wir für jeden Endpoint Beschreibungen und Beispiele hinzugefügt, um einen möglichst detaillierten Einblick zu gewährleisten.
 
