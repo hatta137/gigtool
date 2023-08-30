@@ -1,1 +1,0 @@
-in den postman ordner muss die exportierte collection gespeichert werden, damit die profs diese dann in ihrem postman exportieren können
